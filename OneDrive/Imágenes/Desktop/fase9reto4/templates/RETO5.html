@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jabalí Nutrient — Alimenta tu potencial</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='color.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">Jabalí <span>Nutrient</span></div>
+    <ul>
+      <li><a href="#recetas">Recetas</a></li>
+      <li><a href="#calcular-dieta">Calcular dieta</a></li>
+      <li><a href="#sobre-nosotros">Sobre nosotros</a></li>
+    </ul>
+    <a href="#calcular-dieta" class="btn-nav">Calcular mi dieta</a>
+    <a href="#pon-tu-receta" class="btn-nav">Pon tu receta</a>
+    <a href="#contacto" class="btn-nav">Contacto</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero-text">
+      <span class="hero-tag">Nutrición personalizada</span>
+      <h1>Alimenta tu <em>mejor versión</em></h1>
+      <p>Planes nutricionales diseñados por expertos, adaptados a tu cuerpo, tus metas y tu estilo de vida.</p>
+      <div class="hero-btns">
+        <a href="#planes" class="btn-primary">Ver planes</a>
+        <a href="#recetas" class="btn-secondary">Explorar recetas</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-icon">🥑</div>
+      <p class="hero-card-title">Balance diario</p>
+      <div class="macro">
+        <span>Proteínas</span>
+        <div class="bar"><div class="fill fill-protein" style="width:65%"></div></div>
+      </div>
+      <div class="macro">
+        <span>Carbos</span>
+        <div class="bar"><div class="fill fill-carb" style="width:45%"></div></div>
+      </div>
+      <div class="macro">
+        <span>Grasas</span>
+        <div class="bar"><div class="fill fill-fat" style="width:30%"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stat"><h3>+2.400</h3><p>Pacientes activos</p></div>
+    <div class="stat"><h3>98%</h3><p>Satisfacción</p></div>
+    <div class="stat"><h3>12 años</h3><p>De experiencia</p></div>
+    <div class="stat"><h3>150+</h3><p>Recetas saludables</p></div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="section" id="servicios">
+    <div class="section-header">
+      <span class="section-tag">Lo que ofrecemos</span>
+      <h2>Servicios <em>especializados</em></h2>
+      <p>Abordamos la nutrición de forma integral, no solo lo que comes.</p>
+    </div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🩺</div>
+        <h3>Consulta personalizada</h3>
+        <p>Evaluación completa de tu estado nutricional, hábitos y objetivos.</p>
+      </div>
+      <div class="card card-accent">
+        <div class="card-icon">📋</div>
+        <h3>Plan alimentario</h3>
+        <p>Menús semanales adaptados a tus gustos, intolerancias y metas.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h3>Seguimiento continuo</h3>
+        <p>Revisiones periódicas para ajustar tu plan y mantener el progreso.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧬</div>
+        <h3>Nutrigenómica</h3>
+        <p>Nutrición basada en tu genética para resultados más precisos.</p>
+      </div>
+      <div class="card card-accent">
+        <div class="card-icon">💪</div>
+        <h3>Nutrición deportiva</h3>
+        <p>Optimiza tu rendimiento y recuperación con alimentación estratégica.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">👨‍👩‍👧</div>
+        <h3>Nutrición familiar</h3>
+        <p>Hábitos saludables para toda la familia, desde niños hasta mayores.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANES -->
+  <section class="planes" id="planes">
+    <div class="section-header">
+      <span class="section-tag">Precios</span>
+      <h2>Elige tu <em>plan</em></h2>
+      <p>Invierte en tu salud con la opción que mejor se adapte a ti.</p>
+    </div>
+    <div class="planes-grid">
+      <div class="plan-card">
+        <h3>Básico</h3>
+        <div class="plan-price"><span>€</span>49<small>/mes</small></div>
+        <ul>
+          <li>✓ Consulta inicial</li>
+          <li>✓ Plan alimentario mensual</li>
+          <li>✓ Acceso a recetas</li>
+          <li class="disabled">✗ Seguimiento semanal</li>
+          <li class="disabled">✗ Chat con nutricionista</li>
+        </ul>
+        <a href="#contacto" class="btn-plan">Comenzar</a>
+      </div>
+      <div class="plan-card plan-popular">
+        <div class="plan-badge">Más popular</div>
+        <h3>Completo</h3>
+        <div class="plan-price"><span>€</span>89<small>/mes</small></div>
+        <ul>
+          <li>✓ Todo lo del Básico</li>
+          <li>✓ Seguimiento semanal</li>
+          <li>✓ Chat ilimitado</li>
+          <li>✓ Análisis de composición</li>
+          <li class="disabled">✗ Análisis genético</li>
+        </ul>
+        <a href="#contacto" class="btn-plan btn-plan-accent">Comenzar</a>
+      </div>
+      <div class="plan-card">
+        <h3>Premium</h3>
+        <div class="plan-price"><span>€</span>149<small>/mes</small></div>
+        <ul>
+          <li>✓ Todo lo del Completo</li>
+          <li>✓ Análisis genético</li>
+          <li>✓ Suplementación guiada</li>
+          <li>✓ Consultas ilimitadas</li>
+          <li>✓ Coach personal</li>
+        </ul>
+        <a href="#contacto" class="btn-plan">Comenzar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECETAS -->
+  <section class="recetas" id="recetas">
+    <div class="section-header">
+      <span class="section-tag">Inspiración culinaria</span>
+      <h2>Recetas <em>saludables</em></h2>
+      <p>Nutritivas, deliciosas y fáciles de preparar.</p>
+    </div>
+    <div class="recetas-grid">
+      <div class="receta-card">
+        <div class="receta-img"><img src="https://www.coren.es/wp-content/uploads/2017/05/iStock-5378542831-768x512-1.jpg" alt=""></div>
+        <div class="receta-info">
+          <span class="receta-tag">Almuerzo</span>
+          <h4>Bowl mediterráneo</h4>
+          <p>Quinoa, tomate cherry, pepino, aceitunas y queso feta.</p>
+          <div class="receta-macros">
+            <span>420 kcal</span><span>32g proteína</span><span>18g grasa</span>
+          </div>
+        </div>
+      </div>
+      <div class="receta-card">
+        <div class="receta-img"><img src="https://content.clara.es/medio/2023/09/21/avena-para-adelgazar_32517b42_230921110355_1280x800.jpg" alt=""></div>
+        <div class="receta-info">
+          <span class="receta-tag">Desayuno</span>
+          <h4>Avena proteica</h4>
+          <p>Avena, proteína de vainilla, plátano y semillas de chía.</p>
+          <div class="receta-macros">
+            <span>350 kcal</span><span>28g proteína</span><span>8g grasa</span>
+          </div>
+        </div>
+      </div>
+      <div class="receta-card">
+        <div class="receta-img"><img src="https://imag.bonviveur.com/pollo-asado-al-horno-con-patatas.jpg" alt=""></div>
+        <div class="receta-info">
+          <span class="receta-tag">Cena</span>
+          <h4>Pollo al horno</h4>
+          <p>Pechuga con verduras asadas, romero y aceite de oliva.</p>
+          <div class="receta-macros">
+            <span>380 kcal</span><span>45g proteína</span><span>12g grasa</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="contacto" id="contacto">
+    <div class="contacto-inner">
+      <div class="section-header">
+        <span class="section-tag">Hablemos</span>
+        <h2>Da el primer <em>paso</em></h2>
+        <p>Rellena el formulario y un nutricionista se pondrá en contacto contigo en menos de 24h.</p>
+      </div>
+      <form class="form" action="/contacto" method="POST">
+  <div class="form-row">
+    <input type="text"  name="nombre"   placeholder="Tu nombre" required/>
+    <input type="email" name="email"    placeholder="Tu email"  required/>
+  </div>
+  <input type="text" name="objetivo" placeholder="Tu objetivo (ej: perder peso, ganar músculo...)"/>
+  <textarea name="mensaje" placeholder="Cuéntanos un poco más sobre ti..." rows="4"></textarea>
+  <button type="submit" class="btn-primary">Enviar consulta gratuita</button>
+</form>
+    </div>
+  </section>
+
+  <!-- CALCULAR DIETA -->
+  <section class="calcular-dieta" id="calcular-dieta">
+    <div class="section-header">
+      <span class="section-tag">Herramienta gratuita</span>
+      <h2>Calcula tu <em>dieta ideal</em></h2>
+      <p>Introduce tus datos y te mostraremos tus calorías diarias y macronutrientes recomendados.</p>
+    </div>
+    <div class="calculadora">
+      <div class="calc-form">
+        <div class="calc-row">
+          <div class="calc-field">
+            <label>Edad</label>
+            <input type="number" id="edad" placeholder="25" min="10" max="100"/>
+          </div>
+          <div class="calc-field">
+            <label>Peso (kg)</label>
+            <input type="number" id="peso" placeholder="70" min="30" max="250"/>
+          </div>
+          <div class="calc-field">
+            <label>Altura (cm)</label>
+            <input type="number" id="altura" placeholder="170" min="100" max="250"/>
+          </div>
+        </div>
+        <div class="calc-row">
+          <div class="calc-field">
+            <label>Sexo</label>
+            <select id="sexo">
+              <option value="hombre">Hombre</option>
+              <option value="mujer">Mujer</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label>Actividad física</label>
+            <select id="actividad">
+              <option value="1.2">Sedentario</option>
+              <option value="1.375">Ligero (1-3 días)</option>
+              <option value="1.55" selected>Moderado (3-5 días)</option>
+              <option value="1.725">Activo (6-7 días)</option>
+              <option value="1.9">Muy activo</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label>Objetivo</label>
+            <select id="objetivo">
+              <option value="deficit">Perder peso</option>
+              <option value="mantenimiento" selected>Mantenerme</option>
+              <option value="superavit">Ganar músculo</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-primary calc-btn" onclick="calcularDieta()">Calcular mi dieta</button>
+      </div>
+
+      <div class="calc-resultado" id="resultado" style="display:none">
+        <h3>Tu plan calórico</h3>
+        <div class="resultado-kcal">
+          <span id="kcal-total">0</span>
+          <small>kcal / día</small>
+        </div>
+        <div class="resultado-macros">
+          <div class="macro-resultado">
+            <span class="macro-valor" id="proteina">0g</span>
+            <span class="macro-nombre">Proteínas</span>
+          </div>
+          <div class="macro-resultado">
+            <span class="macro-valor" id="carbos">0g</span>
+            <span class="macro-nombre">Carbos</span>
+          </div>
+          <div class="macro-resultado">
+            <span class="macro-valor" id="grasas">0g</span>
+            <span class="macro-nombre">Grasas</span>
+          </div>
+        </div>
+        <p class="resultado-nota">* Valores orientativos. Consulta a un nutricionista para un plan personalizado.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE NOSOTROS -->
+  <section class="sobre-nosotros" id="sobre-nosotros">
+    <div class="sobre-content">
+      <div class="sobre-texto">
+        <span class="section-tag">Quiénes somos</span>
+        <h2>Nutricionistas <em>apasionados</em> por tu salud</h2>
+        <p>Somos un equipo de dietistas-nutricionistas colegiados con más de 12 años de experiencia ayudando a personas a transformar su relación con la alimentación.</p>
+        <p>Creemos que la nutrición no es una dieta temporal, sino un estilo de vida que debe adaptarse a ti.</p>
+        <div class="sobre-valores">
+          <div class="valor">
+            <div>
+              <strong>Equipo titulado</strong>
+              <p>Todos nuestros profesionales están colegiados y en formación continua.</p>
+            </div>
+          </div>
+          <div class="valor">
+            <div>
+              <strong>Enfoque humano</strong>
+              <p>Escuchamos tu historia antes de diseñar cualquier plan.</p>
+            </div>
+          </div>
+          <div class="valor">
+            <div>
+              <strong>Basado en evidencia</strong>
+              <p>Sin modas ni mitos. Solo ciencia nutricional actualizada.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sobre-equipo">
+        <div class="miembro">
+          <div class="miembro-avatar"><img src="data:image/jpeg;base64,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" alt=""></div>
+          <div>
+            <h4>Dr. Unax Gahona</h4>
+            <p>Dietista-nutricionista clínica</p>
+            <span>19 años de experiencia</span>
+          </div>
+        </div>
+        <div class="miembro">
+          <div class="miembro-avatar"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBbXGs-aZmgS8sX_TvteVqdhcVuNEkLBOxSA&s" alt=""></div>
+          <div>
+            <h4>Dr. Ibon Ye</h4>
+            <p>Especialista en nutrición deportiva</p>
+            <span>8 años de experiencia</span>
+          </div>
+        </div>
+        <div class="miembro">
+          <div class="miembro-avatar"><img src="https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg" alt=""></div>
+          <div>
+            <h4>Ibon Etxegia</h4>
+            <p>Nutrigenómica y salud digestiva</p>
+            <span>6 años de experiencia</span>
+          </div>
+           </div>
+        <div class="miembro">
+          <div class="miembro-avatar"><img src="https://i.blogs.es/a8424f/h9v5o8vp6rkkqtr77ligrgde/500_333.webp" alt=""></div>
+          <div>
+            <h4>Xabier Morales</h4>
+            <p>Nutrigenómica y salud digestiva</p>
+            <span>8 años de experiencia</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- PON TU RECETA -->
+<section class="contacto" id="pon-tu-receta">
+  <div class="contacto-inner">
+    <div class="section-header">
+      <span class="section-tag">Comparte</span>
+      <h2>Pon tu <em>receta</em></h2>
+      <p>¿Tienes una receta saludable? ¡Compártela con la comunidad!</p>
+    </div>
+    <form class="form" action="/receta" method="POST">
+      <input type="text" name="titulo" placeholder="Nombre de tu receta" required/>
+      <div class="form-row">
+        <input type="text" name="categoria" placeholder="Categoría (ej: Desayuno, Cena...)"/>
+        <input type="text" name="calorias" placeholder="Calorías (ej: 350 kcal)"/>
+      </div>
+      <div class="form-row">
+        <input type="text" name="proteina" placeholder="Proteína (ej: 28g)"/>
+        <input type="text" name="grasa" placeholder="Grasa (ej: 8g)"/>
+      </div>
+      <textarea name="ingredientes" placeholder="Ingredientes..." rows="3"></textarea>
+      <textarea name="preparacion" placeholder="Preparación paso a paso..." rows="4"></textarea>
+      <button type="submit" class="btn-primary">Enviar receta</button>
+    </form>
+  </div>
+</section>
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Jabalí <span>Nutrient</span></div>
+    <p>© 2025 Jabalí Nutrient. Todos los derechos reservados.</p>
+    <div class="footer-links">
+      <a href="#">Privacidad</a>
+      <a href="#">Términos</a>
+      <a href="#">Instagram</a>
+    </div>
+  </footer>
+
+  <script>
+    function calcularDieta() {
+      const edad      = parseFloat(document.getElementById('edad').value);
+      const peso      = parseFloat(document.getElementById('peso').value);
+      const altura    = parseFloat(document.getElementById('altura').value);
+      const sexo      = document.getElementById('sexo').value;
+      const actividad = parseFloat(document.getElementById('actividad').value);
+      const objetivo  = document.getElementById('objetivo').value;
+
+      if (!edad || !peso || !altura) {
+        alert('Por favor, completa todos los campos numéricos.');
+        return;
+      }
+
+      // Fórmula Mifflin-St Jeor
+      let tmb = sexo === 'hombre'
+        ? 10 * peso + 6.25 * altura - 5 * edad + 5
+        : 10 * peso + 6.25 * altura - 5 * edad - 161;
+
+      let kcal = tmb * actividad;
+      if (objetivo === 'deficit')   kcal -= 350;
+      if (objetivo === 'superavit') kcal += 300;
+      kcal = Math.round(kcal);
+
+      const proteina = Math.round((kcal * 0.30) / 4);
+      const grasas   = Math.round((kcal * 0.25) / 9);
+      const carbos   = Math.round((kcal * 0.45) / 4);
+
+      document.getElementById('kcal-total').textContent = kcal;
+      document.getElementById('proteina').textContent   = proteina + 'g';
+      document.getElementById('carbos').textContent     = carbos + 'g';
+      document.getElementById('grasas').textContent     = grasas + 'g';
+
+      const res = document.getElementById('resultado');
+      res.style.display = 'block';
+      res.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  </script>
+</body>
+</html>

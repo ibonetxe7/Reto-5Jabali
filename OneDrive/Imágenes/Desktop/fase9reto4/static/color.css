@@ -1,0 +1,485 @@
+/* ===== JABALÍ NUTRIENT — color.css ===== */
+
+:root {
+  --verde:        #4a7c59;
+  --verde-claro:  #7fb891;
+  --crema:        #f5f0e8;
+  --marron:       #3d2b1f;
+  --naranja:      #e07b39;
+  --blanco:       #ffffff;
+  --gris:         #666666;
+  --gris-claro:   #e8e8e8;
+}
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--crema);
+  color: var(--marron);
+}
+
+/* ── NAV ── */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 5%;
+  background: var(--blanco);
+  border-bottom: 3px solid var(--verde);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  color: var(--marron);
+  letter-spacing: 1px;
+}
+.logo span { color: var(--verde); }
+nav ul { list-style: none; display: flex; gap: 24px; }
+nav ul a { text-decoration: none; color: var(--marron); font-weight: 600; font-size: 0.95rem; }
+nav ul a:hover { color: var(--verde); }
+.btn-nav {
+  background: var(--verde);
+  color: var(--blanco);
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: background .2s;
+}
+.btn-nav:hover { background: var(--marron); }
+
+/* ── BOTONES ── */
+.btn-primary {
+  background: var(--verde);
+  color: var(--blanco);
+  padding: 13px 26px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  transition: background .2s;
+  display: inline-block;
+}
+.btn-primary:hover { background: var(--marron); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--verde);
+  padding: 13px 26px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  border: 2px solid var(--verde);
+  transition: all .2s;
+  display: inline-block;
+}
+.btn-secondary:hover { background: var(--verde); color: var(--blanco); }
+
+/* ── HERO ── */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 60px 5%;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+.hero-text { flex: 1; min-width: 280px; }
+.hero-tag {
+  background: var(--verde-claro);
+  color: var(--blanco);
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  line-height: 1.05;
+  color: var(--marron);
+  margin-bottom: 18px;
+}
+.hero h1 em { color: var(--verde); font-style: normal; }
+.hero p { font-size: 1.05rem; color: var(--gris); margin-bottom: 28px; line-height: 1.6; max-width: 420px; }
+.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.hero-card {
+  background: var(--blanco);
+  border-radius: 16px;
+  padding: 28px;
+  width: 260px;
+  box-shadow: 4px 4px 0 var(--verde);
+  border: 2px solid var(--marron);
+}
+.hero-card-icon { font-size: 2.5rem; margin-bottom: 10px; }
+.hero-card-title { font-weight: 800; margin-bottom: 16px; }
+.macro { margin-bottom: 10px; }
+.macro span { font-size: 0.82rem; font-weight: 600; color: var(--gris); display: block; margin-bottom: 4px; }
+.bar { background: var(--gris-claro); border-radius: 4px; height: 8px; }
+.fill { height: 8px; border-radius: 4px; }
+.fill-protein { background: var(--verde); }
+.fill-carb    { background: var(--naranja); }
+.fill-fat     { background: var(--verde-claro); }
+
+/* ── STATS ── */
+.stats {
+  background: var(--marron);
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 32px 5%;
+}
+.stat { text-align: center; }
+.stat h3 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--naranja); }
+.stat p   { color: #ccc; font-size: 0.9rem; }
+
+/* ── SECCIONES GENÉRICAS ── */
+.section {
+  padding: 64px 5%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.section-header { text-align: center; margin-bottom: 40px; }
+.section-tag {
+  background: var(--crema);
+  border: 2px solid var(--verde);
+  color: var(--verde);
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+.section-header h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--marron);
+  margin-bottom: 10px;
+}
+.section-header h2 em { color: var(--verde); font-style: normal; }
+.section-header p { color: var(--gris); font-size: 1rem; }
+
+/* ── SERVICIOS ── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+.card {
+  background: var(--blanco);
+  border: 2px solid var(--gris-claro);
+  border-radius: 12px;
+  padding: 24px;
+  transition: border-color .2s, transform .2s;
+}
+.card:hover { border-color: var(--verde); transform: translateY(-3px); }
+.card.card-accent { background: var(--verde); color: var(--blanco); border-color: var(--verde); }
+.card.card-accent p { color: rgba(255,255,255,0.85); }
+.card-icon { font-size: 2rem; margin-bottom: 12px; }
+.card h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 8px; }
+.card p  { font-size: 0.92rem; color: var(--gris); line-height: 1.5; }
+
+/* ── PLANES ── */
+.planes { padding: 64px 5%; background: var(--blanco); }
+.planes .section-header { max-width: 1100px; margin: 0 auto 40px; text-align: center; }
+.planes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.plan-card {
+  background: var(--crema);
+  border: 2px solid var(--gris-claro);
+  border-radius: 14px;
+  padding: 28px;
+  position: relative;
+  transition: border-color .2s;
+}
+.plan-card:hover { border-color: var(--verde); }
+.plan-card.plan-popular {
+  border-color: var(--verde);
+  background: var(--blanco);
+  box-shadow: 4px 4px 0 var(--verde);
+}
+.plan-badge {
+  background: var(--naranja);
+  color: var(--blanco);
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+.plan-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; margin-bottom: 8px; }
+.plan-price { font-size: 2.4rem; font-weight: 800; color: var(--verde); margin-bottom: 20px; }
+.plan-price span { font-size: 1.2rem; }
+.plan-price small { font-size: 0.9rem; color: var(--gris); font-weight: 400; }
+.plan-card ul { list-style: none; margin-bottom: 24px; }
+.plan-card ul li { padding: 6px 0; font-size: 0.92rem; border-bottom: 1px solid var(--gris-claro); }
+.plan-card ul li.disabled { color: #aaa; }
+.btn-plan {
+  display: block;
+  text-align: center;
+  background: var(--marron);
+  color: var(--blanco);
+  padding: 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: background .2s;
+}
+.btn-plan:hover { background: var(--verde); }
+.btn-plan.btn-plan-accent { background: var(--verde); }
+.btn-plan.btn-plan-accent:hover { background: var(--marron); }
+
+/* ── RECETAS ── */
+.recetas { padding: 64px 5%; max-width: 1100px; margin: 0 auto; }
+.recetas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+.receta-card {
+  background: var(--blanco);
+  border-radius: 12px;
+  border: 2px solid var(--gris-claro);
+  overflow: hidden;
+  transition: transform .2s;
+}
+.receta-card:hover { transform: translateY(-4px); }
+.receta-img {
+  font-size: 4rem;
+  text-align: center;
+  padding: 28px;
+  background: var(--crema);
+  height: 200px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.receta-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.receta-info { padding: 18px; }
+.receta-tag {
+  background: var(--verde-claro);
+  color: var(--blanco);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+.receta-info h4 { font-weight: 800; margin-bottom: 6px; }
+.receta-info p  { font-size: 0.88rem; color: var(--gris); margin-bottom: 12px; }
+.receta-macros { display: flex; gap: 8px; flex-wrap: wrap; }
+.receta-macros span {
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: var(--crema);
+  padding: 3px 8px;
+  border-radius: 6px;
+  color: var(--marron);
+}
+
+/* ── CONTACTO ── */
+.contacto { background: var(--marron); padding: 64px 5%; }
+.contacto-inner { max-width: 700px; margin: 0 auto; }
+.contacto .section-tag { border-color: var(--naranja); color: var(--naranja); background: transparent; }
+.contacto .section-header h2 { color: var(--blanco); }
+.contacto .section-header p  { color: #ccc; }
+.form { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
+.form-row { display: flex; gap: 14px; flex-wrap: wrap; }
+.form-row input { flex: 1; min-width: 180px; }
+.form input, .form textarea, .form select {
+  padding: 13px 16px;
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.08);
+  color: var(--blanco);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  width: 100%;
+}
+.form input::placeholder,
+.form textarea::placeholder { color: rgba(255,255,255,0.45); }
+.form input:focus,
+.form textarea:focus { outline: none; border-color: var(--verde-claro); }
+
+/* ── CALCULADORA ── */
+.calcular-dieta { padding: 64px 5%; max-width: 1100px; margin: 0 auto; }
+.calculadora {
+  background: var(--blanco);
+  border-radius: 16px;
+  border: 2px solid var(--gris-claro);
+  padding: 36px;
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.calc-form { flex: 1; min-width: 280px; }
+.calc-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 16px; }
+.calc-field { flex: 1; min-width: 130px; display: flex; flex-direction: column; gap: 6px; }
+.calc-field label { font-size: 0.85rem; font-weight: 700; color: var(--marron); }
+.calc-field input,
+.calc-field select {
+  padding: 10px 12px;
+  border: 2px solid var(--gris-claro);
+  border-radius: 8px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  color: var(--marron);
+  background: var(--crema);
+}
+.calc-field input:focus,
+.calc-field select:focus { outline: none; border-color: var(--verde); }
+.calc-btn { margin-top: 8px; width: 100%; }
+
+.calc-resultado {
+  flex: 1;
+  min-width: 220px;
+  background: var(--verde);
+  border-radius: 14px;
+  padding: 28px;
+  color: var(--blanco);
+  text-align: center;
+}
+.calc-resultado h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; margin-bottom: 12px; }
+.resultado-kcal { margin-bottom: 20px; }
+.resultado-kcal span { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; display: block; }
+.resultado-kcal small { font-size: 0.9rem; opacity: .8; }
+.resultado-macros { display: flex; justify-content: space-around; margin-bottom: 16px; }
+.macro-resultado { text-align: center; }
+.macro-valor { display: block; font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; }
+.macro-nombre { font-size: 0.78rem; opacity: .85; }
+.resultado-nota { font-size: 0.75rem; opacity: .7; line-height: 1.4; }
+
+/* ── SOBRE NOSOTROS ── */
+.sobre-nosotros { background: var(--blanco); padding: 64px 5%; }
+.sobre-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.sobre-texto { flex: 1; min-width: 280px; }
+.sobre-texto .section-tag { text-align: left; }
+.sobre-texto h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin: 10px 0 16px;
+}
+.sobre-texto h2 em { color: var(--verde); font-style: normal; }
+.sobre-texto > p { color: var(--gris); line-height: 1.7; margin-bottom: 12px; }
+.sobre-valores { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+.valor { display: flex; gap: 14px; align-items: flex-start; }
+.valor-icon { font-size: 1.8rem; }
+.valor strong { display: block; font-weight: 800; margin-bottom: 2px; }
+.valor p { font-size: 0.88rem; color: var(--gris); }
+
+.sobre-equipo { display: flex; flex-direction: column; gap: 16px; min-width: 220px; }
+.miembro {
+  background: var(--crema);
+  border-radius: 12px;
+  padding: 20px;
+  border: 2px solid var(--gris-claro);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.miembro-avatar { font-size: 2.2rem; }
+.miembro h4 { font-weight: 800; font-size: 0.95rem; }
+.miembro p  { font-size: 0.82rem; color: var(--gris); }
+.miembro span { font-size: 0.78rem; color: var(--verde); font-weight: 700; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--marron);
+  color: #ccc;
+  text-align: center;
+  padding: 28px 5%;
+}
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  color: var(--blanco);
+  margin-bottom: 8px;
+}
+.footer-logo span { color: var(--verde-claro); }
+footer p { font-size: 0.85rem; margin-bottom: 12px; }
+.footer-links { display: flex; justify-content: center; gap: 20px; }
+.footer-links a { color: #aaa; text-decoration: none; font-size: 0.85rem; }
+.footer-links a:hover { color: var(--verde-claro); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  nav ul { display: none; }
+  .hero { padding: 40px 5%; }
+  .hero-card { width: 100%; }
+  .stats { gap: 24px; }
+  .calculadora { padding: 20px; }
+}
+
+/* ── RECETA ── */
+.receta { background: var(--blanco); padding: 64px 5%; }
+.receta-header {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+.receta-titulo { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 16px; }
+.receta-subtitulo { font-size: 1.25rem; color: var(--gris); margin-bottom: 24px; }
+.receta-contenido {
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+.receta-imagen { width: 100%; max-width: 600px; margin: 24px auto; }
+/* ── AVATARES EQUIPO ── */
+.miembro-avatar {
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  font-size: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.miembro-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
