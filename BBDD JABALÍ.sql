@@ -1,0 +1,52 @@
+CREATE DATABASE if not exists JABALÍ;
+use  JABALÍ;
+
+CREATE TABLE if not exists USUARIO(
+id_usu INT AUTO_INCREMENT PRIMARY KEY ,
+nombre_usu VARCHAR(50), 
+apellido1_usu varchar(50),
+apellido2_usu varchar(50),
+mail_usu varchar(255),
+telefono INT,
+localidad varchar(50)
+);
+CREATE TABLE if not exists CLIENTE(
+id_cli INT AUTO_INCREMENT PRIMARY KEY,
+id_usu INT NOT NULL,
+num_logs INT, 
+num_recetas INT,
+FOREIGN KEY (id_usu) references USUARIO(id_usu) on delete cascade
+);
+CREATE TABLE  if not exists INGREDIENTE(
+id_ingrediente INT PRIMARY KEY AUTO_INCREMENT,
+nombre_ingrediente VARCHAR(50),
+sostenibilidad_producto ENUM("Km0", "Colindante", "Nacional", "Global"),
+cecliaco boolean,
+caducidad date	
+);
+
+CREATE TABLE if not exists RECETA(
+id_receta INT PRIMARY KEY AUTO_INCREMENT, 
+id_ingrediente INT not null,
+id_cli INT not null, 
+nombre_receta VARCHAR(50),
+valor_nutricional INT,
+nutriscore char,
+foreign key (id_ingrediente) references INGREDIENTE(id_ingrediente) 
+    on delete cascade,
+foreign key (id_cli) references CLIENTE(id_cli) ON DELETE CASCADE
+    
+);
+
+
+CREATE TABLE if not exists ALERGENO(
+id_alergeno INT PRIMARY KEY AUTO_INCREMENT,
+descripción VARCHAR(50)
+);
+
+CREATE TABLE INGREDIENTE_ALERGENO(
+id_ingrediente INT not null PRIMARY KEY,
+id_alergeno INT not null PRIMARY KEY,
+foreign key(id_ingrediente) references INGREDIENTE(id_ingrediente)on delete cascade,
+foreign key(id_alergeno) references ALERGENO(id_alergeno) on delete cascade
+);
