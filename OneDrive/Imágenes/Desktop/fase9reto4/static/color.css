@@ -37,11 +37,19 @@ nav {
   font-size: 1.8rem;
   color: var(--marron);
   letter-spacing: 1px;
+  text-decoration: none;
 }
 .logo span { color: var(--verde); }
 nav ul { list-style: none; display: flex; gap: 24px; }
 nav ul a { text-decoration: none; color: var(--marron); font-weight: 600; font-size: 0.95rem; }
 nav ul a:hover { color: var(--verde); }
+
+.nav-acciones {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .btn-nav {
   background: var(--verde);
   color: var(--blanco);
@@ -51,8 +59,48 @@ nav ul a:hover { color: var(--verde); }
   font-weight: 700;
   font-size: 0.9rem;
   transition: background .2s;
+  border: none;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
 }
 .btn-nav:hover { background: var(--marron); }
+
+.recetas-menu,
+.perfil-menu { position: relative; }
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: white;
+  border: 2px solid var(--gris-claro);
+  border-radius: 10px;
+  padding: 8px;
+  min-width: 170px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 200;
+}
+.dropdown-menu a {
+  display: block;
+  padding: 10px 14px;
+  text-decoration: none;
+  color: var(--marron);
+  font-weight: 700;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: background .15s;
+}
+.dropdown-menu a:hover { background: var(--crema); color: var(--verde); }
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid var(--verde);
+  display: block;
+}
 
 /* ── BOTONES ── */
 .btn-primary {
@@ -83,6 +131,26 @@ nav ul a:hover { color: var(--verde); }
   display: inline-block;
 }
 .btn-secondary:hover { background: var(--verde); color: var(--blanco); }
+
+/* ── ALERTAS ── */
+.alerta-error {
+  background: #c0392b;
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.alerta-ok {
+  background: var(--verde);
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-align: center;
+}
 
 /* ── HERO ── */
 .hero {
@@ -267,15 +335,12 @@ nav ul a:hover { color: var(--verde); }
 }
 .receta-card:hover { transform: translateY(-4px); }
 .receta-img {
-  font-size: 4rem;
-  text-align: center;
-  padding: 28px;
-  background: var(--crema);
   height: 200px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: var(--crema);
 }
 .receta-img img {
   width: 100%;
@@ -307,15 +372,31 @@ nav ul a:hover { color: var(--verde); }
   color: var(--marron);
 }
 
-/* ── CONTACTO ── */
+/* ── CONTACTO / FORMULARIOS ── */
 .contacto { background: var(--marron); padding: 64px 5%; }
 .contacto-inner { max-width: 700px; margin: 0 auto; }
 .contacto .section-tag { border-color: var(--naranja); color: var(--naranja); background: transparent; }
 .contacto .section-header h2 { color: var(--blanco); }
 .contacto .section-header p  { color: #ccc; }
+
 .form { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
 .form-row { display: flex; gap: 14px; flex-wrap: wrap; }
 .form-row input { flex: 1; min-width: 180px; }
+
+/* form-field: wrapper con label para campos dentro de form-row */
+.form-field {
+  flex: 1;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-field label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.75);
+}
+
 .form input, .form textarea, .form select {
   padding: 13px 16px;
   border: 2px solid rgba(255,255,255,0.15);
@@ -329,7 +410,17 @@ nav ul a:hover { color: var(--verde); }
 .form input::placeholder,
 .form textarea::placeholder { color: rgba(255,255,255,0.45); }
 .form input:focus,
-.form textarea:focus { outline: none; border-color: var(--verde-claro); }
+.form textarea:focus,
+.form select:focus { outline: none; border-color: var(--verde-claro); }
+
+/* Título de sección dentro del form */
+.form-section-title {
+  color: rgba(255,255,255,0.9);
+  font-weight: 800;
+  font-size: 1rem;
+  margin-top: 8px;
+  margin-bottom: 2px;
+}
 
 /* ── CALCULADORA ── */
 .calcular-dieta { padding: 64px 5%; max-width: 1100px; margin: 0 auto; }
@@ -401,7 +492,6 @@ nav ul a:hover { color: var(--verde); }
 .sobre-texto > p { color: var(--gris); line-height: 1.7; margin-bottom: 12px; }
 .sobre-valores { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
 .valor { display: flex; gap: 14px; align-items: flex-start; }
-.valor-icon { font-size: 1.8rem; }
 .valor strong { display: block; font-weight: 800; margin-bottom: 2px; }
 .valor p { font-size: 0.88rem; color: var(--gris); }
 
@@ -415,10 +505,24 @@ nav ul a:hover { color: var(--verde); }
   align-items: center;
   gap: 14px;
 }
-.miembro-avatar { font-size: 2.2rem; }
 .miembro h4 { font-weight: 800; font-size: 0.95rem; }
 .miembro p  { font-size: 0.82rem; color: var(--gris); }
 .miembro span { font-size: 0.78rem; color: var(--verde); font-weight: 700; }
+
+.miembro-avatar {
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.miembro-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
 
 /* ── FOOTER ── */
 footer {
@@ -439,6 +543,12 @@ footer p { font-size: 0.85rem; margin-bottom: 12px; }
 .footer-links a { color: #aaa; text-decoration: none; font-size: 0.85rem; }
 .footer-links a:hover { color: var(--verde-claro); }
 
+/* ── SELECT OPTIONS (fix color en dropdown abierto) ── */
+.form select option {
+  background: var(--marron);
+  color: var(--blanco);
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 640px) {
   nav ul { display: none; }
@@ -446,40 +556,7 @@ footer p { font-size: 0.85rem; margin-bottom: 12px; }
   .hero-card { width: 100%; }
   .stats { gap: 24px; }
   .calculadora { padding: 20px; }
-}
-
-/* ── RECETA ── */
-.receta { background: var(--blanco); padding: 64px 5%; }
-.receta-header {
-  max-width: 1100px;
-  margin: 0 auto;
-  text-align: center;
-}
-.receta-titulo { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 16px; }
-.receta-subtitulo { font-size: 1.25rem; color: var(--gris); margin-bottom: 24px; }
-.receta-contenido {
-  max-width: 800px;
-  margin: 0 auto;
-  line-height: 1.7;
-}
-.receta-imagen { width: 100%; max-width: 600px; margin: 24px auto; }
-/* ── AVATARES EQUIPO ── */
-.miembro-avatar {
-  width: 60px;
-  height: 60px;
-  min-width: 60px;
-  border-radius: 50%;
-  overflow: hidden;
-  font-size: 2.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.miembro-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  display: block;
+  .nav-acciones { gap: 6px; }
+  .btn-nav { padding: 8px 12px; font-size: 0.82rem; }
+  .form-row { flex-direction: column; }
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Iniciar sesión — Jabalí Nutrient</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='color.css') }}"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <nav>
+    <a href="/" class="logo">Jabalí <span>Nutrient</span></a>
+  </nav>
+  <section class="contacto" style="min-height:100vh; display:flex; align-items:center;">
+    <div class="contacto-inner">
+      <div class="section-header">
+        <span class="section-tag">Bienvenido</span>
+        <h2>Iniciar <em>sesión</em></h2>
+        <p>Accede a tu cuenta de Jabalí Nutrient.</p>
+      </div>
+      {% if error %}
+      <p style="background:#e07b39; color:#fff; padding:12px 20px; border-radius:8px; text-align:center; margin-bottom:16px;">❌ {{ error }}</p>
+      {% endif %}
+      <form class="form" action="/login" method="POST">
+        <input type="email" name="email" placeholder="Tu email" required/>
+        <input type="password" name="password" placeholder="Contraseña" required/>
+        <button type="submit" class="btn-primary">Iniciar sesión</button>
+        <p style="text-align:center; color:#ccc; margin-top:8px;">¿No tienes cuenta? <a href="/registro" style="color:var(--verde-claro);">Regístrate</a></p>
+      </form>
+    </div>
+  </section>
+</body>
+</html>

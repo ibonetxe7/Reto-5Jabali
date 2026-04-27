@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registrarse — Jabalí Nutrient</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='color.css') }}"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <nav>
+    <a href="/" class="logo">Jabalí <span>Nutrient</span></a>
+  </nav>
+  <section class="contacto" style="min-height:100vh; display:flex; align-items:center;">
+    <div class="contacto-inner">
+      <div class="section-header">
+        <span class="section-tag">Únete</span>
+        <h2>Crear <em>cuenta</em></h2>
+        <p>Regístrate para acceder a todas las funciones.</p>
+      </div>
+
+      {% if error %}
+      <p style="background:#c0392b; color:#fff; padding:12px 20px; border-radius:8px; text-align:center; margin-bottom:16px;">❌ {{ error }}</p>
+      {% endif %}
+
+      <form class="form" action="/registro" method="POST">
+
+        <!-- Nombre y apellidos -->
+        <div class="form-row">
+          <input type="text" name="nombre" placeholder="Nombre *" required maxlength="50"/>
+        </div>
+        <div class="form-row">
+          <input type="text" name="apellido1" placeholder="Primer apellido *" required maxlength="50"/>
+          <input type="text" name="apellido2" placeholder="Segundo apellido" maxlength="50"/>
+        </div>
+
+        <!-- Email y teléfono -->
+        <div class="form-row">
+          <input type="email" name="email" placeholder="Email *" required/>
+          <input type="tel"   name="telefono" placeholder="Teléfono (opcional)" maxlength="15"/>
+        </div>
+
+        <!-- Contraseñas -->
+        <input type="password" name="password"  placeholder="Contraseña *" required/>
+        <input type="password" name="password2" placeholder="Repite la contraseña *" required/>
+
+        <button type="submit" class="btn-primary">Registrarse</button>
+        <p style="text-align:center; color:#ccc; margin-top:8px;">
+          ¿Ya tienes cuenta? <a href="/login" style="color:var(--verde-claro);">Inicia sesión</a>
+        </p>
+      </form>
+    </div>
+  </section>
+</body>
+</html>
