@@ -15,6 +15,7 @@ id_cli INT AUTO_INCREMENT PRIMARY KEY,
 id_usu INT NOT NULL,
 num_logs INT, 
 num_recetas INT,
+contraseña VARCHAR (200),
 FOREIGN KEY (id_usu) references USUARIO(id_usu) on delete cascade
 );
 CREATE TABLE  if not exists INGREDIENTE(
