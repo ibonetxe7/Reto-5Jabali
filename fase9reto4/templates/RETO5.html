@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jabalí Nutrition — Alimenta tu potencial</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='color.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">Jabalí <span>Nutrition</span></div>
+    <ul>
+      <li><a href="#sobre-nosotros">Sobre nosotros</a></li>
+    </ul>
+    <div class="nav-acciones">
+      <a href="#calcular-dieta" class="btn-nav">Calcular Mi Dieta</a>
+
+      <div class="recetas-menu">
+        <button class="btn-nav" onclick="toggleRecetas()">Recetas</button>
+        <div id="menu-recetas" class="dropdown-menu">
+          <a href="#recetas">Recetas</a>
+          <a href="#tus-recetas">Tus Recetas</a>
+          <a href="#pon-tu-receta">Pon Tus Recetas</a>
+        </div>
+      </div>
+
+      <div class="perfil-menu">
+      <div class="perfil-menu">
+  <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+       onclick="toggleMenu()" class="avatar"/>
+  <div id="menu-perfil" class="dropdown-menu">
+    {% if session.get('nombre') %}
+      <p style="padding:10px 14px; font-weight:800; color:var(--verde); border-bottom:1px solid var(--gris-claro); margin-bottom:4px;">
+        👤 {{ session.get('nombre') }}
+      </p>
+      <a href="/logout">Cerrar sesión</a>
+    {% else %}
+      <a href="/registro">Registrarse</a>
+      <a href="/login">Iniciar sesión</a>
+    {% endif %}
+    <a href="#contacto">Contacto</a>
+  </div>
+</div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero-text">
+      <span class="hero-tag">Nutrición personalizada</span>
+      <h1>Alimenta tu <em>mejor versión</em></h1>
+      <p>Planes nutricionales diseñados por expertos, adaptados a tu cuerpo, tus metas y tu estilo de vida.</p>
+      <div class="hero-btns">
+        <a href="#planes" class="btn-primary">Ver planes</a>
+        <a href="#recetas" class="btn-secondary">Explorar recetas</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-icon">🥑</div>
+      <p class="hero-card-title">Balance diario</p>
+      <div class="macro">
+        <span>Proteínas</span>
+        <div class="bar"><div class="fill fill-protein" style="width:65%"></div></div>
+      </div>
+      <div class="macro">
+        <span>Carbos</span>
+        <div class="bar"><div class="fill fill-carb" style="width:45%"></div></div>
+      </div>
+      <div class="macro">
+        <span>Grasas</span>
+        <div class="bar"><div class="fill fill-fat" style="width:30%"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stat"><h3>+2.400</h3><p>Pacientes activos</p></div>
+    <div class="stat"><h3>98%</h3><p>Satisfacción</p></div>
+    <div class="stat"><h3>12 años</h3><p>De experiencia</p></div>
+    <div class="stat"><h3>150+</h3><p>Recetas saludables</p></div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="section" id="servicios">
+    <div class="section-header">
+      <span class="section-tag">Lo que ofrecemos</span>
+      <h2>Servicios <em>especializados</em></h2>
+      <p>Abordamos la nutrición de forma integral, no solo lo que comes.</p>
+    </div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🩺</div>
+        <h3>Consulta personalizada</h3>
+        <p>Evaluación completa de tu estado nutricional, hábitos y objetivos.</p>
+      </div>
+      <div class="card card-accent">
+        <div class="card-icon">📋</div>
+        <h3>Plan alimentario</h3>
+        <p>Menús semanales adaptados a tus gustos, intolerancias y metas.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h3>Seguimiento continuo</h3>
+        <p>Revisiones periódicas para ajustar tu plan y mantener el progreso.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧬</div>
+        <h3>Nutrigenómica</h3>
+        <p>Nutrición basada en tu genética para resultados más precisos.</p>
+      </div>
+      <div class="card card-accent">
+        <div class="card-icon">💪</div>
+        <h3>Nutrición deportiva</h3>
+        <p>Optimiza tu rendimiento y recuperación con alimentación estratégica.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">👨‍👩‍👧</div>
+        <h3>Nutrición familiar</h3>
+        <p>Hábitos saludables para toda la familia, desde niños hasta mayores.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANES -->
+  <section class="planes" id="planes">
+    <div class="section-header">
+      <span class="section-tag">Precios</span>
+      <h2>Elige tu <em>plan</em></h2>
+      <p>Invierte en tu salud con la opción que mejor se adapte a ti.</p>
+    </div>
+    <div class="planes-grid">
+      <div class="plan-card">
+        <h3>Básico</h3>
+        <div class="plan-price"><span>€</span>49<small>/mes</small></div>
+        <ul>
+          <li>✓ Consulta inicial</li>
+          <li>✓ Plan alimentario mensual</li>
+          <li>✓ Acceso a recetas</li>
+          <li class="disabled">✗ Seguimiento semanal</li>
+          <li class="disabled">✗ Chat con nutricionista</li>
+        </ul>
+        <a href="#contacto" class="btn-plan">Comenzar</a>
+      </div>
+      <div class="plan-card plan-popular">
+        <div class="plan-badge">Más popular</div>
+        <h3>Completo</h3>
+        <div class="plan-price"><span>€</span>89<small>/mes</small></div>
+        <ul>
+          <li>✓ Todo lo del Básico</li>
+          <li>✓ Seguimiento semanal</li>
+          <li>✓ Chat ilimitado</li>
+          <li>✓ Análisis de composición</li>
+          <li class="disabled">✗ Análisis genético</li>
+        </ul>
+        <a href="#contacto" class="btn-plan btn-plan-accent">Comenzar</a>
+      </div>
+      <div class="plan-card">
+        <h3>Premium</h3>
+        <div class="plan-price"><span>€</span>149<small>/mes</small></div>
+        <ul>
+          <li>✓ Todo lo del Completo</li>
+          <li>✓ Análisis genético</li>
+          <li>✓ Suplementación guiada</li>
+          <li>✓ Consultas ilimitadas</li>
+          <li>✓ Coach personal</li>
+        </ul>
+        <a href="#contacto" class="btn-plan">Comenzar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECETAS -->
+  <section class="recetas" id="recetas">
+    <div class="section-header">
+      <span class="section-tag">Inspiración culinaria</span>
+      <h2>Recetas <em>saludables</em></h2>
+      <p>Nutritivas, deliciosas y fáciles de preparar.</p>
+    </div>
+    <div class="recetas-grid">
+      <div class="receta-card">
+        <div class="receta-img"><img src="https://www.coren.es/wp-content/uploads/2017/05/iStock-5378542831-768x512-1.jpg" alt="Bowl mediterráneo"></div>
+        <div class="receta-info">
+          <span class="receta-tag">Almuerzo</span>
+          <h4>Bowl mediterráneo</h4>
+          <p>Quinoa, tomate cherry, pepino, aceitunas y queso feta.</p>
+          <div class="receta-macros">
+            <span>420 kcal</span><span>32g proteína</span><span>18g grasa</span>
+          </div>
+        </div>
+      </div>
+      <div class="receta-card">
+        <div class="receta-img"><img src="https://content.clara.es/medio/2023/09/21/avena-para-adelgazar_32517b42_230921110355_1280x800.jpg" alt="Avena proteica"></div>
+        <div class="receta-info">
+          <span class="receta-tag">Desayuno</span>
+          <h4>Avena proteica</h4>
+          <p>Avena, proteína de vainilla, plátano y semillas de chía.</p>
+          <div class="receta-macros">
+            <span>350 kcal</span><span>28g proteína</span><span>8g grasa</span>
+          </div>
+        </div>
+      </div>
+      <div class="receta-card">
+        <div class="receta-img"><img src="https://imag.bonviveur.com/pollo-asado-al-horno-con-patatas.jpg" alt="Pollo al horno"></div>
+        <div class="receta-info">
+          <span class="receta-tag">Cena</span>
+          <h4>Pollo al horno</h4>
+          <p>Pechuga con verduras asadas, romero y aceite de oliva.</p>
+          <div class="receta-macros">
+            <span>380 kcal</span><span>45g proteína</span><span>12g grasa</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TUS RECETAS -->
+  <section class="recetas" id="tus-recetas">
+    <div class="section-header">
+      <span class="section-tag">Tu comunidad</span>
+      <h2>Tus <em>recetas</em></h2>
+      <p>Las recetas compartidas por nuestra comunidad.</p>
+    </div>
+    <div class="recetas-grid" id="tus-recetas-grid">
+      <p style="text-align:center;color:var(--marron);opacity:0.6;grid-column:1/-1;">
+        Aún no hay recetas compartidas. ¡Sé el primero!
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="contacto" id="contacto">
+    <div class="contacto-inner">
+      <div class="section-header">
+        <span class="section-tag">Hablemos</span>
+        <h2>Da el primer <em>paso</em></h2>
+        <p>Rellena el formulario y un nutricionista se pondrá en contacto contigo en menos de 24h.</p>
+      </div>
+      <form class="form" action="https://formspree.io/f/xgorjrwy" method="POST">
+        <div class="form-row">
+          <input type="text"  name="nombre" placeholder="Tu nombre" required/>
+          <input type="email" name="email"  placeholder="Tu email"  required/>
+        </div>
+        <input type="text" name="objetivo" placeholder="Tu objetivo (ej: perder peso, ganar músculo...)"/>
+        <textarea name="mensaje" placeholder="Cuéntanos un poco más sobre ti..." rows="4"></textarea>
+        <button type="submit" class="btn-primary">Enviar consulta gratuita</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- CALCULAR DIETA -->
+  <section class="calcular-dieta" id="calcular-dieta">
+    <div class="section-header">
+      <span class="section-tag">Herramienta gratuita</span>
+      <h2>Calcula tu <em>dieta ideal</em></h2>
+      <p>Introduce tus datos y te mostraremos tus calorías diarias y macronutrientes recomendados.</p>
+    </div>
+    <div class="calculadora">
+      <div class="calc-form">
+        <div class="calc-row">
+          <div class="calc-field">
+            <label>Edad</label>
+            <input type="number" id="edad" placeholder="25" min="10" max="100"/>
+          </div>
+          <div class="calc-field">
+            <label>Peso (kg)</label>
+            <input type="number" id="peso" placeholder="70" min="30" max="250"/>
+          </div>
+          <div class="calc-field">
+            <label>Altura (cm)</label>
+            <input type="number" id="altura" placeholder="170" min="100" max="250"/>
+          </div>
+        </div>
+        <div class="calc-row">
+          <div class="calc-field">
+            <label>Sexo</label>
+            <select id="sexo">
+              <option value="hombre">Hombre</option>
+              <option value="mujer">Mujer</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label>Actividad física</label>
+            <select id="actividad">
+              <option value="1.2">Sedentario</option>
+              <option value="1.375">Ligero (1-3 días)</option>
+              <option value="1.55" selected>Moderado (3-5 días)</option>
+              <option value="1.725">Activo (6-7 días)</option>
+              <option value="1.9">Muy activo</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label>Objetivo</label>
+            <select id="objetivo-calc">
+              <option value="deficit">Perder peso</option>
+              <option value="mantenimiento" selected>Mantenerme</option>
+              <option value="superavit">Ganar músculo</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-primary calc-btn" onclick="calcularDieta()">Calcular mi dieta</button>
+      </div>
+      <div class="calc-resultado" id="resultado" style="display:none">
+        <h3>Tu plan calórico</h3>
+        <div class="resultado-kcal">
+          <span id="kcal-total">0</span>
+          <small>kcal / día</small>
+        </div>
+        <div class="resultado-macros">
+          <div class="macro-resultado">
+            <span class="macro-valor" id="proteina">0g</span>
+            <span class="macro-nombre">Proteínas</span>
+          </div>
+          <div class="macro-resultado">
+            <span class="macro-valor" id="carbos">0g</span>
+            <span class="macro-nombre">Carbos</span>
+          </div>
+          <div class="macro-resultado">
+            <span class="macro-valor" id="grasas">0g</span>
+            <span class="macro-nombre">Grasas</span>
+          </div>
+        </div>
+        <p class="resultado-nota">* Valores orientativos. Consulta a un nutricionista para un plan personalizado.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE NOSOTROS -->
+  <section class="sobre-nosotros" id="sobre-nosotros">
+    <div class="sobre-content">
+      <div class="sobre-texto">
+        <span class="section-tag">Quiénes somos</span>
+        <h2>Nutricionistas <em>apasionados</em> por tu salud</h2>
+        <p>Somos un equipo de dietistas-nutricionistas colegiados con más de 12 años de experiencia ayudando a personas a transformar su relación con la alimentación.</p>
+        <p>Creemos que la nutrición no es una dieta temporal, sino un estilo de vida que debe adaptarse a ti.</p>
+        <div class="sobre-valores">
+          <div class="valor">
+            <div>
+              <strong>Equipo titulado</strong>
+              <p>Todos nuestros profesionales están colegiados y en formación continua.</p>
+            </div>
+          </div>
+          <div class="valor">
+            <div>
+              <strong>Enfoque humano</strong>
+              <p>Escuchamos tu historia antes de diseñar cualquier plan.</p>
+            </div>
+          </div>
+          <div class="valor">
+            <div>
+              <strong>Basado en evidencia</strong>
+              <p>Sin modas ni mitos. Solo ciencia nutricional actualizada.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sobre-equipo">
+        <div class="miembro">
+          <div class="miembro-avatar"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBbXGs-aZmgS8sX_TvteVqdhcVuNEkLBOxSA&s" alt="Dr. Unax Gahona"></div>
+          <div>
+            <h4>Dr. Unax Gahona</h4>
+            <p>Dietista-nutricionista clínica</p>
+            <span>19 años de experiencia</span>
+          </div>
+        </div>
+        <div class="miembro">
+          <div class="miembro-avatar"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBbXGs-aZmgS8sX_TvteVqdhcVuNEkLBOxSA&s" alt="Dr. Ibon Ye"></div>
+          <div>
+            <h4>Dr. Ibon Ye</h4>
+            <p>Especialista en nutrición deportiva</p>
+            <span>8 años de experiencia</span>
+          </div>
+        </div>
+        <div class="miembro">
+          <div class="miembro-avatar"><img src="https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg" alt="Ibon Etxegia"></div>
+          <div>
+            <h4>Ibon Etxegia</h4>
+            <p>Nutrigenómica y salud digestiva</p>
+            <span>6 años de experiencia</span>
+          </div>
+        </div>
+        <div class="miembro">
+          <div class="miembro-avatar"><img src="https://i.blogs.es/a8424f/h9v5o8vp6rkkqtr77ligrgde/500_333.webp" alt="Xabier Morales"></div>
+          <div>
+            <h4>Xabier Morales</h4>
+            <p>Nutrigenómica y salud digestiva</p>
+            <span>8 años de experiencia</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PON TU RECETA — campos ajustados a la BD -->
+  <section class="contacto" id="pon-tu-receta">
+    <div class="contacto-inner">
+      <div class="section-header">
+        <span class="section-tag">Comparte</span>
+        <h2>Pon TU <em>Receta</em></h2>
+        <p>¿Tienes una receta saludable? ¡Compártela con la comunidad!</p>
+      </div>
+
+      {% if error_receta %}
+        <div class="alerta-error">⚠️ {{ error_receta }}</div>
+      {% endif %}
+      {% if ok_receta %}
+        <div class="alerta-ok">✅ {{ ok_receta }}</div>
+      {% endif %}
+
+      <form class="form" action="/receta" method="POST">
+
+        <!-- RECETA -->
+        <p class="form-section-title">📋 Datos de la receta</p>
+        <input type="text" name="nombre_receta" placeholder="Nombre de la receta *" required maxlength="50"/>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label>Valor nutricional (kcal)</label>
+            <input type="number" name="valor_nutricional" placeholder="Ej: 420" min="0" max="9999"/>
+          </div>
+          <div class="form-field">
+            <label>Nutriscore</label>
+            <select name="nutriscore">
+              <option value="A">A — Muy saludable</option>
+              <option value="B">B — Saludable</option>
+              <option value="C" selected>C — Moderado</option>
+              <option value="D">D — Menos saludable</option>
+              <option value="E">E — Poco saludable</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- INGREDIENTE PRINCIPAL -->
+        <p class="form-section-title">🥦 Ingrediente principal</p>
+        <input type="text" name="nombre_ingrediente" placeholder="Nombre del ingrediente principal *" required maxlength="50"/>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label>Sostenibilidad</label>
+            <select name="sostenibilidad_producto">
+              <option value="Km0">Km0 — Local</option>
+              <option value="Colindante">Colindante</option>
+              <option value="Nacional" selected>Nacional</option>
+              <option value="Global">Global</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>¿Apto para celíacos?</label>
+            <select name="cecliaco">
+              <option value="1">Sí</option>
+              <option value="0" selected>No</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Fecha de caducidad</label>
+            <input type="date" name="caducidad"/>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary">Enviar receta</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Jabalí <span>Nutrient</span></div>
+    <p>© 2025 Jabalí Nutrient. Todos los derechos reservados.</p>
+    <div class="footer-links">
+      <a href="#">Privacidad</a>
+      <a href="#">Términos</a>
+      <a href="https://www.instagram.com/jabali_nutritions/">Instagram</a>
+    </div>
+  </footer>
+
+  <script>
+    function calcularDieta() {
+      const edad      = parseFloat(document.getElementById('edad').value);
+      const peso      = parseFloat(document.getElementById('peso').value);
+      const altura    = parseFloat(document.getElementById('altura').value);
+      const sexo      = document.getElementById('sexo').value;
+      const actividad = parseFloat(document.getElementById('actividad').value);
+      const objetivo  = document.getElementById('objetivo-calc').value;
+
+      if (!edad || !peso || !altura) {
+        alert('Por favor, completa todos los campos numéricos.');
+        return;
+      }
+
+      let tmb = sexo === 'hombre'
+        ? 10 * peso + 6.25 * altura - 5 * edad + 5
+        : 10 * peso + 6.25 * altura - 5 * edad - 161;
+
+      let kcal = tmb * actividad;
+      if (objetivo === 'deficit')   kcal -= 350;
+      if (objetivo === 'superavit') kcal += 300;
+      kcal = Math.round(kcal);
+
+      const proteina = Math.round((kcal * 0.30) / 4);
+      const grasas   = Math.round((kcal * 0.25) / 9);
+      const carbos   = Math.round((kcal * 0.45) / 4);
+
+      document.getElementById('kcal-total').textContent = kcal;
+      document.getElementById('proteina').textContent   = proteina + 'g';
+      document.getElementById('carbos').textContent     = carbos + 'g';
+      document.getElementById('grasas').textContent     = grasas + 'g';
+
+      const res = document.getElementById('resultado');
+      res.style.display = 'block';
+      res.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function toggleMenu() {
+      const menu = document.getElementById('menu-perfil');
+      menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function toggleRecetas() {
+      const menu = document.getElementById('menu-recetas');
+      menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    }
+
+    document.addEventListener('click', function(e) {
+      const menuPerfil  = document.getElementById('menu-perfil');
+      const menuRecetas = document.getElementById('menu-recetas');
+      if (!e.target.closest('.perfil-menu'))  menuPerfil.style.display  = 'none';
+      if (!e.target.closest('.recetas-menu')) menuRecetas.style.display = 'none';
+    });
+  </script>
+
+</body>
+</html> 
