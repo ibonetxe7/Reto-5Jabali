@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menú Semanal IA — Jabalí Nutrition</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='color.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    .menu-hero {
+      background: var(--verde);
+      padding: 48px 5%;
+      text-align: center;
+      color: var(--blanco);
+    }
+    .menu-hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 10px;
+    }
+    .menu-hero h1 em { color: var(--naranja); font-style: normal; }
+    .menu-hero p { font-size: 1rem; opacity: .85; max-width: 500px; margin: 0 auto; }
+
+    .menu-contenido {
+      max-width: 900px;
+      margin: 48px auto;
+      padding: 0 5%;
+    }
+
+    .menu-resultado {
+      background: var(--blanco);
+      border: 2px solid var(--gris-claro);
+      border-radius: 16px;
+      padding: 36px;
+      white-space: pre-wrap;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--marron);
+      box-shadow: 4px 4px 0 var(--verde);
+    }
+
+    .menu-resultado-tag {
+      display: inline-block;
+      background: var(--verde);
+      color: var(--blanco);
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      letter-spacing: .5px;
+    }
+
+    .menu-vacio {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gris);
+    }
+    .menu-vacio span { font-size: 3rem; display: block; margin-bottom: 16px; }
+
+    .menu-acciones {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .menu-form {
+      background: var(--crema);
+      border: 2px solid var(--gris-claro);
+      border-radius: 16px;
+      padding: 28px;
+      margin-top: 32px;
+    }
+    .menu-form h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      color: var(--marron);
+      margin-bottom: 16px;
+    }
+    .menu-form-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    .menu-form select {
+      flex: 1;
+      min-width: 200px;
+      padding: 11px 14px;
+      border: 2px solid var(--gris-claro);
+      border-radius: 8px;
+      background: var(--blanco);
+      color: var(--marron);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.92rem;
+    }
+    .menu-form select:focus { outline: none; border-color: var(--verde); }
+
+    .btn-ia {
+      background: var(--verde);
+      color: var(--blanco);
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: none;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-ia:hover { background: var(--marron); }
+
+    .ia-loading {
+      display: none;
+      text-align: center;
+      padding: 12px;
+      color: var(--verde);
+      font-weight: 700;
+      margin-top: 12px;
+    }
+    .spinner {
+      display: inline-block;
+      width: 18px; height: 18px;
+      border: 3px solid var(--gris-claro);
+      border-top-color: var(--verde);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 640px) {
+      .menu-resultado { padding: 20px; }
+      .menu-acciones { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="logo">Jabalí <span>Nutrition</span></a>
+    <ul>
+      <li><a href="/#servicios">Servicios</a></li>
+      <li><a href="/#planes">Planes</a></li>
+      <li><a href="/#ia-dietista">IA Dietista</a></li>
+    </ul>
+    <div class="nav-acciones">
+      <div class="perfil-menu">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+             onclick="toggleMenu()" class="avatar"/>
+        <div id="menu-perfil" class="dropdown-menu">
+          {% if session.get('nombre') %}
+            <p style="padding:10px 14px; font-weight:800; color:var(--verde); border-bottom:1px solid var(--gris-claro); margin-bottom:4px;">
+              👤 {{ session.get('nombre') }}
+            </p>
+            <a href="/logout">Cerrar sesión</a>
+          {% else %}
+            <a href="/registro">Registrarse</a>
+            <a href="/login">Iniciar sesión</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="menu-hero">
+    <h1>Tu Menú <em>Semanal</em> con IA</h1>
+    <p>Generado por inteligencia artificial según tus preferencias dietéticas.</p>
+  </div>
+
+  <!-- CONTENIDO -->
+  <div class="menu-contenido">
+
+    {% if menu_ia %}
+      <!-- RESULTADO -->
+      <div class="menu-resultado">
+        <div class="menu-resultado-tag">🤖 Menú generado por IA</div>
+        <div>{{ menu_ia }}</div>
+      </div>
+
+      <div class="menu-acciones">
+        <a href="/" class="btn-primary">← Volver al inicio</a>
+        <button onclick="window.print()" class="btn-secondary">🖨️ Imprimir menú</button>
+      </div>
+
+    {% else %}
+      <!-- VACÍO -->
+      <div class="menu-vacio">
+        <span>📅</span>
+        <p>No hay menú generado todavía.</p>
+      </div>
+    {% endif %}
+
+    <!-- GENERAR OTRO MENÚ -->
+    <div class="menu-form">
+      <h3>¿Quieres otro menú diferente?</h3>
+      <form action="/ia/menu" method="POST" onsubmit="document.getElementById('load-menu').style.display='block'">
+        <div class="menu-form-row">
+          <select name="preferencias">
+            <option value="equilibrada">Dieta equilibrada</option>
+            <option value="vegetariana">Vegetariana</option>
+            <option value="vegana">Vegana</option>
+            <option value="sin gluten">Sin gluten (celíaco)</option>
+            <option value="baja en calorias">Baja en calorías</option>
+            <option value="alta en proteinas">Alta en proteínas</option>
+            <option value="mediterranea">Mediterránea</option>
+          </select>
+          <button type="submit" class="btn-ia">Generar nuevo menú ✨</button>
+        </div>
+      </form>
+      <div class="ia-loading" id="load-menu">
+        <span class="spinner"></span>Diseñando tu semana...
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Jabalí <span>Nutrient</span></div>
+    <p>© 2025 Jabalí Nutrient. Todos los derechos reservados.</p>
+    <div class="footer-links">
+      <a href="#">Privacidad</a>
+      <a href="#">Términos</a>
+      <a href="#">Instagram</a>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menu-perfil');
+      menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    }
+    document.addEventListener('click', function(e) {
+      const menuPerfil = document.getElementById('menu-perfil');
+      if (!e.target.closest('.perfil-menu')) menuPerfil.style.display = 'none';
+    });
+  </script>
+
+</body>
+</html>

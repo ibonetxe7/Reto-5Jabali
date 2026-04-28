@@ -123,7 +123,102 @@
       </div>
     </div>
   </section>
+  <!-- ═══════════════════════════════════════════════════════
+     IA DIETISTA DIGITAL
+     Pega esta sección en RETO5.html donde quieras
+     (recomendado: después de STATS y antes de PLANES)
+     ═══════════════════════════════════════════════════════ -->
 
+<section class="ia-section" id="ia-dietista">
+  <div class="section-header" style="max-width:1100px; margin:0 auto 40px;">
+    <span class="section-tag">Inteligencia Artificial</span>
+    <h2>Tu <em>Dietista</em> Digital</h2>
+    <p>Nuestra IA analiza ingredientes, genera menús y te da consejos nutricionales al instante.</p>
+  </div>
+
+  <div class="ia-grid">
+
+    <!-- CARD 1: Sugerencia de receta -->
+    <div class="ia-card">
+      <h3>Sugiere una Receta</h3>
+      <p>Dinos qué ingrediente tienes y te generamos una receta saludable personalizada.</p>
+      <form class="ia-form" action="/ia/sugerencia" method="POST" onsubmit="mostrarLoading('load-sug')">
+        <input type="text" name="ingrediente" placeholder="Ej: pollo, espinacas, tofu..." required />
+        <select name="nutriscore">
+          <option value="A">Nutriscore A — Excelente</option>
+          <option value="B">Nutriscore B — Bueno</option>
+          <option value="C" selected>Nutriscore C — Medio</option>
+          <option value="D">Nutriscore D — Bajo</option>
+          <option value="E">Nutriscore E — Muy bajo</option>
+        </select>
+        <button type="submit" class="btn-ia">Generar receta</button>
+      </form>
+      <div class="ia-loading" id="load-sug"><span class="spinner"></span>La IA está cocinando...</div>
+      {% if sugerencia_ia %}
+      <div class="ia-resultado">
+        <div class="ia-resultado-tag"> Sugerencia de la IA</div>
+        <p>{{ sugerencia_ia }}</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- CARD 2: Menú semanal -->
+    <div class="ia-card">
+      <h3>Menú Semanal</h3>
+      <p>Genera un menú completo de lunes a domingo adaptado a tus preferencias dietéticas.</p>
+      <form class="ia-form" action="/ia/menu" method="POST" onsubmit="mostrarLoading('load-menu')">
+        <select name="preferencias">
+          <option value="equilibrada">Dieta equilibrada</option>
+          <option value="vegetariana">Vegetariana</option>
+          <option value="vegana">Vegana</option>
+          <option value="sin gluten">Sin gluten (celíaco)</option>
+          <option value="baja en calorias">Baja en calorías</option>
+          <option value="alta en proteinas">Alta en proteínas</option>
+          <option value="mediterranea">Mediterránea</option>
+        </select>
+        <button type="submit" class="btn-ia">Generar menú </button>
+      </form>
+      <div class="ia-loading" id="load-menu"><span class="spinner"></span>Diseñando tu semana...</div>
+      {% if menu_ia %}
+      <div class="ia-menu-resultado">{{ menu_ia }}</div>
+      {% endif %}
+    </div>
+
+    <!-- CARD 3: Análisis nutricional -->
+    <div class="ia-card">
+      
+      <h3>Analiza tu Receta</h3>
+      <p>Introduce los datos de tu receta y la IA te dará 3 consejos para mejorarla.</p>
+      <form class="ia-form" action="/ia/analisis" method="POST" onsubmit="mostrarLoading('load-anal')">
+        <input type="text" name="nombre_receta" placeholder="Nombre de la receta *" required />
+        <input type="number" name="valor_nutricional" placeholder="Calorías (kcal)" min="0" max="9999"/>
+        <select name="nutriscore">
+          <option value="A">Nutriscore A</option>
+          <option value="B">Nutriscore B</option>
+          <option value="C" selected>Nutriscore C</option>
+          <option value="D">Nutriscore D</option>
+          <option value="E">Nutriscore E</option>
+        </select>
+        <button type="submit" class="btn-ia">Analizar receta</button>
+      </form>
+      <div class="ia-loading" id="load-anal"><span class="spinner"></span>Analizando nutrientes...</div>
+      {% if analisis_ia %}
+      <div class="ia-resultado">
+        <div class="ia-resultado-tag">Análisis de la IA</div>
+        <p>{{ analisis_ia }}</p>
+      </div>
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+
+<!-- Script del spinner — pega esto junto al resto de scripts al final del body -->
+<script>
+  function mostrarLoading(id) {
+    document.getElementById(id).style.display = 'block';
+  }
+</script>
   <!-- PLANES -->
   <section class="planes" id="planes">
     <div class="section-header">
@@ -238,7 +333,7 @@
         <h2>Da el primer <em>paso</em></h2>
         <p>Rellena el formulario y un nutricionista se pondrá en contacto contigo en menos de 24h.</p>
       </div>
-      <form class="form" action="/contacto" method="POST">
+      <form class="form" action="https://formspree.io/f/xgorjrwy" method="POST">
         <div class="form-row">
           <input type="text"  name="nombre" placeholder="Tu nombre" required/>
           <input type="email" name="email"  placeholder="Tu email"  required/>
@@ -412,7 +507,7 @@
       <form class="form" action="/receta" method="POST">
 
         <!-- RECETA -->
-        <p class="form-section-title">📋 Datos de la receta</p>
+        <p class="form-section-title"> Datos de la receta</p>
         <input type="text" name="nombre_receta" placeholder="Nombre de la receta *" required maxlength="50"/>
 
         <div class="form-row">
@@ -433,7 +528,7 @@
         </div>
 
         <!-- INGREDIENTE PRINCIPAL -->
-        <p class="form-section-title">🥦 Ingrediente principal</p>
+        <p class="form-section-title"> Ingrediente principal</p>
         <input type="text" name="nombre_ingrediente" placeholder="Nombre del ingrediente principal *" required maxlength="50"/>
 
         <div class="form-row">
@@ -471,7 +566,7 @@
     <div class="footer-links">
       <a href="#">Privacidad</a>
       <a href="#">Términos</a>
-      <a href="#">Instagram</a>
+      <a href="https://www.instagram.com/jabali_nutritions/">Instagram</a>
     </div>
   </footer>
 
