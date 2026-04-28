@@ -679,4 +679,8 @@ footer p { font-size: 0.85rem; margin-bottom: 12px; }
   margin-right: 8px;
   vertical-align: middle;
 }
+<<<<<<< HEAD
 @keyframes spin { to { transform: rotate(360deg); } }
+=======
+@keyframes spin { to { transform: rotate(360deg); } }
+>>>>>>> 2f0a0158715f4141f514a25f20c1f54198a3dddd
