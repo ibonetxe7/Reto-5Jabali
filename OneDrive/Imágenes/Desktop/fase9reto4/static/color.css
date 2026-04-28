@@ -40,7 +40,7 @@ nav {
   text-decoration: none;
 }
 .logo span { color: var(--verde); }
-nav ul { list-style: none; display: flex; gap: 24px; }
+nav ul { list-style: none; display: flex; gap: 24px; margin-left: auto; margin-right: 24px; }
 nav ul a { text-decoration: none; color: var(--marron); font-weight: 600; font-size: 0.95rem; }
 nav ul a:hover { color: var(--verde); }
 
