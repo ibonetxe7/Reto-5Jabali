@@ -560,3 +560,123 @@ footer p { font-size: 0.85rem; margin-bottom: 12px; }
   .btn-nav { padding: 8px 12px; font-size: 0.82rem; }
   .form-row { flex-direction: column; }
 }
+/* ═══════════════════════════════════════════
+   IA DIETISTA DIGITAL — estilos
+   Pega esto al final de color.css
+   ═══════════════════════════════════════════ */
+
+/* ── SECCIÓN IA ── */
+.ia-section {
+  background: var(--blanco);
+  padding: 64px 5%;
+}
+
+.ia-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.ia-card {
+  background: var(--crema);
+  border: 2px solid var(--gris-claro);
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color .2s, transform .2s;
+}
+.ia-card:hover { border-color: var(--verde); transform: translateY(-3px); }
+.ia-card-icon  { font-size: 2.4rem; }
+.ia-card h3    { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--marron); }
+.ia-card > p   { font-size: 0.92rem; color: var(--gris); line-height: 1.5; }
+
+/* ── FORMULARIO IA ── */
+.ia-form { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+
+.ia-form input,
+.ia-form select,
+.ia-form textarea {
+  padding: 11px 14px;
+  border: 2px solid var(--gris-claro);
+  border-radius: 8px;
+  background: var(--blanco);
+  color: var(--marron);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.92rem;
+  width: 100%;
+}
+.ia-form input:focus,
+.ia-form select:focus,
+.ia-form textarea:focus { outline: none; border-color: var(--verde); }
+
+/* ── BOTÓN IA ── */
+.btn-ia {
+  background: var(--verde);
+  color: var(--blanco);
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background .2s;
+}
+.btn-ia:hover { background: var(--marron); }
+
+/* ── RESULTADO IA ── */
+.ia-resultado {
+  background: var(--verde);
+  color: var(--blanco);
+  border-radius: 10px;
+  padding: 16px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-top: 4px;
+}
+.ia-resultado-tag {
+  font-weight: 800;
+  font-size: 0.82rem;
+  margin-bottom: 8px;
+  opacity: .85;
+  letter-spacing: .5px;
+}
+
+/* ── MENÚ SEMANAL ── */
+.ia-menu-resultado {
+  background: var(--marron);
+  color: var(--blanco);
+  border-radius: 10px;
+  padding: 16px;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  margin-top: 4px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* ── LOADING SPINNER ── */
+.ia-loading {
+  display: none;
+  text-align: center;
+  padding: 12px;
+  color: var(--verde);
+  font-weight: 700;
+}
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 3px solid var(--gris-claro);
+  border-top-color: var(--verde);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
