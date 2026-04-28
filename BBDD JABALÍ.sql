@@ -28,7 +28,6 @@ caducidad date
 
 CREATE TABLE if not exists RECETA(
 id_receta INT PRIMARY KEY AUTO_INCREMENT, 
-id_ingrediente INT not null,
 id_cli INT not null, 
 nombre_receta VARCHAR(50),
 valor_nutricional INT,
@@ -39,6 +38,13 @@ foreign key (id_cli) references CLIENTE(id_cli) ON DELETE CASCADE
     
 );
 
+CREATE TABLE IF NOT EXISTS RECETA_INGREDIENTE(
+id_recerta INT PRIMARY KEY,
+id_ingrediente INT PRIMARY KEY,
+FOREIGN KEY (id_receta) references RECETA (id_receta) on delete cascade,
+foreign key (id_ingrediente) references INGREDIENTE(id_ingrediente) 
+    on delete cascade
+    );
 
 CREATE TABLE if not exists ALERGENO(
 id_alergeno INT PRIMARY KEY AUTO_INCREMENT,
