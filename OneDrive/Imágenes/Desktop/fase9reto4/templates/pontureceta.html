@@ -1,0 +1,194 @@
+<!-- Ibon Etxegia -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='color.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='pontureceta.css') }}">
+  <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='logo.jpeg') }}">
+  <title>Pon Tu Receta — Jabalí Nutrition</title>
+  <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='logo.jpeg') }}">
+</head>
+<body>
+
+<div id="pontureceta">
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">Jabalí <span>Nutrition</span></div>
+    <ul>
+      <li><a href="/">Inicio</a></li>
+      <li><a href="/tusrecetas">Tus recetas</a></li>
+    </ul>
+    <div class="nav-acciones">
+      <a href="/" class="btn-nav">← Volver</a>
+    </div>
+  </nav>
+
+  <!-- CONTENIDO -->
+  <div class="ptr-wrapper">
+    <div class="contacto-inner">
+
+      <!-- CABECERA -->
+      <div class="ptr-header">
+        <h1>Pon Tu <em>Receta</em></h1>
+      </div>
+
+      <!-- ALERTAS -->
+      {% if error_receta %}
+        <div class="alerta-error"> {{ error_receta }}</div>
+      {% endif %}
+      {% if ok_receta %}
+        <div class="alerta-ok"> {{ ok_receta }}</div>
+      {% endif %}
+
+      <!-- FORMULARIO -->
+      <form action="/receta" method="POST" class="form">
+
+        <!-- SECCIÓN: DATOS -->
+        <div class="form-section-title">Datos de la receta</div>
+
+        <div class="form-field">
+          <label>Nombre de la receta </label>
+          <input type="text" name="nombre_receta" placeholder="Ej: Bowl de quinoa mediterráneo" required maxlength="50" value="{{ request.form.get('nombre_receta', '') }}"/>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label>Calorías (kcal)</label>
+            <input type="number" name="valor_nutricional" placeholder="Ej: 420" min="0" max="9999" value="{{ request.form.get('valor_nutricional', '') }}"/>
+          </div>
+          <div class="form-field">
+            <label>Nutriscore </label>
+            <select name="nutriscore">
+              <option value="A" {% if request.form.get('nutriscore','C')=='A' %}selected{% endif %}>A — Muy saludable</option>
+              <option value="B" {% if request.form.get('nutriscore','C')=='B' %}selected{% endif %}>B — Saludable</option>
+              <option value="C" {% if request.form.get('nutriscore','C')=='C' %}selected{% endif %}>C — Moderado</option>
+              <option value="D" {% if request.form.get('nutriscore','C')=='D' %}selected{% endif %}>D — Menos saludable</option>
+              <option value="E" {% if request.form.get('nutriscore','C')=='E' %}selected{% endif %}>E — Poco saludable</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>Descripción </label>
+          <textarea name="descripcion" placeholder="Describe cómo preparar la receta...">{{ request.form.get('descripcion', '') }}</textarea>
+        </div>
+
+        <!-- SECCIÓN: INGREDIENTES -->
+        <div class="form-section-title">Ingredientes</div>
+        <p class="ptr-subtitulo">Añade todos los ingredientes de tu receta.</p>
+
+        <div id="ingredientes-lista">
+
+          <!-- Ingrediente 1 (siempre visible) -->
+          <div class="ingrediente-bloque" id="ing-1">
+            <div class="ingrediente-header">
+              <span class="ingrediente-num">Ingrediente 1</span>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label>Nombre </label>
+                <input type="text" name="nombre_ingrediente[]" placeholder="Ej: Pechuga de pollo" required maxlength="50"/>
+              </div>
+              <div class="form-field">
+                <label>Cantidad</label>
+                <input type="text" name="cantidad[]" placeholder="Ej: 200g, 2 unidades..."/>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label>Sostenibilidad</label>
+                <select name="sostenibilidad_producto[]">
+                  <option value="Km0">Km0 — Local</option>
+                  <option value="Colindante">Colindante</option>
+                  <option value="Nacional" selected>Nacional</option>
+                  <option value="Global">Global</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label>¿Apto para celíacos?</label>
+                <select name="cecliaco[]">
+                  <option value="1">Sí</option>
+                  <option value="0" selected>No</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label>Fecha de caducidad</label>
+                <input type="date" name="caducidad[]"/>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <button type="button" class="btn-añadir" onclick="agregarIngrediente()">+ Añadir otro ingrediente</button>
+
+        <!-- BOTÓN ENVIAR -->
+        <button type="submit" class="btn-primary">Publicar receta</button>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Jabalí <span>Nutrition</span></div>
+    <p>&copy; 2025 Jabalí Nutrition. Todos los derechos reservados.</p>
+    <div class="footer-links">
+      <a href="#">Privacidad</a>
+      <a href="#">Términos</a>
+      <a href="https://www.instagram.com/jabali_nutritions/">Instagram</a>
+    </div>
+  </footer>
+
+</div>
+<!-- IA -->
+<script>
+  var contador = 1;
+
+  function agregarIngrediente() {
+    contador++;
+    var lista = document.getElementById('ingredientes-lista');
+
+    var bloque = document.createElement('div');
+    bloque.className = 'ingrediente-bloque';
+    bloque.id = 'ing-' + contador;
+
+    bloque.innerHTML =
+      '<div class="ingrediente-header">' +
+        '<span class="ingrediente-num">Ingrediente ' + contador + '</span>' +
+        '<button type="button" class="btn-quitar" onclick="quitarIngrediente(\'ing-' + contador + '\')">Quitar</button>' +
+      '</div>' +
+      '<div class="form-row">' +
+        '<div class="form-field"><label>Nombre *</label><input type="text" name="nombre_ingrediente[]" placeholder="Ej: Espinacas, tofu..." required maxlength="50"/></div>' +
+        '<div class="form-field"><label>Cantidad</label><input type="text" name="cantidad[]" placeholder="Ej: 100g, 1 cucharada..."/></div>' +
+      '</div>' +
+      '<div class="form-row">' +
+        '<div class="form-field"><label>Sostenibilidad</label>' +
+          '<select name="sostenibilidad_producto[]">' +
+            '<option value="Km0">Km0 — Local</option>' +
+            '<option value="Colindante">Colindante</option>' +
+            '<option value="Nacional" selected>Nacional</option>' +
+            '<option value="Global">Global</option>' +
+          '</select></div>' +
+        '<div class="form-field"><label>¿Apto para celíacos?</label>' +
+          '<select name="cecliaco[]">' +
+            '<option value="1">Sí</option>' +
+            '<option value="0" selected>No</option>' +
+          '</select></div>' +
+        '<div class="form-field"><label>Fecha de caducidad</label><input type="date" name="caducidad[]"/></div>' +
+      '</div>';
+
+    lista.appendChild(bloque);
+  }
+
+  function quitarIngrediente(id) {
+    var el = document.getElementById(id);
+    if (el) el.remove();
+  }
+</script>
+
+</body>
+</html>

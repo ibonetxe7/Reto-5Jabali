@@ -17,13 +17,11 @@ app.config['MYSQL_CHARSET']  = 'utf8mb4'
 mysql = MySQL(app)
 
 
-# ─── INDEX ───────────────────────────────────
 @app.route('/')
 def index():
     return render_template('RETO5.html')
 
 
-# ─── CONTACTO ────────────────────────────────
 @app.route('/contacto', methods=['POST'])
 def contacto():
     nombre = request.form.get('nombre', '').strip()
@@ -43,61 +41,6 @@ def contacto():
     return render_template('RETO5.html', ok_contacto='Mensaje enviado. Te contactaremos pronto.')
 
 
-# ─── PON TU RECETA ───────────────────────────
-@app.route('/receta', methods=['POST'])
-def receta():
-    id_cli = session.get('id_cli')
-    if not id_cli:
-        return render_template('RETO5.html', error_receta='Debes iniciar sesion antes de publicar una receta.')
-
-    nombre_receta      = request.form.get('nombre_receta', '').strip()
-    nombre_ingrediente = request.form.get('nombre_ingrediente', '').strip()
-    nutriscore         = request.form.get('nutriscore', 'C')[0].upper()
-    sostenibilidad     = request.form.get('sostenibilidad_producto', 'Nacional')
-    cecliaco           = int(request.form.get('cecliaco', '0'))
-    caducidad          = request.form.get('caducidad') or None
-    valor_raw          = request.form.get('valor_nutricional', '').strip()
-
-    if not nombre_receta:
-        return render_template('RETO5.html', error_receta='El nombre de la receta es obligatorio.')
-    if not nombre_ingrediente:
-        return render_template('RETO5.html', error_receta='El ingrediente principal es obligatorio.')
-
-    try:
-        valor_nutricional = int(float(valor_raw)) if valor_raw else None
-    except ValueError:
-        return render_template('RETO5.html', error_receta='El valor nutricional debe ser un numero.')
-
-    try:
-        cur = mysql.connection.cursor()
-
-        cur.execute("""
-            INSERT INTO INGREDIENTE (nombre_ingrediente, sostenibilidad_producto, cecliaco, caducidad)
-            VALUES (%s, %s, %s, %s)
-        """, (nombre_ingrediente[:50], sostenibilidad, cecliaco, caducidad))
-        id_ingrediente = cur.lastrowid
-
-        cur.execute("""
-            INSERT INTO RECETA (id_cli, nombre_receta, valor_nutricional, nutriscore)
-            VALUES (%s, %s, %s, %s)
-        """, (id_cli, nombre_receta[:50], valor_nutricional, nutriscore))
-        id_receta = cur.lastrowid
-
-        cur.execute("""
-            INSERT INTO RECETA_INGREDIENTE (id_receta, id_ingrediente) VALUES (%s, %s)
-        """, (id_receta, id_ingrediente))
-
-        cur.execute("UPDATE CLIENTE SET num_recetas = COALESCE(num_recetas, 0) + 1 WHERE id_cli = %s", (id_cli,))
-        mysql.connection.commit()
-        cur.close()
-    except Exception as e:
-        mysql.connection.rollback()
-        return render_template('RETO5.html', error_receta=f'Error al guardar: {e}')
-
-    return render_template('RETO5.html', ok_receta='Receta guardada correctamente.')
-
-
-# ─── REGISTRO ────────────────────────────────
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
     if request.method == 'POST':
@@ -120,7 +63,7 @@ def registro():
         except ValueError:
             telefono_int = None
 
-        password_hash = hashlib.sha256(password.encode()).hexdigest()[:200]
+        pwd_hash = hashlib.sha256(password.encode()).hexdigest()[:200]
 
         try:
             cur = mysql.connection.cursor()
@@ -137,7 +80,7 @@ def registro():
 
             cur.execute("""
                 INSERT INTO CLIENTE (id_usu, num_logs, num_recetas, contrasenia) VALUES (%s, 0, 0, %s)
-            """, (id_usu, password_hash))
+            """, (id_usu, pwd_hash))
             mysql.connection.commit()
             cur.close()
         except Exception as e:
@@ -149,12 +92,11 @@ def registro():
     return render_template('registro.html')
 
 
-# ─── LOGIN ───────────────────────────────────
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email         = request.form.get('email', '').strip()
-        password_hash = hashlib.sha256(request.form.get('password', '').encode()).hexdigest()[:200]
+        email    = request.form.get('email', '').strip()
+        pwd_hash = hashlib.sha256(request.form.get('password', '').encode()).hexdigest()[:200]
 
         try:
             cur = mysql.connection.cursor()
@@ -162,7 +104,7 @@ def login():
                 SELECT u.id_usu, u.nombre_usu, c.id_cli
                 FROM USUARIO u JOIN CLIENTE c ON u.id_usu = c.id_usu
                 WHERE u.mail_usu = %s AND c.contrasenia = %s
-            """, (email, password_hash))
+            """, (email, pwd_hash))
             usuario = cur.fetchone()
 
             if not usuario:
@@ -184,14 +126,12 @@ def login():
     return render_template('login.html')
 
 
-# ─── LOGOUT ──────────────────────────────────
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect('/')
 
 
-# ─── IA SUGERENCIA ───────────────────────────
 @app.route('/ia/sugerencia', methods=['POST'])
 def ia_sugerencia():
     if not session.get('id_cli'):
@@ -202,11 +142,9 @@ def ia_sugerencia():
     return render_template('RETO5.html',
         sugerencia_ia=resultado,
         ingrediente_ia=ingrediente,
-        nutriscore_ia=nutriscore
-    )
+        nutriscore_ia=nutriscore)
 
 
-# ─── IA GUARDAR RECETA ───────────────────────
 @app.route('/ia/guardar_receta', methods=['POST'])
 def guardar_receta_ia():
     if not session.get('id_cli'):
@@ -218,7 +156,6 @@ def guardar_receta_ia():
 
     try:
         cur = mysql.connection.cursor()
-
         cur.execute("""
             INSERT INTO INGREDIENTE (nombre_ingrediente, sostenibilidad_producto, cecliaco)
             VALUES (%s, 'Nacional', 0)
@@ -226,15 +163,11 @@ def guardar_receta_ia():
         id_ingrediente = cur.lastrowid
 
         cur.execute("""
-            INSERT INTO RECETA (id_cli, nombre_receta, nutriscore)
-            VALUES (%s, %s, %s)
+            INSERT INTO RECETA (id_cli, nombre_receta, nutriscore) VALUES (%s, %s, %s)
         """, (id_cli, nombre_receta, nutriscore))
         id_receta = cur.lastrowid
 
-        cur.execute("""
-            INSERT INTO RECETA_INGREDIENTE (id_receta, id_ingrediente) VALUES (%s, %s)
-        """, (id_receta, id_ingrediente))
-
+        cur.execute("INSERT INTO RECETA_INGREDIENTE (id_receta, id_ingrediente) VALUES (%s, %s)", (id_receta, id_ingrediente))
         cur.execute("UPDATE CLIENTE SET num_recetas = COALESCE(num_recetas, 0) + 1 WHERE id_cli = %s", (id_cli,))
         mysql.connection.commit()
         cur.close()
@@ -242,20 +175,18 @@ def guardar_receta_ia():
         mysql.connection.rollback()
         return render_template('RETO5.html', error_receta=f'Error al guardar: {e}')
 
-    return render_template('RETO5.html', ok_receta='✅ Receta de la IA guardada correctamente.')
+    return redirect('/tusrecetas')
 
 
-# ─── IA MENU SEMANAL ─────────────────────────
 @app.route('/ia/menu', methods=['POST'])
 def ia_menu():
     if not session.get('id_cli'):
         return redirect('/login')
     preferencias = request.form.get('preferencias', 'equilibrada')
-    menu         = generar_menu_semanal(preferencias)
+    menu = generar_menu_semanal(preferencias)
     return render_template('menu_semanal.html', menu_ia=menu)
 
 
-# ─── IA ANALISIS ─────────────────────────────
 @app.route('/ia/analisis', methods=['POST'])
 def ia_analisis():
     if not session.get('id_cli'):
@@ -265,6 +196,145 @@ def ia_analisis():
     score    = request.form.get('nutriscore', 'C')
     analisis = analizar_nutriscore(nombre, kcal, score)
     return render_template('RETO5.html', analisis_ia=analisis)
+
+
+@app.route('/recetas')
+def recetas():
+    return render_template('recetas.html')
+
+
+@app.route('/tusrecetas')
+def tus_recetas():
+    if not session.get('id_cli'):
+        return redirect('/login')
+
+    id_cli = session['id_cli']
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("""
+            SELECT r.id_receta, r.nombre_receta, r.valor_nutricional, r.nutriscore,
+                   MIN(i.nombre_ingrediente), MIN(i.sostenibilidad_producto),
+                   MAX(i.cecliaco), MIN(i.caducidad), r.fecha_creacion
+            FROM RECETA r
+            LEFT JOIN RECETA_INGREDIENTE ri ON r.id_receta = ri.id_receta
+            LEFT JOIN INGREDIENTE i ON ri.id_ingrediente = i.id_ingrediente
+            WHERE r.id_cli = %s
+            GROUP BY r.id_receta, r.nombre_receta, r.valor_nutricional, r.nutriscore, r.fecha_creacion
+            ORDER BY r.id_receta DESC
+        """, (id_cli,))
+        rows = cur.fetchall()
+        cur.close()
+
+        recetas_list = []
+        for row in rows:
+            recetas_list.append({
+                'id_receta':          row[0],
+                'nombre_receta':      row[1],
+                'valor_nutricional':  row[2],
+                'nutriscore':         row[3] or 'C',
+                'nombre_ingrediente': row[4],
+                'sostenibilidad':     row[5],
+                'celiaco':            row[6] or 0,
+                'caducidad':          row[7],
+                'fecha_creacion':     row[8],
+            })
+    except Exception as e:
+        print("ERROR tus_recetas:", e)
+        recetas_list = []
+
+    return render_template('tusrecetas.html', recetas=recetas_list)
+
+
+@app.route('/receta/eliminar/<int:id_receta>', methods=['POST'])
+def eliminar_receta(id_receta):
+    if not session.get('id_cli'):
+        return redirect('/login')
+
+    id_cli = session['id_cli']
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT id_receta FROM RECETA WHERE id_receta = %s AND id_cli = %s", (id_receta, id_cli))
+        if not cur.fetchone():
+            cur.close()
+            return redirect('/tusrecetas')
+
+        cur.execute("DELETE FROM RECETA_INGREDIENTE WHERE id_receta = %s", (id_receta,))
+        cur.execute("DELETE FROM RECETA WHERE id_receta = %s AND id_cli = %s", (id_receta, id_cli))
+        cur.execute("UPDATE CLIENTE SET num_recetas = GREATEST(COALESCE(num_recetas,0)-1,0) WHERE id_cli = %s", (id_cli,))
+        mysql.connection.commit()
+        cur.close()
+    except Exception as e:
+        mysql.connection.rollback()
+        print("ERROR eliminar_receta:", e)
+
+    return redirect('/tusrecetas')
+
+
+@app.route('/pontureceta', methods=['GET'])
+def pon_tu_receta():
+    if not session.get('id_cli'):
+        return redirect('/login')
+    return render_template('pontureceta.html')
+
+
+@app.route('/receta', methods=['POST'])
+def receta():
+    id_cli = session.get('id_cli')
+    if not id_cli:
+        return render_template('pontureceta.html', error_receta='Debes iniciar sesión antes de publicar una receta.')
+
+    nombre_receta = request.form.get('nombre_receta', '').strip()
+    nutriscore    = request.form.get('nutriscore', 'C')[0].upper()
+    valor_raw     = request.form.get('valor_nutricional', '').strip()
+
+    if not nombre_receta:
+        return render_template('pontureceta.html', error_receta='El nombre de la receta es obligatorio.')
+
+    try:
+        valor_nutricional = int(float(valor_raw)) if valor_raw else None
+    except ValueError:
+        return render_template('pontureceta.html', error_receta='El valor nutricional debe ser un número.')
+
+    nombres_ing    = request.form.getlist('nombre_ingrediente[]')
+    cantidades     = request.form.getlist('cantidad[]')
+    sostenibilidad = request.form.getlist('sostenibilidad_producto[]')
+    cecliaco_list  = request.form.getlist('cecliaco[]')
+    caducidad_list = request.form.getlist('caducidad[]')
+
+    ingredientes = [n.strip() for n in nombres_ing if n.strip()]
+    if not ingredientes:
+        return render_template('pontureceta.html', error_receta='Añade al menos un ingrediente.')
+
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("""
+            INSERT INTO RECETA (id_cli, nombre_receta, valor_nutricional, nutriscore)
+            VALUES (%s, %s, %s, %s)
+        """, (id_cli, nombre_receta[:50], valor_nutricional, nutriscore))
+        id_receta = cur.lastrowid
+
+        for idx, nombre_ing in enumerate(ingredientes):
+            sost      = sostenibilidad[idx] if idx < len(sostenibilidad) else 'Nacional'
+            celiaco   = int(cecliaco_list[idx]) if idx < len(cecliaco_list) else 0
+            caducidad = caducidad_list[idx] if idx < len(caducidad_list) and caducidad_list[idx] else None
+
+            cur.execute("""
+                INSERT INTO INGREDIENTE (nombre_ingrediente, sostenibilidad_producto, cecliaco, caducidad)
+                VALUES (%s, %s, %s, %s)
+            """, (nombre_ing[:50], sost, celiaco, caducidad))
+            id_ing = cur.lastrowid
+
+            cur.execute("INSERT INTO RECETA_INGREDIENTE (id_receta, id_ingrediente) VALUES (%s, %s)", (id_receta, id_ing))
+
+        cur.execute("UPDATE CLIENTE SET num_recetas = COALESCE(num_recetas, 0) + 1 WHERE id_cli = %s", (id_cli,))
+        mysql.connection.commit()
+        cur.close()
+    except Exception as e:
+        mysql.connection.rollback()
+        print("ERROR guardar receta:", e)
+        return render_template('pontureceta.html', error_receta=f'Error al guardar: {e}')
+
+    return redirect('/tusrecetas')
 
 
 if __name__ == '__main__':

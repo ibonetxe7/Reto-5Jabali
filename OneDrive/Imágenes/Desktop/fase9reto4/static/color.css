@@ -1,686 +1,418 @@
-/* ===== JABALÍ NUTRIENT — color.css ===== */
+/* color.css - Jabali Nutrition */
 
 :root {
-  --verde:        #4a7c59;
-  --verde-claro:  #7fb891;
-  --crema:        #f5f0e8;
-  --marron:       #3d2b1f;
-  --naranja:      #e07b39;
-  --blanco:       #ffffff;
-  --gris:         #666666;
-  --gris-claro:   #e8e8e8;
+  --verde: #4a7c59;
+  --crema: #f5f0e8;
+  --marron: #3d2b1f;
+  --naranja: #e07b39;
+  --blanco: #ffffff;
+  --gris: #666666;
+  --gris-claro: #e8e8e8;
 }
 
-/* ── RESET ── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: 'Nunito', sans-serif;
-  background: var(--crema);
-  color: var(--marron);
+  font-family: Arial, sans-serif;
+  background: #f9f9f9;
+  color: #333;
 }
 
-/* ── NAV ── */
+/* NAV */
 nav {
+  background: white;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 5%;
-  background: var(--blanco);
-  border-bottom: 3px solid var(--verde);
   position: sticky;
   top: 0;
   z-index: 100;
 }
-.logo {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.8rem;
-  color: var(--marron);
-  letter-spacing: 1px;
-  text-decoration: none;
-}
+.logo { font-size: 1.4rem; font-weight: bold; color: #333; }
 .logo span { color: var(--verde); }
-nav ul { list-style: none; display: flex; gap: 24px; margin-left: auto; margin-right: 24px; }
-nav ul a { text-decoration: none; color: var(--marron); font-weight: 600; font-size: 0.95rem; }
-nav ul a:hover { color: var(--verde); }
-
-.nav-acciones {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+nav ul { list-style: none; display: flex; gap: 16px; }
+nav ul a { text-decoration: none; color: #333; font-size: 0.9rem; }
+nav ul a:hover { text-decoration: underline; }
+.nav-acciones { display: flex; gap: 8px; align-items: center; }
 
 .btn-nav {
   background: var(--verde);
-  color: var(--blanco);
-  padding: 10px 20px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 0.9rem;
-  transition: background .2s;
+  color: white;
+  padding: 7px 13px;
   border: none;
   cursor: pointer;
-  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  text-decoration: none;
+  font-family: Arial, sans-serif;
 }
-.btn-nav:hover { background: var(--marron); }
+.btn-nav:hover { background: #333; }
 
-.recetas-menu,
-.perfil-menu { position: relative; }
+.recetas-menu, .perfil-menu { position: relative; }
 
 .dropdown-menu {
   display: none;
   position: absolute;
   right: 0;
-  top: calc(100% + 8px);
+  top: 110%;
   background: white;
-  border: 2px solid var(--gris-claro);
-  border-radius: 10px;
-  padding: 8px;
-  min-width: 170px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border: 1px solid #ddd;
+  min-width: 140px;
   z-index: 200;
 }
 .dropdown-menu a {
   display: block;
-  padding: 10px 14px;
+  padding: 8px 12px;
   text-decoration: none;
-  color: var(--marron);
-  font-weight: 700;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  transition: background .15s;
+  color: #333;
+  font-size: 0.85rem;
+  border-bottom: 1px solid #f0f0f0;
 }
-.dropdown-menu a:hover { background: var(--crema); color: var(--verde); }
+.dropdown-menu a:last-child { border-bottom: none; }
+.dropdown-menu a:hover { background: #f5f5f5; }
 
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid var(--verde);
-  display: block;
-}
+.avatar { width: 34px; height: 34px; border-radius: 50%; cursor: pointer; border: 1px solid #ddd; }
 
-/* ── BOTONES ── */
+/* BOTONES */
 .btn-primary {
   background: var(--verde);
-  color: var(--blanco);
-  padding: 13px 26px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 700;
+  color: white;
+  padding: 9px 18px;
   border: none;
   cursor: pointer;
-  font-family: 'Nunito', sans-serif;
-  font-size: 1rem;
-  transition: background .2s;
+  font-size: 0.95rem;
+  text-decoration: none;
   display: inline-block;
+  font-family: Arial, sans-serif;
 }
-.btn-primary:hover { background: var(--marron); }
+.btn-primary:hover { background: #333; }
 
 .btn-secondary {
-  background: transparent;
+  background: white;
   color: var(--verde);
-  padding: 13px 26px;
-  border-radius: 8px;
+  padding: 9px 18px;
+  border: 1px solid var(--verde);
   text-decoration: none;
-  font-weight: 700;
-  border: 2px solid var(--verde);
-  transition: all .2s;
   display: inline-block;
 }
-.btn-secondary:hover { background: var(--verde); color: var(--blanco); }
+.btn-secondary:hover { background: #f0f0f0; }
 
-/* ── ALERTAS ── */
-.alerta-error {
-  background: #c0392b;
-  color: #fff;
-  padding: 14px 20px;
-  border-radius: 8px;
-  font-weight: 700;
-  margin-bottom: 16px;
-  text-align: center;
-}
-.alerta-ok {
-  background: var(--verde);
-  color: #fff;
-  padding: 14px 20px;
-  border-radius: 8px;
-  font-weight: 700;
-  margin-bottom: 16px;
-  text-align: center;
-}
+/* ALERTAS */
+.alerta-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 10px; margin-bottom: 12px; }
+.alerta-ok    { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; padding: 10px; margin-bottom: 12px; }
 
-/* ── HERO ── */
+/* HERO */
 .hero {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 32px;
-  padding: 60px 5%;
+  align-items: center;
+  padding: 36px 20px;
   max-width: 1100px;
   margin: 0 auto;
   flex-wrap: wrap;
+  gap: 20px;
+  border-bottom: 1px solid #eee;
 }
-.hero-text { flex: 1; min-width: 280px; }
-.hero-tag {
-  background: var(--verde-claro);
-  color: var(--blanco);
-  padding: 5px 14px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  display: inline-block;
-  margin-bottom: 16px;
-}
-.hero h1 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(2.8rem, 6vw, 4.5rem);
-  line-height: 1.05;
-  color: var(--marron);
-  margin-bottom: 18px;
-}
+.hero-text { flex: 1; min-width: 250px; }
+.hero h1 { font-size: 2rem; margin-bottom: 10px; color: #222; }
 .hero h1 em { color: var(--verde); font-style: normal; }
-.hero p { font-size: 1.05rem; color: var(--gris); margin-bottom: 28px; line-height: 1.6; max-width: 420px; }
-.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero p { color: #666; margin-bottom: 18px; font-size: 0.95rem; }
+.hero-btns { display: flex; gap: 10px; }
 
-.hero-card {
-  background: var(--blanco);
-  border-radius: 16px;
-  padding: 28px;
-  width: 260px;
-  box-shadow: 4px 4px 0 var(--verde);
-  border: 2px solid var(--marron);
-}
-.hero-card-icon { font-size: 2.5rem; margin-bottom: 10px; }
-.hero-card-title { font-weight: 800; margin-bottom: 16px; }
-.macro { margin-bottom: 10px; }
-.macro span { font-size: 0.82rem; font-weight: 600; color: var(--gris); display: block; margin-bottom: 4px; }
-.bar { background: var(--gris-claro); border-radius: 4px; height: 8px; }
-.fill { height: 8px; border-radius: 4px; }
+.hero-card { background: white; border: 1px solid #ddd; padding: 18px; width: 220px; }
+.hero-card-title { font-weight: bold; margin-bottom: 10px; font-size: 0.9rem; }
+.macro { margin-bottom: 8px; }
+.macro span { font-size: 0.78rem; color: #666; display: block; margin-bottom: 2px; }
+.bar { background: #eee; height: 6px; }
+.fill { height: 6px; }
 .fill-protein { background: var(--verde); }
 .fill-carb    { background: var(--naranja); }
-.fill-fat     { background: var(--verde-claro); }
+.fill-fat     { background: #aaa; }
 
-/* ── STATS ── */
+/* STATS */
 .stats {
-  background: var(--marron);
+  background: #444;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  gap: 16px;
-  padding: 32px 5%;
+  padding: 20px;
+  gap: 12px;
 }
 .stat { text-align: center; }
-.stat h3 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--naranja); }
-.stat p   { color: #ccc; font-size: 0.9rem; }
+.stat h3 { font-size: 1.6rem; color: #fff; }
+.stat p  { color: #ccc; font-size: 0.82rem; }
 
-/* ── SECCIONES GENÉRICAS ── */
-.section {
-  padding: 64px 5%;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-.section-header { text-align: center; margin-bottom: 40px; }
+/* CABECERAS */
+.section-header { text-align: center; margin-bottom: 24px; }
 .section-tag {
-  background: var(--crema);
-  border: 2px solid var(--verde);
-  color: var(--verde);
-  padding: 4px 14px;
-  border-radius: 20px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  display: inline-block;
-  margin-bottom: 12px;
-}
-.section-header h2 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(2rem, 4vw, 3rem);
-  color: var(--marron);
-  margin-bottom: 10px;
-}
-.section-header h2 em { color: var(--verde); font-style: normal; }
-.section-header p { color: var(--gris); font-size: 1rem; }
-
-/* ── SERVICIOS ── */
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-}
-.card {
-  background: var(--blanco);
-  border: 2px solid var(--gris-claro);
-  border-radius: 12px;
-  padding: 24px;
-  transition: border-color .2s, transform .2s;
-}
-.card:hover { border-color: var(--verde); transform: translateY(-3px); }
-.card.card-accent { background: var(--verde); color: var(--blanco); border-color: var(--verde); }
-.card.card-accent p { color: rgba(255,255,255,0.85); }
-.card-icon { font-size: 2rem; margin-bottom: 12px; }
-.card h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 8px; }
-.card p  { font-size: 0.92rem; color: var(--gris); line-height: 1.5; }
-
-/* ── PLANES ── */
-.planes { padding: 64px 5%; background: var(--blanco); }
-.planes .section-header { max-width: 1100px; margin: 0 auto 40px; text-align: center; }
-.planes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-.plan-card {
-  background: var(--crema);
-  border: 2px solid var(--gris-claro);
-  border-radius: 14px;
-  padding: 28px;
-  position: relative;
-  transition: border-color .2s;
-}
-.plan-card:hover { border-color: var(--verde); }
-.plan-card.plan-popular {
-  border-color: var(--verde);
-  background: var(--blanco);
-  box-shadow: 4px 4px 0 var(--verde);
-}
-.plan-badge {
-  background: var(--naranja);
-  color: var(--blanco);
-  font-size: 0.75rem;
-  font-weight: 800;
-  padding: 4px 12px;
-  border-radius: 20px;
-  display: inline-block;
-  margin-bottom: 12px;
-}
-.plan-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; margin-bottom: 8px; }
-.plan-price { font-size: 2.4rem; font-weight: 800; color: var(--verde); margin-bottom: 20px; }
-.plan-price span { font-size: 1.2rem; }
-.plan-price small { font-size: 0.9rem; color: var(--gris); font-weight: 400; }
-.plan-card ul { list-style: none; margin-bottom: 24px; }
-.plan-card ul li { padding: 6px 0; font-size: 0.92rem; border-bottom: 1px solid var(--gris-claro); }
-.plan-card ul li.disabled { color: #aaa; }
-.btn-plan {
-  display: block;
-  text-align: center;
-  background: var(--marron);
-  color: var(--blanco);
-  padding: 12px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 700;
-  transition: background .2s;
-}
-.btn-plan:hover { background: var(--verde); }
-.btn-plan.btn-plan-accent { background: var(--verde); }
-.btn-plan.btn-plan-accent:hover { background: var(--marron); }
-
-/* ── RECETAS ── */
-.recetas { padding: 64px 5%; max-width: 1100px; margin: 0 auto; }
-.recetas-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-}
-.receta-card {
-  background: var(--blanco);
-  border-radius: 12px;
-  border: 2px solid var(--gris-claro);
-  overflow: hidden;
-  transition: transform .2s;
-}
-.receta-card:hover { transform: translateY(-4px); }
-.receta-img {
-  height: 200px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--crema);
-}
-.receta-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-}
-.receta-info { padding: 18px; }
-.receta-tag {
-  background: var(--verde-claro);
-  color: var(--blanco);
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 20px;
-  display: inline-block;
-  margin-bottom: 8px;
-}
-.receta-info h4 { font-weight: 800; margin-bottom: 6px; }
-.receta-info p  { font-size: 0.88rem; color: var(--gris); margin-bottom: 12px; }
-.receta-macros { display: flex; gap: 8px; flex-wrap: wrap; }
-.receta-macros span {
+  background: #eee;
+  border: 1px solid #ccc;
+  color: #555;
+  padding: 2px 10px;
   font-size: 0.78rem;
-  font-weight: 700;
-  background: var(--crema);
-  padding: 3px 8px;
-  border-radius: 6px;
-  color: var(--marron);
-}
-
-/* ── CONTACTO / FORMULARIOS ── */
-.contacto { background: var(--marron); padding: 64px 5%; }
-.contacto-inner { max-width: 700px; margin: 0 auto; }
-.contacto .section-tag { border-color: var(--naranja); color: var(--naranja); background: transparent; }
-.contacto .section-header h2 { color: var(--blanco); }
-.contacto .section-header p  { color: #ccc; }
-
-.form { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
-.form-row { display: flex; gap: 14px; flex-wrap: wrap; }
-.form-row input { flex: 1; min-width: 180px; }
-
-/* form-field: wrapper con label para campos dentro de form-row */
-.form-field {
-  flex: 1;
-  min-width: 160px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.form-field label {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: rgba(255,255,255,0.75);
-}
-
-.form input, .form textarea, .form select {
-  padding: 13px 16px;
-  border: 2px solid rgba(255,255,255,0.15);
-  border-radius: 8px;
-  background: rgba(255,255,255,0.08);
-  color: var(--blanco);
-  font-family: 'Nunito', sans-serif;
-  font-size: 0.95rem;
-  width: 100%;
-}
-.form input::placeholder,
-.form textarea::placeholder { color: rgba(255,255,255,0.45); }
-.form input:focus,
-.form textarea:focus,
-.form select:focus { outline: none; border-color: var(--verde-claro); }
-
-/* Título de sección dentro del form */
-.form-section-title {
-  color: rgba(255,255,255,0.9);
-  font-weight: 800;
-  font-size: 1rem;
-  margin-top: 8px;
-  margin-bottom: 2px;
-}
-
-/* ── CALCULADORA ── */
-.calcular-dieta { padding: 64px 5%; max-width: 1100px; margin: 0 auto; }
-.calculadora {
-  background: var(--blanco);
-  border-radius: 16px;
-  border: 2px solid var(--gris-claro);
-  padding: 36px;
-  display: flex;
-  gap: 32px;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-.calc-form { flex: 1; min-width: 280px; }
-.calc-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 16px; }
-.calc-field { flex: 1; min-width: 130px; display: flex; flex-direction: column; gap: 6px; }
-.calc-field label { font-size: 0.85rem; font-weight: 700; color: var(--marron); }
-.calc-field input,
-.calc-field select {
-  padding: 10px 12px;
-  border: 2px solid var(--gris-claro);
-  border-radius: 8px;
-  font-family: 'Nunito', sans-serif;
-  font-size: 0.95rem;
-  color: var(--marron);
-  background: var(--crema);
-}
-.calc-field input:focus,
-.calc-field select:focus { outline: none; border-color: var(--verde); }
-.calc-btn { margin-top: 8px; width: 100%; }
-
-.calc-resultado {
-  flex: 1;
-  min-width: 220px;
-  background: var(--verde);
-  border-radius: 14px;
-  padding: 28px;
-  color: var(--blanco);
-  text-align: center;
-}
-.calc-resultado h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; margin-bottom: 12px; }
-.resultado-kcal { margin-bottom: 20px; }
-.resultado-kcal span { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; display: block; }
-.resultado-kcal small { font-size: 0.9rem; opacity: .8; }
-.resultado-macros { display: flex; justify-content: space-around; margin-bottom: 16px; }
-.macro-resultado { text-align: center; }
-.macro-valor { display: block; font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; }
-.macro-nombre { font-size: 0.78rem; opacity: .85; }
-.resultado-nota { font-size: 0.75rem; opacity: .7; line-height: 1.4; }
-
-/* ── SOBRE NOSOTROS ── */
-.sobre-nosotros { background: var(--blanco); padding: 64px 5%; }
-.sobre-content {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: flex;
-  gap: 48px;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-.sobre-texto { flex: 1; min-width: 280px; }
-.sobre-texto .section-tag { text-align: left; }
-.sobre-texto h2 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(2rem, 4vw, 3rem);
-  margin: 10px 0 16px;
-}
-.sobre-texto h2 em { color: var(--verde); font-style: normal; }
-.sobre-texto > p { color: var(--gris); line-height: 1.7; margin-bottom: 12px; }
-.sobre-valores { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
-.valor { display: flex; gap: 14px; align-items: flex-start; }
-.valor strong { display: block; font-weight: 800; margin-bottom: 2px; }
-.valor p { font-size: 0.88rem; color: var(--gris); }
-
-.sobre-equipo { display: flex; flex-direction: column; gap: 16px; min-width: 220px; }
-.miembro {
-  background: var(--crema);
-  border-radius: 12px;
-  padding: 20px;
-  border: 2px solid var(--gris-claro);
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.miembro h4 { font-weight: 800; font-size: 0.95rem; }
-.miembro p  { font-size: 0.82rem; color: var(--gris); }
-.miembro span { font-size: 0.78rem; color: var(--verde); font-weight: 700; }
-
-.miembro-avatar {
-  width: 60px;
-  height: 60px;
-  min-width: 60px;
-  border-radius: 50%;
-  overflow: hidden;
-}
-.miembro-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  display: block;
-}
-
-/* ── FOOTER ── */
-footer {
-  background: var(--marron);
-  color: #ccc;
-  text-align: center;
-  padding: 28px 5%;
-}
-.footer-logo {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.6rem;
-  color: var(--blanco);
+  display: inline-block;
   margin-bottom: 8px;
 }
-.footer-logo span { color: var(--verde-claro); }
-footer p { font-size: 0.85rem; margin-bottom: 12px; }
-.footer-links { display: flex; justify-content: center; gap: 20px; }
-.footer-links a { color: #aaa; text-decoration: none; font-size: 0.85rem; }
-.footer-links a:hover { color: var(--verde-claro); }
+.section-header h2 { font-size: 1.7rem; margin-bottom: 6px; color: #222; }
+.section-header h2 em { color: var(--verde); font-style: normal; }
+.section-header p { color: #666; font-size: 0.9rem; }
 
-/* ── SELECT OPTIONS (fix color en dropdown abierto) ── */
-.form select option {
-  background: var(--marron);
-  color: var(--blanco);
+/* SOBRE NOSOTROS */
+.sobre-nosotros { background: white; padding: 44px 20px; border-top: 1px solid #eee; }
+.sobre-content { max-width: 1100px; margin: 0 auto; display: flex; gap: 28px; flex-wrap: wrap; }
+.sobre-texto { flex: 1; min-width: 250px; }
+.sobre-texto h2 { font-size: 1.5rem; margin-bottom: 10px; color: #222; }
+.sobre-texto h2 em { color: var(--verde); font-style: normal; }
+.sobre-texto p { color: #666; margin-bottom: 8px; font-size: 0.9rem; }
+.sobre-valores { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+.valor strong { display: block; margin-bottom: 2px; font-size: 0.9rem; }
+.valor p { font-size: 0.82rem; color: #666; }
+
+.sobre-equipo { display: flex; flex-direction: column; gap: 8px; min-width: 200px; }
+.miembro {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
+.miembro h4 { font-size: 0.88rem; }
+.miembro p  { font-size: 0.76rem; color: #666; }
+.miembro span { font-size: 0.73rem; color: var(--verde); }
+.miembro-avatar { width: 46px; height: 46px; min-width: 46px; border-radius: 50%; overflow: hidden; }
+.miembro-avatar img { width: 100%; height: 100%; object-fit: cover; }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 640px) {
-  nav ul { display: none; }
-  .hero { padding: 40px 5%; }
-  .hero-card { width: 100%; }
-  .stats { gap: 24px; }
-  .calculadora { padding: 20px; }
-  .nav-acciones { gap: 6px; }
-  .btn-nav { padding: 8px 12px; font-size: 0.82rem; }
-  .form-row { flex-direction: column; }
-}
-/* ═══════════════════════════════════════════
-   IA DIETISTA DIGITAL — estilos
-   Pega esto al final de color.css
-   ═══════════════════════════════════════════ */
-
-/* ── SECCIÓN IA ── */
-.ia-section {
-  background: var(--blanco);
-  padding: 64px 5%;
-}
-
+/* IA DIETISTA */
+.ia-section { background: #f5f5f5; padding: 44px 20px; border-top: 1px solid #eee; }
 .ia-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
   max-width: 1100px;
   margin: 0 auto;
 }
+.ia-card { background: white; border: 1px solid #ddd; padding: 18px; }
+.ia-card h3 { font-size: 1.1rem; margin-bottom: 5px; }
+.ia-card > p { font-size: 0.85rem; color: #666; margin-bottom: 10px; }
 
-.ia-card {
-  background: var(--crema);
-  border: 2px solid var(--gris-claro);
-  border-radius: 16px;
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  transition: border-color .2s, transform .2s;
-}
-.ia-card:hover { border-color: var(--verde); transform: translateY(-3px); }
-.ia-card-icon  { font-size: 2.4rem; }
-.ia-card h3    { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--marron); }
-.ia-card > p   { font-size: 0.92rem; color: var(--gris); line-height: 1.5; }
-
-/* ── FORMULARIO IA ── */
-.ia-form { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
-
+.ia-form { display: flex; flex-direction: column; gap: 7px; }
 .ia-form input,
-.ia-form select,
-.ia-form textarea {
-  padding: 11px 14px;
-  border: 2px solid var(--gris-claro);
-  border-radius: 8px;
-  background: var(--blanco);
-  color: var(--marron);
-  font-family: 'Nunito', sans-serif;
-  font-size: 0.92rem;
+.ia-form select {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  font-family: Arial, sans-serif;
+  font-size: 0.86rem;
   width: 100%;
+  background: #fafafa;
 }
-.ia-form input:focus,
-.ia-form select:focus,
-.ia-form textarea:focus { outline: none; border-color: var(--verde); }
 
-/* ── BOTÓN IA ── */
 .btn-ia {
   background: var(--verde);
-  color: var(--blanco);
-  padding: 12px;
-  border-radius: 8px;
+  color: white;
+  padding: 9px;
   border: none;
-  font-family: 'Nunito', sans-serif;
-  font-weight: 700;
-  font-size: 0.95rem;
   cursor: pointer;
-  transition: background .2s;
-}
-.btn-ia:hover { background: var(--marron); }
-
-/* ── RESULTADO IA ── */
-.ia-resultado {
-  background: var(--verde);
-  color: var(--blanco);
-  border-radius: 10px;
-  padding: 16px;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  margin-top: 4px;
-}
-.ia-resultado-tag {
-  font-weight: 800;
-  font-size: 0.82rem;
-  margin-bottom: 8px;
-  opacity: .85;
-  letter-spacing: .5px;
-}
-
-/* ── MENÚ SEMANAL ── */
-.ia-menu-resultado {
-  background: var(--marron);
-  color: var(--blanco);
-  border-radius: 10px;
-  padding: 16px;
+  font-family: Arial, sans-serif;
   font-size: 0.88rem;
-  line-height: 1.7;
+}
+.btn-ia:hover { background: #333; }
+
+.ia-resultado {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+  padding: 10px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-top: 8px;
+}
+.ia-resultado-tag { font-weight: bold; font-size: 0.76rem; margin-bottom: 4px; }
+
+.ia-menu-resultado {
+  background: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 0.83rem;
+  line-height: 1.6;
   white-space: pre-wrap;
-  margin-top: 4px;
-  max-height: 300px;
+  max-height: 240px;
   overflow-y: auto;
+  margin-top: 8px;
 }
 
-/* ── LOADING SPINNER ── */
-.ia-loading {
-  display: none;
-  text-align: center;
-  padding: 12px;
-  color: var(--verde);
-  font-weight: 700;
-}
+.ia-loading { display: none; text-align: center; padding: 8px; color: #666; font-size: 0.85rem; }
 .spinner {
   display: inline-block;
-  width: 18px;
-  height: 18px;
-  border: 3px solid var(--gris-claro);
+  width: 13px; height: 13px;
+  border: 2px solid #ddd;
   border-top-color: var(--verde);
   border-radius: 50%;
   animation: spin .7s linear infinite;
-  margin-right: 8px;
+  margin-right: 5px;
   vertical-align: middle;
 }
-<<<<<<< HEAD
 @keyframes spin { to { transform: rotate(360deg); } }
-=======
-@keyframes spin { to { transform: rotate(360deg); } }
->>>>>>> 2f0a0158715f4141f514a25f20c1f54198a3dddd
+
+/* CALCULADORA */
+.calcular-dieta { padding: 44px 20px; max-width: 1100px; margin: 0 auto; }
+.calculadora {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 22px;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.calc-form { flex: 1; min-width: 240px; }
+.calc-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.calc-field { flex: 1; min-width: 110px; display: flex; flex-direction: column; gap: 4px; }
+.calc-field label { font-size: 0.8rem; font-weight: bold; color: #444; }
+.calc-field input,
+.calc-field select {
+  padding: 7px 9px;
+  border: 1px solid #ddd;
+  font-family: Arial, sans-serif;
+  font-size: 0.88rem;
+  background: #fafafa;
+}
+.calc-btn { margin-top: 6px; width: 100%; }
+
+.calc-resultado {
+  flex: 1;
+  min-width: 180px;
+  background: #f0f7f2;
+  border: 1px solid #c8dece;
+  padding: 18px;
+  text-align: center;
+}
+.calc-resultado h3 { font-size: 1.1rem; margin-bottom: 8px; color: #333; }
+.resultado-kcal { margin-bottom: 12px; }
+.resultado-kcal span { font-size: 2.8rem; display: block; font-weight: bold; color: var(--verde); }
+.resultado-kcal small { font-size: 0.82rem; color: #666; }
+.resultado-macros { display: flex; justify-content: space-around; margin-bottom: 10px; }
+.macro-resultado { text-align: center; }
+.macro-valor { display: block; font-size: 1.4rem; font-weight: bold; color: #333; }
+.macro-nombre { font-size: 0.72rem; color: #666; }
+.resultado-nota { font-size: 0.7rem; color: #888; }
+
+/* RECETAS */
+.recetas { padding: 44px 20px; max-width: 1100px; margin: 0 auto; }
+.recetas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+}
+.receta-card { background: white; border: 1px solid #ddd; overflow: hidden; }
+.receta-img { height: 170px; overflow: hidden; }
+.receta-img img { width: 100%; height: 100%; object-fit: cover; }
+.receta-info { padding: 12px; }
+.receta-tag {
+  background: #eee;
+  color: #555;
+  font-size: 0.7rem;
+  padding: 2px 7px;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+.receta-info h4 { font-size: 0.95rem; margin-bottom: 4px; }
+.receta-info p  { font-size: 0.82rem; color: #666; margin-bottom: 8px; }
+.receta-macros { display: flex; gap: 4px; flex-wrap: wrap; }
+.receta-macros span {
+  font-size: 0.72rem;
+  background: #f5f5f5;
+  border: 1px solid #eee;
+  padding: 1px 5px;
+  color: #555;
+}
+
+/* PLANES */
+.planes { padding: 44px 20px; background: white; border-top: 1px solid #eee; }
+.planes .section-header { max-width: 1100px; margin: 0 auto 24px; text-align: center; }
+.planes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.plan-card { background: #fafafa; border: 1px solid #ddd; padding: 20px; }
+.plan-card.plan-popular { border-color: var(--verde); background: white; }
+.plan-badge {
+  background: var(--naranja);
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+.plan-card h3 { font-size: 1.2rem; margin-bottom: 4px; }
+.plan-price { font-size: 1.8rem; font-weight: bold; color: var(--verde); margin-bottom: 12px; }
+.plan-price span { font-size: 0.95rem; }
+.plan-price small { font-size: 0.82rem; color: #888; font-weight: normal; }
+.plan-card ul { list-style: none; margin-bottom: 14px; }
+.plan-card ul li { padding: 4px 0; font-size: 0.86rem; border-bottom: 1px solid #eee; color: #444; }
+.plan-card ul li.disabled { color: #bbb; }
+.btn-plan {
+  display: block;
+  text-align: center;
+  background: #444;
+  color: white;
+  padding: 9px;
+  text-decoration: none;
+  font-size: 0.88rem;
+}
+.btn-plan:hover { background: var(--verde); }
+.btn-plan.btn-plan-accent { background: var(--verde); }
+.btn-plan.btn-plan-accent:hover { background: #333; }
+
+/* CONTACTO */
+.contacto { background: #3a3a3a; padding: 44px 20px; }
+.contacto-inner { max-width: 640px; margin: 0 auto; }
+.contacto .section-tag  { border-color: #aaa; color: #ccc; background: transparent; }
+.contacto .section-header h2 { color: white; }
+.contacto .section-header p  { color: #aaa; }
+
+.form { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+.form-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.form-row input { flex: 1; min-width: 150px; }
+.form-field { flex: 1; min-width: 140px; display: flex; flex-direction: column; gap: 4px; }
+.form-field label { font-size: 0.8rem; color: #aaa; }
+
+.form input, .form textarea, .form select {
+  padding: 9px 12px;
+  border: 1px solid #555;
+  background: #484848;
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 0.88rem;
+  width: 100%;
+}
+.form input::placeholder,
+.form textarea::placeholder { color: #888; }
+.form select option { background: #3a3a3a; }
+.form-section-title { color: #ddd; font-weight: bold; margin-top: 4px; font-size: 0.9rem; }
+
+/* FOOTER */
+footer {
+  background: #2a2a2a;
+  color: #aaa;
+  text-align: center;
+  padding: 18px;
+}
+.footer-logo { font-size: 1.3rem; font-weight: bold; color: white; margin-bottom: 5px; }
+.footer-logo span { color: #7fb891; }
+footer p { font-size: 0.8rem; margin-bottom: 8px; }
+.footer-links { display: flex; justify-content: center; gap: 16px; }
+.footer-links a { color: #888; text-decoration: none; font-size: 0.8rem; }
+.footer-links a:hover { color: white; }
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  nav ul { display: none; }
+  .hero-card { width: 100%; }
+  .btn-nav { padding: 6px 10px; font-size: 0.8rem; }
+  .form-row { flex-direction: column; }
+}

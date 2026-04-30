@@ -1,0 +1,131 @@
+
+    /* Aqui como teniamos los color.css puesto que es la importante hemos usado ia para que nos lo haga automaticamente*/
+
+    .menu-hero {
+      background: var(--verde);
+      padding: 48px 5%;
+      text-align: center;
+      color: var(--blanco);
+    }
+    .menu-hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 10px;
+    }
+    .menu-hero h1 em { color: var(--naranja); font-style: normal; }
+    .menu-hero p { font-size: 1rem; opacity: .85; max-width: 500px; margin: 0 auto; }
+
+    .menu-contenido {
+      max-width: 900px;
+      margin: 48px auto;
+      padding: 0 5%;
+    }
+
+    .menu-resultado {
+      background: var(--blanco);
+      border: 2px solid var(--gris-claro);
+      border-radius: 16px;
+      padding: 36px;
+      white-space: pre-wrap;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--marron);
+      box-shadow: 4px 4px 0 var(--verde);
+    }
+
+    .menu-resultado-tag {
+      display: inline-block;
+      background: var(--verde);
+      color: var(--blanco);
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      letter-spacing: .5px;
+    }
+
+    .menu-vacio {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gris);
+    }
+    .menu-vacio span { font-size: 3rem; display: block; margin-bottom: 16px; }
+
+    .menu-acciones {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .menu-form {
+      background: var(--crema);
+      border: 2px solid var(--gris-claro);
+      border-radius: 16px;
+      padding: 28px;
+      margin-top: 32px;
+    }
+    .menu-form h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      color: var(--marron);
+      margin-bottom: 16px;
+    }
+    .menu-form-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    .menu-form select {
+      flex: 1;
+      min-width: 200px;
+      padding: 11px 14px;
+      border: 2px solid var(--gris-claro);
+      border-radius: 8px;
+      background: var(--blanco);
+      color: var(--marron);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.92rem;
+    }
+    .menu-form select:focus { outline: none; border-color: var(--verde); }
+
+    .btn-ia {
+      background: var(--verde);
+      color: var(--blanco);
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: none;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-ia:hover { background: var(--marron); }
+
+    .ia-loading {
+      display: none;
+      text-align: center;
+      padding: 12px;
+      color: var(--verde);
+      font-weight: 700;
+      margin-top: 12px;
+    }
+    .spinner {
+      display: inline-block;
+      width: 18px; height: 18px;
+      border: 3px solid var(--gris-claro);
+      border-top-color: var(--verde);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 640px) {
+      .menu-resultado { padding: 20px; }
+      .menu-acciones { flex-direction: column; }
+    }

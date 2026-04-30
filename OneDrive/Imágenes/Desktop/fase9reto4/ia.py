@@ -4,7 +4,7 @@ from config import HF_TOKEN
 API_URL = "https://router.huggingface.co/sambanova/v1/chat/completions"
 HEADERS = {"Authorization": f"Bearer {HF_TOKEN}", "Content-Type": "application/json"}
 
-
+#Hemos usado aqui la IA porque no sabiamos como conectar la IA con la aplicacion.
 def _llamar_ia(prompt, max_tokens=300):
     try:
         r = requests.post(API_URL, headers=HEADERS, timeout=30, json={

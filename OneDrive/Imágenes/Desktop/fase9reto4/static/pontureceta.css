@@ -1,0 +1,237 @@
+/* Aqui como teniamos los color.css puesto que es la importante hemos usado ia para que nos lo haga automaticamente*/
+
+/* ─── SECCIÓN PRINCIPAL ─────────────────────────────────── */
+#pon-tu-receta {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f4f4f4;
+}
+
+/* ─── WRAPPER ────────────────────────────────────────────── */
+.ptr-wrapper {
+  flex: 1;
+  padding: 44px 20px;
+}
+
+/* ─── CONTENEDOR ─────────────────────────────────────────── */
+#pon-tu-receta .contacto-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  background: var(--blanco);
+  padding: 32px 36px;
+  border-radius: 8px;
+  border: 1px solid var(--gris-claro);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* ─── CABECERA ───────────────────────────────────────────── */
+.ptr-header {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--gris-claro);
+}
+
+.ptr-header h1 {
+  font-size: 1.8rem;
+  color: #222;
+  margin: 6px 0 8px;
+}
+
+.ptr-header h1 em {
+  color: var(--verde);
+  font-style: normal;
+}
+
+.ptr-header p {
+  color: var(--gris);
+  font-size: 0.9rem;
+}
+
+/* ─── FORMULARIO ─────────────────────────────────────────── */
+#pon-tu-receta .form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ─── TÍTULOS DE SECCIÓN ─────────────────────────────────── */
+#pon-tu-receta .form-section-title {
+  font-size: 0.78rem;
+  font-weight: bold;
+  color: var(--marron);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-top: 10px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--gris-claro);
+}
+
+.ptr-subtitulo {
+  font-size: 0.84rem;
+  color: var(--gris);
+  margin-top: -6px;
+}
+
+/* ─── FILAS Y CAMPOS ─────────────────────────────────────── */
+#pon-tu-receta .form-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+#pon-tu-receta .form-field {
+  flex: 1;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#pon-tu-receta .form-field label {
+  font-size: 0.78rem;
+  font-weight: bold;
+  color: var(--gris);
+  letter-spacing: 0.02em;
+}
+
+/* ─── INPUTS, SELECTS Y TEXTAREA ─────────────────────────── */
+#pon-tu-receta input,
+#pon-tu-receta select,
+#pon-tu-receta textarea {
+  padding: 10px 13px;
+  border-radius: 5px;
+  border: 1px solid #d5d5d5;
+  font-size: 0.88rem;
+  font-family: Arial, sans-serif;
+  background: #fafafa;
+  color: #333;
+  width: 100%;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+#pon-tu-receta input:focus,
+#pon-tu-receta select:focus,
+#pon-tu-receta textarea:focus {
+  outline: none;
+  border-color: var(--verde);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.12);
+}
+
+#pon-tu-receta input::placeholder,
+#pon-tu-receta textarea::placeholder {
+  color: #b8b8b8;
+}
+
+#pon-tu-receta textarea {
+  resize: vertical;
+  min-height: 90px;
+  line-height: 1.5;
+}
+
+/* ─── BLOQUE INGREDIENTE ─────────────────────────────────── */
+.ingrediente-bloque {
+  background: #f9f9f9;
+  border: 1px solid var(--gris-claro);
+  border-radius: 6px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ingrediente-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ingrediente-num {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--marron);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ─── BOTÓN QUITAR INGREDIENTE ───────────────────────────── */
+.btn-quitar {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #999;
+  font-size: 0.75rem;
+  padding: 3px 9px;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.btn-quitar:hover {
+  border-color: #c00;
+  color: #c00;
+}
+
+/* ─── BOTÓN AÑADIR INGREDIENTE ───────────────────────────── */
+.btn-aniadir {
+  background: white;
+  border: 1px dashed var(--verde);
+  border-radius: 5px;
+  color: var(--verde);
+  font-size: 0.86rem;
+  font-family: Arial, sans-serif;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-aniadir:hover {
+  background: #f0f7f2;
+}
+
+/* ─── BOTÓN PRINCIPAL ────────────────────────────────────── */
+#pon-tu-receta .btn-primary {
+  margin-top: 4px;
+  width: 100%;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  font-size: 0.92rem;
+  padding: 12px 18px;
+  border-radius: 5px;
+  transition: background 0.18s ease, transform 0.1s ease;
+}
+
+#pon-tu-receta .btn-primary:hover {
+  background: var(--marron);
+  transform: translateY(-1px);
+}
+
+#pon-tu-receta .btn-primary:active {
+  transform: translateY(0);
+}
+
+/* ─── ALERTAS ────────────────────────────────────────────── */
+#pon-tu-receta .alerta-error,
+#pon-tu-receta .alerta-ok {
+  font-size: 0.84rem;
+  border-radius: 5px;
+  padding: 11px 13px;
+  line-height: 1.5;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 640px) {
+  #pon-tu-receta .contacto-inner {
+    padding: 20px 16px;
+  }
+
+  #pon-tu-receta .form-row {
+    flex-direction: column;
+  }
+
+  .ptr-header h1 {
+    font-size: 1.5rem;
+  }
+}
