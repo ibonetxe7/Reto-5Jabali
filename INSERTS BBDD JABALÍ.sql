@@ -184,3 +184,41 @@ INSERT INTO INGREDIENTE (nombre_ingrediente, sostenibilidad_producto, cecliaco, 
 ('Azúcar',               'Global',      0, '2035-01-01'),
 ('Miel',                 'Km0',         0, '2030-01-01');
 commit;
+
+INSERT INTO ALERGENO (id_alergeno, descripción) VALUES
+(1, 'Cereales con gluten'),
+(2, 'Crustáceos'),
+(3, 'Huevos'),
+(4, 'Pescado'),
+(5, 'Cacahuetes'),
+(6, 'Soja'),
+(7, 'Leche'),
+(8, 'Frutos de cáscara'),
+(9, 'Apio'),
+(10, 'Mostaza'),
+(11, 'Sésamo'),
+(12, 'Dióxido de azufre y sulfitos'),
+(13, 'Altramuces'),
+(14, 'Moluscos');
+
+
+INSERT INTO INGREDIENTE_ALERGENO (id_ingrediente, id_alergeno) VALUES
+(1, 4), (2, 4), (3, 4), (4, 14), (5, 14), (6, 2), (7, 2), (8, 14), (9, 14),
+(10, 14), (11, 14), (12, 14), (13, 4), (14, 4), (15, 4), (16, 4), (17, 4),
+(18, 4), (19, 4), (20, 4), (21, 14), (22, 14), (23, 2), (24, 2), (25, 14);
+
+INSERT INTO INGREDIENTE_ALERGENO (id_ingrediente, id_alergeno) VALUES
+(35, 1), (35, 12),  
+(36, 1),            
+(37, 1),           
+(38, 1), (38, 12); 
+INSERT INTO INGREDIENTE_ALERGENO (id_ingrediente, id_alergeno) VALUES
+(87, 3), 
+(88, 7), (89, 7), (90, 7), (91, 7), (92, 7), (93, 7), (94, 7);
+INSERT INTO INGREDIENTE_ALERGENO (id_ingrediente, id_alergeno) VALUES
+(95, 1), (96, 1), (98, 1), (101, 1), (102, 1); 
+INSERT INTO INGREDIENTE_ALERGENO (id_ingrediente, id_alergeno) VALUES
+(133, 8), (134, 8), (135, 8), (136, 8);
+commit;
+
+
