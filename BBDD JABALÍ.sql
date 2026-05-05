@@ -1,5 +1,5 @@
-CREATE DATABASE if not exists JABALÍ;
-use  JABALÍ;
+CREATE DATABASE if not exists JABALI;
+use  JABALI;
 
 CREATE TABLE if not exists USUARIO(
 id_usu INT AUTO_INCREMENT PRIMARY KEY ,
@@ -32,15 +32,14 @@ id_cli INT not null,
 nombre_receta VARCHAR(50),
 valor_nutricional INT,
 nutriscore char,
-foreign key (id_ingrediente) references INGREDIENTE(id_ingrediente) 
-    on delete cascade,
+fecha_creacion datetime,
 foreign key (id_cli) references CLIENTE(id_cli) ON DELETE CASCADE
     
 );
 
 CREATE TABLE IF NOT EXISTS RECETA_INGREDIENTE(
-id_recerta INT PRIMARY KEY,
-id_ingrediente INT PRIMARY KEY,
+id_receta INT PRIMARY KEY,
+id_ingrediente INT,
 FOREIGN KEY (id_receta) references RECETA (id_receta) on delete cascade,
 foreign key (id_ingrediente) references INGREDIENTE(id_ingrediente) 
     on delete cascade
@@ -52,8 +51,8 @@ descripción VARCHAR(50)
 );
 
 CREATE TABLE INGREDIENTE_ALERGENO(
-id_ingrediente INT not null PRIMARY KEY,
-id_alergeno INT not null PRIMARY KEY,
+id_ingrediente INT not null ,
+id_alergeno INT not null,
 foreign key(id_ingrediente) references INGREDIENTE(id_ingrediente)on delete cascade,
 foreign key(id_alergeno) references ALERGENO(id_alergeno) on delete cascade
 );
