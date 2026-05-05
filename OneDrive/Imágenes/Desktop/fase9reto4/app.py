@@ -3,10 +3,10 @@ from flask_mysqldb import MySQL
 from config import DB_CONFIG
 import hashlib
 from ia import sugerir_receta, generar_menu_semanal, analizar_nutriscore
-
+#Ibon: Aqui importamos todo lo que hemos echo en la ia.py para poder usarlo en la aplicacion.
 app = Flask(__name__)
 app.secret_key = 'jabali_secret_key'
-
+#Ibon: Esto es para configurar la conexion con la base de datos, lo que hemos echo en el config.py lo usamos aqui para conectar con la base de datos.
 app.config['MYSQL_HOST']     = DB_CONFIG['host']
 app.config['MYSQL_USER']     = DB_CONFIG['user']
 app.config['MYSQL_PASSWORD'] = DB_CONFIG['password']
@@ -58,7 +58,7 @@ def registro():
     email = request.form.get('email', '').strip()
     telefono = request.form.get('telefono', '').strip()
     password = request.form.get('password', '')
-    password2 = request.form.get('password', '')
+    password2 = request.form.get('password2', '')
     
     # Ibon: Si no ponemso el nombre o apellido o email o contraseña automaticamente te da un error diciendo que los campos son obligatorios.
     if not nombre or not apellido1 or not email or not password:
@@ -88,10 +88,12 @@ def registro():
             INSERT INTO USUARIO (nombre_usu, apellido1_usu, apellido2_usu, mail_usu, telefono)
             VALUES (%s, %s, %s, %s, %s)
         """, (nombre[:50], apellido1[:50], apellido2[:50] or None, email, telefono_int))
+        # Guardamos el id_usu recien creado antes de hacer otra consulta
+        id_usu_nuevo = cur.lastrowid
         #Consulta
         cur.execute("""
             INSERT INTO CLIENTE (id_usu, num_logs, num_recetas, contrasenia) VALUES (%s, 0, 0, %s)
-        """, (cur.lastrowid, pwd_hash))
+        """, (id_usu_nuevo, pwd_hash))
         #Ibon: Para que se guarden los cambios sin el mysql.connection.commit() no guardaria
         mysql.connection.commit()
         #Ibon: Cierre de la consulta
@@ -178,13 +180,15 @@ def guardar_receta_ia():
             INSERT INTO INGREDIENTE (nombre_ingrediente, sostenibilidad_producto, cecliaco)
             VALUES (%s, 'Nacional', 0)
         """, (nombre_receta,))
+        #Ibon: Guardamos el id del ingrediente recien creado antes de hacer otra consulta
+        id_ingrediente_nuevo = cur.lastrowid
 
         cur.execute("""
             INSERT INTO RECETA (id_cli, nombre_receta, nutriscore) VALUES (%s, %s, %s)
         """, (id_cli, nombre_receta, nutriscore))
         id_receta = cur.lastrowid
 
-        cur.execute("INSERT INTO RECETA_INGREDIENTE (id_receta, id_ingrediente) VALUES (%s, %s)", (id_receta, cur.lastrowid - 1))
+        cur.execute("INSERT INTO RECETA_INGREDIENTE (id_receta, id_ingrediente) VALUES (%s, %s)", (id_receta, id_ingrediente_nuevo))
         cur.execute("UPDATE CLIENTE SET num_recetas = COALESCE(num_recetas, 0) + 1 WHERE id_cli = %s", (id_cli,))
         mysql.connection.commit()
         cur.close()
@@ -210,10 +214,10 @@ def ia_analisis():
     if not session.get('id_cli'):
         return redirect('/login')
 
-    nombre   = request.form.get('nombre_receta', '')
-    kcal     = request.form.get('valor_nutricional', '0')
-    score    = request.form.get('nutriscore', 'C')
-    analisis = analizar_nutriscore(nombre, kcal, score)
+    nombre=request.form.get('nombre_receta', '')
+    kcal=request.form.get('valor_nutricional', '0')
+    score=request.form.get('nutriscore', 'C')
+    analisis=analizar_nutriscore(nombre, kcal, score)
     return render_template('RETO5.html', analisis_ia=analisis)
 
 
@@ -221,12 +225,10 @@ def ia_analisis():
 def recetas():
     return render_template('recetas.html')
 
-
 @app.route('/tusrecetas')
 def tus_recetas():
     if not session.get('id_cli'):
         return redirect('/login')
-
     try:
         cur = mysql.connection.cursor()
         cur.execute("""
@@ -242,7 +244,6 @@ def tus_recetas():
         """, (session['id_cli'],))
         rows = cur.fetchall()
         cur.close()
-
         recetas_list = [{
             'id_receta':          r[0],
             'nombre_receta':      r[1],
@@ -258,9 +259,7 @@ def tus_recetas():
     except Exception as e:
         print("ERROR tus_recetas:", e)
         recetas_list = []
-
     return render_template('tusrecetas.html', recetas=recetas_list)
-
 
 @app.route('/receta/eliminar/<int:id_receta>', methods=['POST'])
 def eliminar_receta(id_receta):
@@ -303,6 +302,19 @@ def receta():
     if not id_cli:
         return render_template('pontureceta.html', error_receta='Debes iniciar sesión para publicar una receta.')
 
+    # Verificamos que el id_cli de la sesion existe realmente en la base de datos
+    # Si no existe (por ejemplo tras recrear las tablas) cerramos sesion y mandamos a login
+    try:
+        cur_check = mysql.connection.cursor()
+        cur_check.execute("SELECT id_cli FROM CLIENTE WHERE id_cli = %s", (id_cli,))
+        if not cur_check.fetchone():
+            cur_check.close()
+            session.clear()
+            return redirect('/login')
+        cur_check.close()
+    except Exception as e:
+        return render_template('pontureceta.html', error_receta=f'Error de sesión: {e}')
+
     nombre_receta = request.form.get('nombre_receta', '').strip()
     nutriscore    = request.form.get('nutriscore', 'C')[0].upper()
     valor_raw     = request.form.get('valor_nutricional', '').strip()
@@ -342,7 +354,9 @@ def receta():
                 INSERT INTO INGREDIENTE (nombre_ingrediente, sostenibilidad_producto, cecliaco, caducidad)
                 VALUES (%s, %s, %s, %s)
             """, (nombre_ing[:50], sost, celiaco, caducidad))
-            cur.execute("INSERT INTO RECETA_INGREDIENTE (id_receta, id_ingrediente) VALUES (%s, %s)", (id_receta, cur.lastrowid))
+            # Guardamos el id del ingrediente recien insertado antes de la siguiente consulta
+            id_ingrediente_nuevo = cur.lastrowid
+            cur.execute("INSERT INTO RECETA_INGREDIENTE (id_receta, id_ingrediente) VALUES (%s, %s)", (id_receta, id_ingrediente_nuevo))
 
         cur.execute("UPDATE CLIENTE SET num_recetas = COALESCE(num_recetas, 0) + 1 WHERE id_cli = %s", (id_cli,))
         mysql.connection.commit()
