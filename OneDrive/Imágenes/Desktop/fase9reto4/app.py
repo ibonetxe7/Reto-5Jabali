@@ -21,7 +21,7 @@ def index():
     return render_template('RETO5.html')
 
 #Ibon: Esto te abre la parte de contacto
-@app.route('/contacto', methods=['POST']) 
+@app.route('/contacto', methods=['POST'])
 def contacto():
     # Ibon: Aqui lo que hacemos es poner el nombre y email, donde esta parte lo coge get('nombre', '').strip()
     nombre = request.form.get('nombre', '').strip()
@@ -59,7 +59,7 @@ def registro():
     telefono = request.form.get('telefono', '').strip()
     password = request.form.get('password', '')
     password2 = request.form.get('password2', '')
-    
+   
     # Ibon: Si no ponemso el nombre o apellido o email o contraseña automaticamente te da un error diciendo que los campos son obligatorios.
     if not nombre or not apellido1 or not email or not password:
         return render_template('registro.html', error='Rellena todos los campos obligatorios .')
@@ -71,7 +71,7 @@ def registro():
         telefono_int = int(telefono) if telefono else None
     except ValueError:
         telefono_int = None
-    # Ibon: Para esta linea 75 hemos tenido que usar la ayuda de la IA para poder hacer que la contraseña no se vea si nos hackean. 
+    # Ibon: Para esta linea 75 hemos tenido que usar la ayuda de la IA para poder hacer que la contraseña no se vea si nos hackean.
     # Ibon: Le llamamos pwd_hash y con el password.encode() hacemos que se convierta en bytes poruqe el sha256 solo trabajo con bytes.
     pwd_hash = hashlib.sha256(password.encode()).hexdigest()[:200]
     # Lo mismo que antes lo conectamos con la base de datos y hacemos una consulta select
@@ -98,7 +98,7 @@ def registro():
         mysql.connection.commit()
         #Ibon: Cierre de la consulta
         cur.close()
-        
+       
     except Exception as e:
         #Ibon: Si da error al ejecutar el codigo de la base de datos, con el mysql.connection.rollback() hacemos que no se guarde nada de lo que se ha echo antes del error.
         mysql.connection.rollback()
@@ -137,7 +137,7 @@ def login():
         session['nombre'] = usuario[1]
         session['id_cli'] = usuario[2]
 
-        # gahona: suma 1 al contador de logins; 
+        # gahona: suma 1 al contador de logins;
         # COALESCE evita errores si el campo era NULL
         cur.execute("UPDATE CLIENTE SET num_logs = COALESCE(num_logs, 0) + 1 WHERE id_cli = %s", (usuario[2],))
         mysql.connection.commit()
