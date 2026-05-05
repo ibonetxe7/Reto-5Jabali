@@ -5,31 +5,50 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Iniciar sesión — Jabalí Nutrient</title>
+  <!-- Estilos -->
   <link rel="stylesheet" href="{{ url_for('static', filename='color.css') }}"/>
+  <!-- Fuentes de Google -->
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <!-- Icono de la pestaña -->
   <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='logo.jpeg') }}">
 </head>
 <body>
+
+  <!-- Barra de navegación -->
   <nav>
     <a href="/" class="logo">Jabalí <span>Nutrient</span></a>
   </nav>
+
+  <!-- Sección principal de login -->
   <section class="contacto" style="min-height:100vh; display:flex; align-items:center;">
     <div class="contacto-inner">
+
+      <!-- Cabecera del formulario -->
       <div class="section-header">
         <span class="section-tag">Bienvenido</span>
         <h2>Iniciar <em>sesión</em></h2>
         <p>Accede a tu cuenta de Jabalí Nutrient.</p>
       </div>
+
+      <!-- Mensaje de error si las credenciales son incorrectas -->
       {% if error %}
-      <p style="background:#e07b39; color:#fff; padding:12px 20px; border-radius:8px; text-align:center; margin-bottom:16px;">❌ {{ error }}</p>
+      <p style="background:#e07b39; color:#fff; padding:12px 20px; border-radius:8px; text-align:center; margin-bottom:16px;">{{ error }}</p>
       {% endif %}
+
+      <!-- Formulario de inicio de sesión -->
       <form class="form" action="/login" method="POST">
+        <!-- Campo de email -->
         <input type="email" name="email" placeholder="Tu email" required/>
+        <!-- Campo de contraseña -->
         <input type="password" name="password" placeholder="Contraseña" required/>
+        <!-- Botón de envío -->
         <button type="submit" class="btn-primary">Iniciar sesión</button>
+        <!-- Enlace a registro si no tiene cuenta -->
         <p style="text-align:center; color:#ccc; margin-top:8px;">¿No tienes cuenta? <a href="/registro" style="color:var(--verde-claro);">Regístrate</a></p>
       </form>
+
     </div>
   </section>
+
 </body>
 </html>
