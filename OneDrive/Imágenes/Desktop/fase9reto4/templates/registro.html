@@ -1,36 +1,49 @@
-<!-- Xabier Morales-->
+<!-- Xabier Morales -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Registrarse — Jabalí Nutrient</title>
+  <!-- Estilos -->
   <link rel="stylesheet" href="{{ url_for('static', filename='color.css') }}"/>
+  <!-- Fuentes de Google -->
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <!-- Icono de la pestaña -->
   <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='logo.jpeg') }}">
 </head>
 <body>
+
+  <!-- Barra de navegación -->
   <nav>
     <a href="/" class="logo">Jabalí <span>Nutrient</span></a>
   </nav>
+
+  <!-- Sección principal de registro -->
   <section class="contacto" style="min-height:100vh; display:flex; align-items:center;">
     <div class="contacto-inner">
+
+      <!-- Cabecera del formulario -->
       <div class="section-header">
         <span class="section-tag">Únete</span>
         <h2>Crear <em>cuenta</em></h2>
         <p>Regístrate para acceder a todas las funciones.</p>
       </div>
 
+      <!-- Mensaje de error si el registro falla -->
       {% if error %}
-      <p style="background:#c0392b; color:#fff; padding:12px 20px; border-radius:8px; text-align:center; margin-bottom:16px;">❌ {{ error }}</p>
+      <p style="background:#c0392b; color:#fff; padding:12px 20px; border-radius:8px; text-align:center; margin-bottom:16px;">{{ error }}</p>
       {% endif %}
 
+      <!-- Formulario de registro -->
       <form class="form" action="/registro" method="POST">
 
-        <!-- Nombre y apellidos -->
+        <!-- Nombre -->
         <div class="form-row">
           <input type="text" name="nombre" placeholder="Nombre *" required maxlength="50"/>
         </div>
+
+        <!-- Apellidos -->
         <div class="form-row">
           <input type="text" name="apellido1" placeholder="Primer apellido *" required maxlength="50"/>
           <input type="text" name="apellido2" placeholder="Segundo apellido" maxlength="50"/>
@@ -39,19 +52,24 @@
         <!-- Email y teléfono -->
         <div class="form-row">
           <input type="email" name="email" placeholder="Email *" required/>
-          <input type="tel"   name="telefono" placeholder="Teléfono (opcional)" maxlength="15"/>
+          <input type="tel" name="telefono" placeholder="Teléfono (opcional)" maxlength="15"/>
         </div>
 
         <!-- Contraseñas -->
-        <input type="password" name="password"  placeholder="Contraseña *" required/>
+        <input type="password" name="password" placeholder="Contraseña *" required/>
         <input type="password" name="password2" placeholder="Repite la contraseña *" required/>
 
+        <!-- Botón de envío -->
         <button type="submit" class="btn-primary">Registrarse</button>
+
+        <!-- Enlace a login si ya tiene cuenta -->
         <p style="text-align:center; color:#ccc; margin-top:8px;">
           ¿Ya tienes cuenta? <a href="/login" style="color:var(--verde-claro);">Inicia sesión</a>
         </p>
+
       </form>
     </div>
   </section>
+
 </body>
 </html>
