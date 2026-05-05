@@ -15,12 +15,13 @@ app.config['MYSQL_CHARSET']  = 'utf8mb4'
 
 mysql = MySQL(app)
 
+
 @app.route('/')
 def index():
     return render_template('RETO5.html')
 
 #Ibon: Esto te abre la parte de contacto
-@app.route('/contacto', methods=['POST'])
+@app.route('/contacto', methods=['POST']) 
 def contacto():
     # Ibon: Aqui lo que hacemos es poner el nombre y email, donde esta parte lo coge get('nombre', '').strip()
     nombre = request.form.get('nombre', '').strip()
@@ -58,7 +59,7 @@ def registro():
     telefono = request.form.get('telefono', '').strip()
     password = request.form.get('password', '')
     password2 = request.form.get('password2', '')
-   
+    
     # Ibon: Si no ponemso el nombre o apellido o email o contraseña automaticamente te da un error diciendo que los campos son obligatorios.
     if not nombre or not apellido1 or not email or not password:
         return render_template('registro.html', error='Rellena todos los campos obligatorios .')
@@ -70,7 +71,7 @@ def registro():
         telefono_int = int(telefono) if telefono else None
     except ValueError:
         telefono_int = None
-    # Ibon: Para esta linea 75 hemos tenido que usar la ayuda de la IA para poder hacer que la contraseña no se vea si nos hackean.
+    # Ibon: Para esta linea 75 hemos tenido que usar la ayuda de la IA para poder hacer que la contraseña no se vea si nos hackean. 
     # Ibon: Le llamamos pwd_hash y con el password.encode() hacemos que se convierta en bytes poruqe el sha256 solo trabajo con bytes.
     pwd_hash = hashlib.sha256(password.encode()).hexdigest()[:200]
     # Lo mismo que antes lo conectamos con la base de datos y hacemos una consulta select
@@ -97,7 +98,7 @@ def registro():
         mysql.connection.commit()
         #Ibon: Cierre de la consulta
         cur.close()
-       
+        
     except Exception as e:
         #Ibon: Si da error al ejecutar el codigo de la base de datos, con el mysql.connection.rollback() hacemos que no se guarde nada de lo que se ha echo antes del error.
         mysql.connection.rollback()
@@ -111,27 +112,25 @@ def registro():
 def login():
     if request.method == 'GET':
         return render_template('login.html')
-
+    
     # gahona: recoge el email y encripta la contraseña igual que al registrarse para poder compararlas
     email    = request.form.get('email', '').strip()
     pwd_hash = hashlib.sha256(request.form.get('password', '').encode()).hexdigest()[:200]
 
     try:
         cur = mysql.connection.cursor()
-        # gahona: busca un usuario que su  email y contraseña coincidan en las dos tablas a la vez
+         # gahona: busca un usuario que su  email y contraseña coincidan en las dos tablas a la vez
         cur.execute("""
             SELECT u.id_usu, u.nombre_usu, c.id_cli
             FROM USUARIO u JOIN CLIENTE c ON u.id_usu = c.id_usu
             WHERE u.mail_usu = %s AND c.contrasenia = %s
         """, (email, pwd_hash))
         usuario = cur.fetchone()
-
-        # gahona: si no encuentra ningún usuario con esos datos de usuario , muestra error
+           # gahona: si no encuentra ningún usuario con esos datos de usuario , muestra error
         if not usuario:
             cur.close()
             return render_template('login.html', error='Email o contraseña incorrectos.')
-
-        # gahona: guarda los datos del usuario en la sesión para tenerlos disponibles la app
+         # gahona: guarda los datos del usuario en la sesión para tenerlos disponibles la app
         session['id_usu'] = usuario[0]
         session['nombre'] = usuario[1]
         session['id_cli'] = usuario[2]
@@ -154,19 +153,16 @@ def logout():
     #Ibon: Te dirige a la pagina pricipal
     return redirect('/')
 
-
 # gahona: solo pueden usar la IA los usuarios logueados
 @app.route('/ia/sugerencia', methods=['POST'])
 def ia_sugerencia():
     if not session.get('id_cli'):
         return redirect('/login')
-
-    # gahona: recoge lo que el usuario ha escrito y se lo pasa a la función de IA
+      # gahona: recoge lo que el usuario ha escrito y se lo pasa a la función de IA
     ingrediente = request.form.get('ingrediente', '')
     nutriscore  = request.form.get('nutriscore', 'C')
     resultado   = sugerir_receta(ingrediente, nutriscore)
-
-    # gahona: devuelve la página con la sugerencia generada y los datos del formulario
+     # gahona: devuelve la página con la sugerencia generada y los datos del formulario
     # para que el usuario vea lo que había escrito junto con el resultado
     return render_template('RETO5.html',
         sugerencia_ia=resultado,
@@ -176,18 +172,17 @@ def ia_sugerencia():
 
 @app.route('/ia/guardar_receta', methods=['POST'])
 def guardar_receta_ia():
-    # gahona: verificar si el usuario esta logueado
+     # gahona: verificar si el usuario esta logueado
     if not session.get('id_cli'):
         return redirect('/login')
-
-    # gahona: [0].upper() coge solo la primera letra y la pone en mayúscula
+     # gahona: [0].upper() coge solo la primera letra y la pone en mayúscula
     nombre_receta = request.form.get('nombre_receta', 'Receta IA')[:50]
     nutriscore    = request.form.get('nutriscore', 'C')[0].upper()
     id_cli        = session['id_cli']
 
     try:
         cur = mysql.connection.cursor()
-        # gahona: crea un ingrediente genérico usando el nombre de la receta como nombre
+          # gahona: crea un ingrediente genérico usando el nombre de la receta como nombre
         cur.execute("""
             INSERT INTO INGREDIENTE (nombre_ingrediente, sostenibilidad_producto, cecliaco)
             VALUES (%s, 'Nacional', 0)
@@ -199,7 +194,6 @@ def guardar_receta_ia():
             INSERT INTO RECETA (id_cli, nombre_receta, nutriscore) VALUES (%s, %s, %s)
         """, (id_cli, nombre_receta, nutriscore))
         id_receta = cur.lastrowid
-
         # gahona: relaciona la receta con el ingrediente en la tabla intermedia
         cur.execute("INSERT INTO RECETA_INGREDIENTE (id_receta, id_ingrediente) VALUES (%s, %s)", (id_receta, id_ingrediente_nuevo))
         # gahona: suma 1 al contador de recetas del usuario
@@ -225,14 +219,12 @@ def ia_menu():
     return render_template('menu_semanal.html', menu_ia=menu)
 
 
-# Ibon Etxegia
-
 @app.route('/ia/analisis', methods=['POST'])
 def ia_analisis():
     # Ibon Etxegia: Si no hay sesión activa, redirige al login
     if not session.get('id_cli'):
         return redirect('/login')
-    # Ibon Etxegia: Recoge los datos del formulario
+   # Ibon Etxegia: Recoge los datos del formulario
     nombre=request.form.get('nombre_receta', '')
     kcal=request.form.get('valor_nutricional', '0')
     score=request.form.get('nutriscore', 'C')
@@ -241,15 +233,93 @@ def ia_analisis():
     return render_template('RETO5.html', analisis_ia=analisis)
 
 
+@app.route('/recetas')
+def recetas():
+    #Ibon Etxegia: Esta ruta es para mostrar la página de recetas, pero como no tenemos implementada la funcionalidad de mostrar recetas desde la base de datos, por ahora solo renderizamos la plantilla.
+    return render_template('recetas.html')
+
+@app.route('/tusrecetas')
+def tus_recetas():
+    # Ibon Etxegia: Si no hay sesión activa, redirige al login
+    if not session.get('id_cli'):
+        return redirect('/login')
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("""
+            SELECT r.id_receta, r.nombre_receta, r.valor_nutricional, r.nutriscore,
+                   MIN(i.nombre_ingrediente), MIN(i.sostenibilidad_producto),
+                   MAX(i.cecliaco), MIN(i.caducidad), r.fecha_creacion
+            FROM RECETA r
+            LEFT JOIN RECETA_INGREDIENTE ri ON r.id_receta = ri.id_receta
+            LEFT JOIN INGREDIENTE i ON ri.id_ingrediente = i.id_ingrediente
+            WHERE r.id_cli = %s
+            GROUP BY r.id_receta, r.nombre_receta, r.valor_nutricional, r.nutriscore, r.fecha_creacion
+            ORDER BY r.id_receta DESC
+        """, (session['id_cli'],))
+        #Ibon Etxegia: Con el fetchall() obtenemos todas las filas que devuelve la consulta y las guardamos en rows
+        rows = cur.fetchall()
+        cur.close()
+        recetas_list = [{
+            'id_receta':          r[0],
+            'nombre_receta':      r[1],
+            'valor_nutricional':  r[2],
+            'nutriscore':         r[3] or 'C',
+            'nombre_ingrediente': r[4],
+            'sostenibilidad':     r[5],
+            'celiaco':            r[6] or 0,
+            'caducidad':          r[7],
+            'fecha_creacion':     r[8],
+        } for r in rows]
+    # Ibon Etxegia: Si da error al ejecutar el código de la base de datos, muestra un mensaje de error y una lista vacía
+    except Exception as e:
+        print("ERROR tus_recetas:", e)
+        recetas_list = []
+    return render_template('tusrecetas.html', recetas=recetas_list)
+
+@app.route('/receta/eliminar/<int:id_receta>', methods=['POST'])
+def eliminar_receta(id_receta):
+    # Ibon Etxegia: Si no hay sesión activa, redirige al login
+    if not session.get('id_cli'):
+        return redirect('/login')
+
+    id_cli = session['id_cli']
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT id_receta FROM RECETA WHERE id_receta = %s AND id_cli = %s", (id_receta, id_cli))
+        if not cur.fetchone():
+            cur.close()
+            return redirect('/tusrecetas')
+
+        cur.execute("DELETE FROM RECETA_INGREDIENTE WHERE id_receta = %s", (id_receta,))
+        cur.execute("DELETE FROM RECETA WHERE id_receta = %s AND id_cli = %s", (id_receta, id_cli))
+        cur.execute("UPDATE CLIENTE SET num_recetas = GREATEST(COALESCE(num_recetas,0)-1,0) WHERE id_cli = %s", (id_cli,))
+        mysql.connection.commit()
+        cur.close()
+    except Exception as e:
+        mysql.connection.rollback()
+        print("ERROR eliminar_receta:", e)
+
+    return redirect('/tusrecetas')
+
+
+@app.route('/pontureceta')
+def pon_tu_receta():
+    # Ibon: isto es que si no has iniciado sesion no puedes acceder a esta pagina y te redirige a login
+    if not session.get('id_cli'):
+        return redirect('/login')
+    #Ibon: Si va bien te va a abrir la pagina pontureceta.html
+    return render_template('pontureceta.html')
+
+
 @app.route('/receta', methods=['POST'])
 def receta():
-    #Ibon Etxegia: Este codigo lo hacemos muchas veces para comprobar que el usuario ha iniciado sesion si no ha iniciado sesion no puedes entrar a la pagina
+    #Xabier Morales: Este codigo lo hacemos muchas veces para comprobar que el usuario ha iniciado sesion si no ha iniciado sesion no puedes entrar a la pagina
     id_cli = session.get('id_cli')
     if not id_cli:
         return render_template('pontureceta.html', error_receta='Debes iniciar sesión para publicar una receta.')
 
-    # Ibon Etxegia: Verificamos que el id_cli de la sesion existe realmente en la base de datos
-    # Ibon EtxegiaSi no existe (por ejemplo tras recrear las tablas) cerramos sesion y mandamos a login
+    # Xabier Morales:Verificamos que el id_cli de la sesion existe realmente en la base de datos
+    # Xabier Morales:Si no existe (por ejemplo tras recrear las tablas) cerramos sesion y mandamos a login
     try:
         cur_check = mysql.connection.cursor()
         cur_check.execute("SELECT id_cli FROM CLIENTE WHERE id_cli = %s", (id_cli,))
@@ -262,9 +332,9 @@ def receta():
         return render_template('pontureceta.html', error_receta=f'Error de sesión: {e}')
 
     nombre_receta = request.form.get('nombre_receta', '').strip()
-    nutriscore    = request.form.get('nutriscore', 'C')[0].upper()
-    valor_raw     = request.form.get('valor_nutricional', '').strip()
-
+    nutriscore  = request.form.get('nutriscore', 'C')[0].upper()
+    valor_raw  = request.form.get('valor_nutricional', '').strip()
+    #Xabier Morales: Si el nombre de la receta esta vacio, te va a dar un error diciendo que el nombre de la receta es obligatorio
     if not nombre_receta:
         return render_template('pontureceta.html', error_receta='El nombre de la receta es obligatorio.')
 
@@ -273,12 +343,12 @@ def receta():
     except ValueError:
         return render_template('pontureceta.html', error_receta='El valor nutricional debe ser un número.')
 
-    nombres_ing    = request.form.getlist('nombre_ingrediente[]')
-    cantidades     = request.form.getlist('cantidad[]')
+    nombres_ing   = request.form.getlist('nombre_ingrediente[]')
+    cantidades  = request.form.getlist('cantidad[]')
     sostenibilidad = request.form.getlist('sostenibilidad_producto[]')
-    cecliaco_list  = request.form.getlist('cecliaco[]')
+    cecliaco_list = request.form.getlist('cecliaco[]')
     caducidad_list = request.form.getlist('caducidad[]')
-
+    #Xabier Morales: Limpiamos los nombres de ingredientes y eliminamos los vacíos, si no hay ningún ingrediente válido, mostramos un error
     ingredientes = [n.strip() for n in nombres_ing if n.strip()]
     if not ingredientes:
         return render_template('pontureceta.html', error_receta='Añade al menos un ingrediente.')
@@ -290,7 +360,7 @@ def receta():
             VALUES (%s, %s, %s, %s)
         """, (id_cli, nombre_receta[:50], valor_nutricional, nutriscore))
         id_receta = cur.lastrowid
-
+        #Xabier Morales: Insertamos cada ingrediente y lo relacionamos con la receta, si el formulario tiene más ingredientes que sostenibilidad o celiaco o caducidad, se asignan valores por defecto
         for idx, nombre_ing in enumerate(ingredientes):
             sost      = sostenibilidad[idx] if idx < len(sostenibilidad) else 'Nacional'
             celiaco   = int(cecliaco_list[idx]) if idx < len(cecliaco_list) else 0
@@ -300,13 +370,14 @@ def receta():
                 INSERT INTO INGREDIENTE (nombre_ingrediente, sostenibilidad_producto, cecliaco, caducidad)
                 VALUES (%s, %s, %s, %s)
             """, (nombre_ing[:50], sost, celiaco, caducidad))
-            # Ibon Etxegia: Guardamos el id del ingrediente recien insertado antes de la siguiente consulta
+            # Guardamos el id del ingrediente recien insertado antes de la siguiente consulta
             id_ingrediente_nuevo = cur.lastrowid
             cur.execute("INSERT INTO RECETA_INGREDIENTE (id_receta, id_ingrediente) VALUES (%s, %s)", (id_receta, id_ingrediente_nuevo))
 
         cur.execute("UPDATE CLIENTE SET num_recetas = COALESCE(num_recetas, 0) + 1 WHERE id_cli = %s", (id_cli,))
         mysql.connection.commit()
         cur.close()
+    #Xabier Morales: Si da error al ejecutar el codigo de la base de datos, con el mysql.connection.rollback() hacemos que no se guarde nada de lo que se ha echo antes del error y mostramos un mensaje de error
     except Exception as e:
         mysql.connection.rollback()
         print("ERROR guardar receta:", e)
