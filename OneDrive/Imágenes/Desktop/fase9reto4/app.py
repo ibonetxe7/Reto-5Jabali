@@ -15,7 +15,6 @@ app.config['MYSQL_CHARSET']  = 'utf8mb4'
 
 mysql = MySQL(app)
 
-
 @app.route('/')
 def index():
     return render_template('RETO5.html')
