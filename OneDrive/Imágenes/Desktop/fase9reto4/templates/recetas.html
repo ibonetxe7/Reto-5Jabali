@@ -5,6 +5,8 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Recetas — Jabalí Nutrient</title>
+
+  <!-- Flask utiliza la ruta correcta al archivo CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='color.css') }}"/>
   <link rel="stylesheet" href="{{ url_for('static', filename='recetas.css') }}"/>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
@@ -21,6 +23,7 @@
     <div class="nav-acciones">
       <a href="/#calcular-dieta" class="btn-nav">Calcular Mi Dieta</a>
 
+      <!-- Botón que abre/cierra el desplegable de recetas -->
       <div class="recetas-menu">
         <button class="btn-nav" onclick="toggleRecetas()">Recetas</button>
         <div id="menu-recetas" class="dropdown-menu">
@@ -30,13 +33,15 @@
         </div>
       </div>
 
+      <!-- Si el usuario está logueado muestra su nombre y botón de logout,
+          si no, muestra los botones de registro e inicio de sesión -->
       <div class="perfil-menu">
         <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
              onclick="toggleMenu()" class="avatar"/>
         <div id="menu-perfil" class="dropdown-menu">
           {% if session.get('nombre') %}
             <p style="padding:10px 14px; font-weight:800; color:var(--verde); border-bottom:1px solid var(--gris-claro); margin-bottom:4px;">
-              👤 {{ session.get('nombre') }}
+              {{ session.get('nombre') }}
             </p>
             <a href="/logout">Cerrar sesión</a>
           {% else %}
@@ -54,7 +59,8 @@
     <h1>Recetas <em>saludables</em></h1>
   </section>
 
-  <!-- FILTROS -->
+  <!-- FILTROS
+      this pasa el botón pulsado a la función para poder marcarlo como activo -->
   <div class="filtros">
     <button class="filtro-btn active" onclick="filtrar('todos', this)">Todos</button>
     <button class="filtro-btn" onclick="filtrar('desayuno', this)">Desayuno</button>
@@ -64,8 +70,9 @@
     <button class="filtro-btn" onclick="filtrar('celiaco', this)">Sin gluten</button>
   </div>
 
-  <!-- RECETAS DETALLADAS -->
   <section class="recetas-detalle">
+    <!-- data-tipo y data-celiaco guardan info de cada receta para que el filtro sepa
+        cuáles mostrar u ocultar al pulsar un botón -->
     <div class="recetas-detalle-grid" id="recetas-grid">
 
       <!-- RECETA 1 -->
@@ -77,7 +84,7 @@
         <div class="rd-body">
           <div class="rd-meta">
             <span class="rd-tag">Desayuno</span>
-            <span class="rd-tiempo">⏱ 5 min</span>
+            <span class="rd-tiempo"> 5 min</span>
           </div>
           <h3>Avena proteica con plátano</h3>
           <p>Energía sostenida para empezar el día. Alta en fibra, proteína y potasio para aguantar toda la mañana.</p>
@@ -110,7 +117,7 @@
         <div class="rd-body">
           <div class="rd-meta">
             <span class="rd-tag">Almuerzo</span>
-            <span class="rd-tiempo">⏱ 20 min</span>
+            <span class="rd-tiempo"> 20 min</span>
           </div>
           <h3>Bowl mediterráneo de quinoa</h3>
           <p>Un plato completo y equilibrado. La quinoa aporta proteína completa, el hummus grasas saludables y los vegetales fibra.</p>
@@ -144,7 +151,7 @@
         <div class="rd-body">
           <div class="rd-meta">
             <span class="rd-tag">Cena</span>
-            <span class="rd-tiempo">⏱ 40 min</span>
+            <span class="rd-tiempo"> 40 min</span>
           </div>
           <h3>Pollo al horno con verduras</h3>
           <p>Rica en proteína magra y vegetales. Baja en grasa saturada, perfecta para la cena si buscas tonificación o pérdida de peso.</p>
@@ -171,13 +178,14 @@
       <!-- RECETA 4 -->
       <div class="rd-card" data-tipo="desayuno" data-celiaco="true">
         <div class="rd-img">
-          <img src="data:image/jpeg;base64,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" alt="Tostada de aguacate y huevo"/>
+          <!-- La imagen está guardada directamente en el código en lugar de ser un enlace externo -->
+          <img src="data:image/jpeg;base64,/9j/4AAQ..." alt="Tostada de aguacate y huevo"/>
           <div class="rd-nutriscore ns-b">B</div>
         </div>
         <div class="rd-body">
           <div class="rd-meta">
             <span class="rd-tag">Desayuno</span>
-            <span class="rd-tiempo">⏱ 10 min</span>
+            <span class="rd-tiempo"> 10 min</span>
           </div>
           <h3>Tostada de aguacate y huevo</h3>
           <p>El desayuno estrella para una mañana productiva. Grasas saludables del aguacate y proteína completa del huevo.</p>
@@ -201,7 +209,7 @@
         </div>
       </div>
 
-      <!-- RECETA 5 -->
+      <!-- RECETA 5: data-celiaco="false" → no sale al filtrar por "Sin gluten" -->
       <div class="rd-card" data-tipo="almuerzo" data-celiaco="false">
         <div class="rd-img">
           <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=600&q=80" alt="Pasta con salmón y espinacas"/>
@@ -210,7 +218,7 @@
         <div class="rd-body">
           <div class="rd-meta">
             <span class="rd-tag">Almuerzo</span>
-            <span class="rd-tiempo">⏱ 20 min</span>
+            <span class="rd-tiempo"> 20 min</span>
           </div>
           <h3>Pasta con salmón y espinacas</h3>
           <p>Omega-3 del salmón, hierro de las espinacas y carbohidratos complejos de la pasta integral. Un plato 10.</p>
@@ -243,7 +251,7 @@
         <div class="rd-body">
           <div class="rd-meta">
             <span class="rd-tag">Snack</span>
-            <span class="rd-tiempo">⏱ 2 min</span>
+            <span class="rd-tiempo"> 2 min</span>
           </div>
           <h3>Yogur griego con frutos rojos</h3>
           <p>El snack perfecto: probióticos, antioxidantes y proteína. Saciante y bajo en calorías.</p>
@@ -275,7 +283,7 @@
         <div class="rd-body">
           <div class="rd-meta">
             <span class="rd-tag">Cena</span>
-            <span class="rd-tiempo">⏱ 30 min</span>
+            <span class="rd-tiempo"> 30 min</span>
           </div>
           <h3>Crema de lentejas rojas</h3>
           <p>Legumbre estrella: proteína vegetal, hierro y fibra. Ideal para una cena reconfortante y nutritiva.</p>
@@ -308,7 +316,7 @@
         <div class="rd-body">
           <div class="rd-meta">
             <span class="rd-tag">Snack</span>
-            <span class="rd-tiempo">⏱ 10 min</span>
+            <span class="rd-tiempo"> 10 min</span>
           </div>
           <h3>Hummus casero con crudités</h3>
           <p>Un snack nutritivo y saciante. El hummus es rico en proteína vegetal, hierro y grasas del tahini.</p>
@@ -341,7 +349,7 @@
         <div class="rd-body">
           <div class="rd-meta">
             <span class="rd-tag">Almuerzo</span>
-            <span class="rd-tiempo">⏱ 10 min</span>
+            <span class="rd-tiempo"> 10 min</span>
           </div>
           <h3>Ensalada completa de atún</h3>
           <p>Rápida, proteica y sin necesidad de cocinar. Perfecta para días de poco tiempo pero sin renunciar a la nutrición.</p>
@@ -380,7 +388,7 @@
       y rotación semanal de legumbres, pescado y carne. Úsalo como modelo para crear el tuyo.
     </p>
 
-    <!-- TABS -->
+    <!-- TABS del plan semanal -->
     <div class="plan-tabs-wrap">
       <div class="plan-tabs">
         <button class="plan-tab active" onclick="verDia('lun', this)">Lun</button>
@@ -388,9 +396,12 @@
         <button class="plan-tab" onclick="verDia('mie', this)">Mié</button>
         <button class="plan-tab" onclick="verDia('jue', this)">Jue</button>
         <button class="plan-tab" onclick="verDia('vie', this)">Vie</button>
+        <!-- Clase extra 'weekend' para darle un estilo distinto al finde -->
         <button class="plan-tab weekend" onclick="verDia('sab', this)">Sáb</button>
         <button class="plan-tab weekend" onclick="verDia('dom', this)">Dom</button>
       </div>
+
+      <!-- Solo el .plan-dia con clase 'active' es visible, el CSS oculta el resto -->
 
       <!-- LUNES -->
       <div class="plan-dia active" id="dia-lun">
@@ -505,6 +516,7 @@
     <p>Regístrate, comparte tus recetas y organiza tu alimentación con la comunidad de Jabalí.</p>
     <div class="cta-btns">
       <a href="/registro" class="btn-primary">Crear cuenta gratis</a>
+      <!-- Estilo inline para cambiar el color del botón en este sitio concreto -->
       <a href="/#pon-tu-receta" class="btn-secondary" style="color:var(--verde-claro); border-color:var(--verde-claro);">Compartir mi receta</a>
     </div>
   </section>
@@ -521,15 +533,18 @@
   </footer>
 
   <script>
+    // Muestra el día seleccionado: primero quita 'active' de todo y luego
+    // se lo pone solo al día y pestaña que se ha pulsado
     function verDia(dia, btn) {
       document.querySelectorAll('.plan-dia').forEach(d => d.classList.remove('active'));
       document.querySelectorAll('.plan-tab').forEach(t => t.classList.remove('active'));
+      // Une "dia-" con el nombre del día para encontrar el elemento correcto, ej: "dia-lun"
       document.getElementById('dia-' + dia).classList.add('active');
       btn.classList.add('active');
     }
 
+    // Muestra solo las recetas del tipo pulsado ocultando el resto
     function filtrar(tipo, btn) {
-      // Actualizar botones activos
       document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
@@ -538,6 +553,8 @@
         if (tipo === 'todos') {
           card.style.display = 'block';
         } else if (tipo === 'celiaco') {
+          // dataset.celiaco lee el atributo data-celiaco del HTML, que llega como texto,
+          // por eso se compara con el string 'true' y no con un booleano
           card.style.display = card.dataset.celiaco === 'true' ? 'block' : 'none';
         } else {
           card.style.display = card.dataset.tipo === tipo ? 'block' : 'none';
@@ -545,16 +562,20 @@
       });
     }
 
+    // Abre o cierra el menú de perfil al pulsar el avatar
     function toggleMenu() {
       const menu = document.getElementById('menu-perfil');
       menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
     }
 
+    // Abre o cierra el menú de recetas
     function toggleRecetas() {
       const menu = document.getElementById('menu-recetas');
       menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
     }
 
+    // Cierra ambos menús si el usuario hace clic en cualquier parte fuera de ellos
+    // closest() busca si el clic fue dentro del menú; si no lo encuentra, lo cierra
     document.addEventListener('click', function(e) {
       const menuPerfil  = document.getElementById('menu-perfil');
       const menuRecetas = document.getElementById('menu-recetas');
