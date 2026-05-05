@@ -230,27 +230,27 @@ def ia_menu():
 
 @app.route('/ia/analisis', methods=['POST'])
 def ia_analisis():
-    # Si no hay sesión activa, redirige al login
+    # Ibon Etxegia: Si no hay sesión activa, redirige al login
     if not session.get('id_cli'):
         return redirect('/login')
-    # Recoge los datos del formulario
+    # Ibon Etxegia: Recoge los datos del formulario
     nombre=request.form.get('nombre_receta', '')
     kcal=request.form.get('valor_nutricional', '0')
     score=request.form.get('nutriscore', 'C')
-    # Llama a la función de análisis y devuelve el resultado
+    # Ibon Etxegia: Llama a la función de análisis y devuelve el resultado
     analisis=analizar_nutriscore(nombre, kcal, score)
     return render_template('RETO5.html', analisis_ia=analisis)
 
 
 @app.route('/receta', methods=['POST'])
 def receta():
-    #Ibon: Este codigo lo hacemos muchas veces para comprobar que el usuario ha iniciado sesion si no ha iniciado sesion no puedes entrar a la pagina
+    #Ibon Etxegia: Este codigo lo hacemos muchas veces para comprobar que el usuario ha iniciado sesion si no ha iniciado sesion no puedes entrar a la pagina
     id_cli = session.get('id_cli')
     if not id_cli:
         return render_template('pontureceta.html', error_receta='Debes iniciar sesión para publicar una receta.')
 
-    # Verificamos que el id_cli de la sesion existe realmente en la base de datos
-    # Si no existe (por ejemplo tras recrear las tablas) cerramos sesion y mandamos a login
+    # Ibon Etxegia: Verificamos que el id_cli de la sesion existe realmente en la base de datos
+    # Ibon EtxegiaSi no existe (por ejemplo tras recrear las tablas) cerramos sesion y mandamos a login
     try:
         cur_check = mysql.connection.cursor()
         cur_check.execute("SELECT id_cli FROM CLIENTE WHERE id_cli = %s", (id_cli,))
@@ -301,7 +301,7 @@ def receta():
                 INSERT INTO INGREDIENTE (nombre_ingrediente, sostenibilidad_producto, cecliaco, caducidad)
                 VALUES (%s, %s, %s, %s)
             """, (nombre_ing[:50], sost, celiaco, caducidad))
-            # Guardamos el id del ingrediente recien insertado antes de la siguiente consulta
+            # Ibon Etxegia: Guardamos el id del ingrediente recien insertado antes de la siguiente consulta
             id_ingrediente_nuevo = cur.lastrowid
             cur.execute("INSERT INTO RECETA_INGREDIENTE (id_receta, id_ingrediente) VALUES (%s, %s)", (id_receta, id_ingrediente_nuevo))
 
