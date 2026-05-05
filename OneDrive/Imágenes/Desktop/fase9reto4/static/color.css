@@ -1,24 +1,39 @@
-/* color.css - Jabali Nutrition */
+/* 
+   color.css - Jabali Nutrition
+    Ibon Ye, Xabier Morales, Unax Gahona e Ibon Etxegia
+    */
 
+
+/* =================
+   COLORES - Ibon Ye
+    Aqui definimos los colores principales de la marca como variables CSS
+   ====================== */
 :root {
-  --verde: #4a7c59;
-  --crema: #f5f0e8;
-  --marron: #3d2b1f;
-  --naranja: #e07b39;
-  --blanco: #ffffff;
-  --gris: #666666;
-  --gris-claro: #e8e8e8;
+  --verde: #4a7c59;       /* el verde ese de toda la vida */
+  --crema: #f5f0e8;       /* color medio beige  */
+  --marron: #3d2b1f;      /* marron oscuro  */
+  --naranja: #e07b39;     /* naranja  */
+  --blanco: #ffffff;      /* el blanco  */
+  --gris: #666666;        /* gris */
+  --gris-claro: #e8e8e8;  /* gris  */
 }
 
+/* esto quita los margenes que pone el navegador por defecto
+    - Ibon Ye */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* estilos basicos del cuerpo, fuente normal y fondo grisaceo - Ibon Ye */
 body {
   font-family: Arial, sans-serif;
   background: #f9f9f9;
   color: #333;
 }
 
-/* NAV */
+
+/* ============================================================
+   BARRA DE NAVEGACION - Ibon Etxegia
+    La barra de arriba con el logo, enlaces y botones de login
+   ============================================================ */
 nav {
   background: white;
   border-bottom: 1px solid #ddd;
@@ -26,17 +41,24 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: sticky;
+  position: sticky; /* se queda pegada arriba al hacer scroll */
   top: 0;
-  z-index: 100;
+  z-index: 100; /* que no se quede detras de otras cosas */
 }
+
+/* el logo grande de la marca */
 .logo { font-size: 1.4rem; font-weight: bold; color: #333; }
-.logo span { color: var(--verde); }
+.logo span { color: var(--verde); } /* la parte verde del nombre */
+
+/* los enlaces del menu, en fila y con espacio entre ellos */
 nav ul { list-style: none; display: flex; gap: 16px; }
 nav ul a { text-decoration: none; color: #333; font-size: 0.9rem; }
 nav ul a:hover { text-decoration: underline; }
+
+/* los botones de la derecha del nav, login  */
 .nav-acciones { display: flex; gap: 8px; align-items: center; }
 
+/* boton verde del nav, el de iniciar sesion */
 .btn-nav {
   background: var(--verde);
   color: white;
@@ -47,19 +69,22 @@ nav ul a:hover { text-decoration: underline; }
   text-decoration: none;
   font-family: Arial, sans-serif;
 }
-.btn-nav:hover { background: #333; }
+.btn-nav:hover { background: #333; } /* se pone negro cuando pasas el raton */
 
+/* estos son los contenedores de los menus que se despliegan */
 .recetas-menu, .perfil-menu { position: relative; }
 
+/* el menu que aparece al hacer click, por defecto esta escondido
+   el javascript se encarga de mostrarlo */
 .dropdown-menu {
-  display: none;
+  display: none; /* escondido hasta que se haga click */
   position: absolute;
   right: 0;
-  top: 110%;
+  top: 110%; /* sale justo debajo del boton */
   background: white;
   border: 1px solid #ddd;
   min-width: 140px;
-  z-index: 200;
+  z-index: 200; /* por encima del nav para que no quede detras */
 }
 .dropdown-menu a {
   display: block;
@@ -74,7 +99,13 @@ nav ul a:hover { text-decoration: underline; }
 
 .avatar { width: 34px; height: 34px; border-radius: 50%; cursor: pointer; border: 1px solid #ddd; }
 
-/* BOTONES */
+
+/* =================
+   BOTONES - Xabier Morales
+   Dos tipos de botones, el verde relleno y el de solo borde
+   ========================================= */
+
+/* boton verde para las acciones principales */
 .btn-primary {
   background: var(--verde);
   color: white;
@@ -88,6 +119,7 @@ nav ul a:hover { text-decoration: underline; }
 }
 .btn-primary:hover { background: #333; }
 
+/* boton de contorno */
 .btn-secondary {
   background: white;
   color: var(--verde);
@@ -98,11 +130,19 @@ nav ul a:hover { text-decoration: underline; }
 }
 .btn-secondary:hover { background: #f0f0f0; }
 
-/* ALERTAS */
+
+/* ================
+   ALERTAS - Xabier Morales
+   El cuadro rojo de error y el verde de que salio bien
+   ============================================= */
 .alerta-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 10px; margin-bottom: 12px; }
 .alerta-ok    { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; padding: 10px; margin-bottom: 12px; }
 
-/* HERO */
+
+/* ================================
+   HERO - LA PORTADA - Xabier Morales
+   Lo primero que ve la gente cuando entre
+   ========================== */
 .hero {
   display: flex;
   justify-content: space-between;
@@ -110,27 +150,32 @@ nav ul a:hover { text-decoration: underline; }
   padding: 36px 20px;
   max-width: 1100px;
   margin: 0 auto;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* se pone en columna solo */
   gap: 20px;
   border-bottom: 1px solid #eee;
 }
 .hero-text { flex: 1; min-width: 250px; }
 .hero h1 { font-size: 2rem; margin-bottom: 10px; color: #222; }
-.hero h1 em { color: var(--verde); font-style: normal; }
+.hero h1 em { color: var(--verde); font-style: normal; } /* la palabra chula en verde */
 .hero p { color: #666; margin-bottom: 18px; font-size: 0.95rem; }
 .hero-btns { display: flex; gap: 10px; }
 
+/* la tarjetita de macros que sale a la derecha del hero */
 .hero-card { background: white; border: 1px solid #ddd; padding: 18px; width: 220px; }
 .hero-card-title { font-weight: bold; margin-bottom: 10px; font-size: 0.9rem; }
+
+/* cada linea de macro con su barrilla de colores */
 .macro { margin-bottom: 8px; }
 .macro span { font-size: 0.78rem; color: #666; display: block; margin-bottom: 2px; }
-.bar { background: #eee; height: 6px; }
-.fill { height: 6px; }
-.fill-protein { background: var(--verde); }
-.fill-carb    { background: var(--naranja); }
-.fill-fat     { background: #aaa; }
+.bar { background: #eee; height: 6px; }   /* fondo gris de la barra */
+.fill { height: 6px; }                    /* la parte que se rellena */
 
-/* STATS */
+
+/* ===========================
+   ESTADISTICAS - Ibon Ye
+   La franja oscura con los numerotes grandes
+   
+   =========================================== */
 .stats {
   background: #444;
   display: flex;
@@ -143,8 +188,14 @@ nav ul a:hover { text-decoration: underline; }
 .stat h3 { font-size: 1.6rem; color: #fff; }
 .stat p  { color: #ccc; font-size: 0.82rem; }
 
-/* CABECERAS */
+
+/* ======================
+   CABECERAS DE SECCION - Ibon Ye
+    El titulo grande que va al principio de cada seccion, con su texto de introduccion
+   =============================== */
 .section-header { text-align: center; margin-bottom: 24px; }
+
+/* la etiquetita gris pequeña que va encima del titulo */
 .section-tag {
   background: #eee;
   border: 1px solid #ccc;
@@ -158,17 +209,24 @@ nav ul a:hover { text-decoration: underline; }
 .section-header h2 em { color: var(--verde); font-style: normal; }
 .section-header p { color: #666; font-size: 0.9rem; }
 
-/* SOBRE NOSOTROS */
+
+/* ========================
+   SOBRE NOSOTROS - Unax Gahona
+    La parte de la web donde hablamos de la empresa, el equipo y los valores
+   ==================================== */
 .sobre-nosotros { background: white; padding: 44px 20px; border-top: 1px solid #eee; }
 .sobre-content { max-width: 1100px; margin: 0 auto; display: flex; gap: 28px; flex-wrap: wrap; }
 .sobre-texto { flex: 1; min-width: 250px; }
 .sobre-texto h2 { font-size: 1.5rem; margin-bottom: 10px; color: #222; }
 .sobre-texto h2 em { color: var(--verde); font-style: normal; }
 .sobre-texto p { color: #666; margin-bottom: 8px; font-size: 0.9rem; }
+
+/* los valores de la empresa, en columna uno debajo del otro */
 .sobre-valores { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
 .valor strong { display: block; margin-bottom: 2px; font-size: 0.9rem; }
 .valor p { font-size: 0.82rem; color: #666; }
 
+/* las tarjetas de cada miembro del equipo con su foto y nombre */
 .sobre-equipo { display: flex; flex-direction: column; gap: 8px; min-width: 200px; }
 .miembro {
   background: #f9f9f9;
@@ -180,12 +238,19 @@ nav ul a:hover { text-decoration: underline; }
 }
 .miembro h4 { font-size: 0.88rem; }
 .miembro p  { font-size: 0.76rem; color: #666; }
-.miembro span { font-size: 0.73rem; color: var(--verde); }
+.miembro span { font-size: 0.73rem; color: var(--verde); } /* el cargo en verde */
 .miembro-avatar { width: 46px; height: 46px; min-width: 46px; border-radius: 50%; overflow: hidden; }
 .miembro-avatar img { width: 100%; height: 100%; object-fit: cover; }
 
-/* IA DIETISTA */
+
+/* ============
+   IA DIETISTA - Ibon Etxegia
+    La parte donde la IA te da consejos personalizados de dieta
+  
+   ======================= */
 .ia-section { background: #f5f5f5; padding: 44px 20px; border-top: 1px solid #eee; }
+
+
 .ia-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -197,6 +262,7 @@ nav ul a:hover { text-decoration: underline; }
 .ia-card h3 { font-size: 1.1rem; margin-bottom: 5px; }
 .ia-card > p { font-size: 0.85rem; color: #666; margin-bottom: 10px; }
 
+/* formulario dentro de las tarjetas de la IA */
 .ia-form { display: flex; flex-direction: column; gap: 7px; }
 .ia-form input,
 .ia-form select {
@@ -208,6 +274,7 @@ nav ul a:hover { text-decoration: underline; }
   background: #fafafa;
 }
 
+/* boton de enviar el formulario de la IA */
 .btn-ia {
   background: var(--verde);
   color: white;
@@ -230,6 +297,8 @@ nav ul a:hover { text-decoration: underline; }
 }
 .ia-resultado-tag { font-weight: bold; font-size: 0.76rem; margin-bottom: 4px; }
 
+/* cuadro gris para el menu semanal que genera la IA
+   */
 .ia-menu-resultado {
   background: #f5f5f5;
   color: #333;
@@ -237,26 +306,32 @@ nav ul a:hover { text-decoration: underline; }
   padding: 10px;
   font-size: 0.83rem;
   line-height: 1.6;
-  white-space: pre-wrap;
+  white-space: pre-wrap; /* respeta los saltos de linea */
   max-height: 240px;
-  overflow-y: auto;
+  overflow-y: auto;    /* scroll si no cabe todo */
   margin-top: 8px;
 }
 
+/* el indicador de carga mientras la IA piensa, esta oculto
+   hasta que se hace una peticion */
 .ia-loading { display: none; text-align: center; padding: 8px; color: #666; font-size: 0.85rem; }
 .spinner {
   display: inline-block;
   width: 13px; height: 13px;
   border: 2px solid #ddd;
-  border-top-color: var(--verde);
+  border-top-color: var(--verde); 
   border-radius: 50%;
   animation: spin .7s linear infinite;
   margin-right: 5px;
   vertical-align: middle;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin { to { transform: rotate(360deg); } } /* dale vueltas infinitas */
 
-/* CALCULADORA */
+
+/* ======================
+   CALCULADORA DE DIETA - Unax Gahona
+    La parte donde puedes meter tus datos y te calcula las calorias y macros que necesitas
+   ========================== */
 .calcular-dieta { padding: 44px 20px; max-width: 1100px; margin: 0 auto; }
 .calculadora {
   background: white;
@@ -267,6 +342,7 @@ nav ul a:hover { text-decoration: underline; }
   flex-wrap: wrap;
 }
 .calc-form { flex: 1; min-width: 240px; }
+
 .calc-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
 .calc-field { flex: 1; min-width: 110px; display: flex; flex-direction: column; gap: 4px; }
 .calc-field label { font-size: 0.8rem; font-weight: bold; color: #444; }
@@ -278,8 +354,9 @@ nav ul a:hover { text-decoration: underline; }
   font-size: 0.88rem;
   background: #fafafa;
 }
-.calc-btn { margin-top: 6px; width: 100%; }
+.calc-btn { margin-top: 6px; width: 100%; } /* ocupa todo el ancho */
 
+/* el panel verde clarito donde salen las calorias y macros */
 .calc-resultado {
   flex: 1;
   min-width: 180px;
@@ -289,16 +366,24 @@ nav ul a:hover { text-decoration: underline; }
   text-align: center;
 }
 .calc-resultado h3 { font-size: 1.1rem; margin-bottom: 8px; color: #333; }
+
+
 .resultado-kcal { margin-bottom: 12px; }
 .resultado-kcal span { font-size: 2.8rem; display: block; font-weight: bold; color: var(--verde); }
 .resultado-kcal small { font-size: 0.82rem; color: #666; }
+
+/* los tres numeritos de proteinas hidratos y grasas */
 .resultado-macros { display: flex; justify-content: space-around; margin-bottom: 10px; }
 .macro-resultado { text-align: center; }
 .macro-valor { display: block; font-size: 1.4rem; font-weight: bold; color: #333; }
 .macro-nombre { font-size: 0.72rem; color: #666; }
-.resultado-nota { font-size: 0.7rem; color: #888; }
+.resultado-nota { font-size: 0.7rem; color: #888; } /* nota pequeña de abajo */
 
-/* RECETAS */
+
+/* =================================
+   RECETAS - Ibon Ye
+   Las tarjetas con foto, nombre y macros de cada receta
+   ================================================ */
 .recetas { padding: 44px 20px; max-width: 1100px; margin: 0 auto; }
 .recetas-grid {
   display: grid;
@@ -306,8 +391,12 @@ nav ul a:hover { text-decoration: underline; }
   gap: 14px;
 }
 .receta-card { background: white; border: 1px solid #ddd; overflow: hidden; }
+
+/* la imagen de la receta */
 .receta-img { height: 170px; overflow: hidden; }
 .receta-img img { width: 100%; height: 100%; object-fit: cover; }
+
+/* el texto debajo de la foto */
 .receta-info { padding: 12px; }
 .receta-tag {
   background: #eee;
@@ -319,6 +408,7 @@ nav ul a:hover { text-decoration: underline; }
 }
 .receta-info h4 { font-size: 0.95rem; margin-bottom: 4px; }
 .receta-info p  { font-size: 0.82rem; color: #666; margin-bottom: 8px; }
+
 .receta-macros { display: flex; gap: 4px; flex-wrap: wrap; }
 .receta-macros span {
   font-size: 0.72rem;
@@ -328,7 +418,11 @@ nav ul a:hover { text-decoration: underline; }
   color: #555;
 }
 
-/* PLANES */
+
+/* ============================
+   PLANES DE SUSCRIPCION - Xabier Morales
+   Los tres precios de los planes, con el mas popular destacado y la pegatina de "mas popular"
+   ==================================== */
 .planes { padding: 44px 20px; background: white; border-top: 1px solid #eee; }
 .planes .section-header { max-width: 1100px; margin: 0 auto 24px; text-align: center; }
 .planes-grid {
@@ -339,7 +433,8 @@ nav ul a:hover { text-decoration: underline; }
   margin: 0 auto;
 }
 .plan-card { background: #fafafa; border: 1px solid #ddd; padding: 20px; }
-.plan-card.plan-popular { border-color: var(--verde); background: white; }
+.plan-card.plan-popular { border-color: var(--verde); background: white; } /* el favorito con borde verde */
+
 .plan-badge {
   background: var(--naranja);
   color: white;
@@ -352,9 +447,13 @@ nav ul a:hover { text-decoration: underline; }
 .plan-price { font-size: 1.8rem; font-weight: bold; color: var(--verde); margin-bottom: 12px; }
 .plan-price span { font-size: 0.95rem; }
 .plan-price small { font-size: 0.82rem; color: #888; font-weight: normal; }
+
+/* lista de cosas que incluye el plan */
 .plan-card ul { list-style: none; margin-bottom: 14px; }
 .plan-card ul li { padding: 4px 0; font-size: 0.86rem; border-bottom: 1px solid #eee; color: #444; }
-.plan-card ul li.disabled { color: #bbb; }
+.plan-card ul li.disabled { color: #bbb; } /* lo que no tiene ese plan, en gris para que se vea triste */
+
+/* boton de contratar */
 .btn-plan {
   display: block;
   text-align: center;
@@ -365,12 +464,17 @@ nav ul a:hover { text-decoration: underline; }
   font-size: 0.88rem;
 }
 .btn-plan:hover { background: var(--verde); }
-.btn-plan.btn-plan-accent { background: var(--verde); }
+.btn-plan.btn-plan-accent { background: var(--verde); } /* el del plan popular en verde */
 .btn-plan.btn-plan-accent:hover { background: #333; }
 
-/* CONTACTO */
+
+/* ===================
+   CONTACTO - Unax Gahona
+   */
 .contacto { background: #3a3a3a; padding: 44px 20px; }
 .contacto-inner { max-width: 640px; margin: 0 auto; }
+
+/* los textos van en claro porque el fondo es oscuro */
 .contacto .section-tag  { border-color: #aaa; color: #ccc; background: transparent; }
 .contacto .section-header h2 { color: white; }
 .contacto .section-header p  { color: #aaa; }
@@ -381,6 +485,7 @@ nav ul a:hover { text-decoration: underline; }
 .form-field { flex: 1; min-width: 140px; display: flex; flex-direction: column; gap: 4px; }
 .form-field label { font-size: 0.8rem; color: #aaa; }
 
+/* los inputs con fondo oscuro para que no desentonen */
 .form input, .form textarea, .form select {
   padding: 9px 12px;
   border: 1px solid #555;
@@ -391,28 +496,36 @@ nav ul a:hover { text-decoration: underline; }
   width: 100%;
 }
 .form input::placeholder,
-.form textarea::placeholder { color: #888; }
+.form textarea::placeholder { color: #888; } 
 .form select option { background: #3a3a3a; }
 .form-section-title { color: #ddd; font-weight: bold; margin-top: 4px; font-size: 0.9rem; }
 
-/* FOOTER */
+
+/* ==================================
+   FOOTER - Ibon Etxegia
+    La barra de abajo del todo con el logo, enlaces y copyright
+   ===================================== */
 footer {
-  background: #2a2a2a;
+  background: #2a2a2a; /* mas oscuro que el contacto */
   color: #aaa;
   text-align: center;
   padding: 18px;
 }
 .footer-logo { font-size: 1.3rem; font-weight: bold; color: white; margin-bottom: 5px; }
-.footer-logo span { color: #7fb891; }
+.footer-logo span { color: #7fb891; } /* verdecito del logo */
 footer p { font-size: 0.8rem; margin-bottom: 8px; }
 .footer-links { display: flex; justify-content: center; gap: 16px; }
 .footer-links a { color: #888; text-decoration: none; font-size: 0.8rem; }
 .footer-links a:hover { color: white; }
 
-/* RESPONSIVE */
+
+/* =========================================
+   MOVIL - Ibon Etxegia
+    Aqui metemos los estilos que solo se aplican en pantallas pequeñas, para que la web se vea bien en el movil
+   ================================= */
 @media (max-width: 640px) {
-  nav ul { display: none; }
-  .hero-card { width: 100%; }
-  .btn-nav { padding: 6px 10px; font-size: 0.8rem; }
-  .form-row { flex-direction: column; }
+  nav ul { display: none; }             
+  .hero-card { width: 100%; }           /* la tarjeta ocupa todo */
+  .btn-nav { padding: 6px 10px; font-size: 0.8rem; } /* botones mas pequenos */
+  .form-row { flex-direction: column; } /* los campos del form en columna */
 }
