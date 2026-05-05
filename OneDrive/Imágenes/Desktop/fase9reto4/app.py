@@ -113,11 +113,13 @@ def login():
     if request.method == 'GET':
         return render_template('login.html')
 
+    # gahona: recoge el email y encripta la contraseña igual que al registrarse para poder compararlas
     email    = request.form.get('email', '').strip()
     pwd_hash = hashlib.sha256(request.form.get('password', '').encode()).hexdigest()[:200]
 
     try:
         cur = mysql.connection.cursor()
+        # gahona: busca un usuario que su  email y contraseña coincidan en las dos tablas a la vez
         cur.execute("""
             SELECT u.id_usu, u.nombre_usu, c.id_cli
             FROM USUARIO u JOIN CLIENTE c ON u.id_usu = c.id_usu
@@ -125,14 +127,18 @@ def login():
         """, (email, pwd_hash))
         usuario = cur.fetchone()
 
+        # gahona: si no encuentra ningún usuario con esos datos de usuario , muestra error
         if not usuario:
             cur.close()
             return render_template('login.html', error='Email o contraseña incorrectos.')
 
+        # gahona: guarda los datos del usuario en la sesión para tenerlos disponibles la app
         session['id_usu'] = usuario[0]
         session['nombre'] = usuario[1]
         session['id_cli'] = usuario[2]
 
+        # gahona: suma 1 al contador de logins; 
+        # COALESCE evita errores si el campo era NULL
         cur.execute("UPDATE CLIENTE SET num_logs = COALESCE(num_logs, 0) + 1 WHERE id_cli = %s", (usuario[2],))
         mysql.connection.commit()
         cur.close()
@@ -150,15 +156,19 @@ def logout():
     return redirect('/')
 
 
+# gahona: solo pueden usar la IA los usuarios logueados
 @app.route('/ia/sugerencia', methods=['POST'])
 def ia_sugerencia():
     if not session.get('id_cli'):
         return redirect('/login')
 
+    # gahona: recoge lo que el usuario ha escrito y se lo pasa a la función de IA
     ingrediente = request.form.get('ingrediente', '')
     nutriscore  = request.form.get('nutriscore', 'C')
     resultado   = sugerir_receta(ingrediente, nutriscore)
 
+    # gahona: devuelve la página con la sugerencia generada y los datos del formulario
+    # para que el usuario vea lo que había escrito junto con el resultado
     return render_template('RETO5.html',
         sugerencia_ia=resultado,
         ingrediente_ia=ingrediente,
@@ -167,15 +177,18 @@ def ia_sugerencia():
 
 @app.route('/ia/guardar_receta', methods=['POST'])
 def guardar_receta_ia():
+    # gahona: verificar si el usuario esta logueado
     if not session.get('id_cli'):
         return redirect('/login')
 
+    # gahona: [0].upper() coge solo la primera letra y la pone en mayúscula
     nombre_receta = request.form.get('nombre_receta', 'Receta IA')[:50]
     nutriscore    = request.form.get('nutriscore', 'C')[0].upper()
     id_cli        = session['id_cli']
 
     try:
         cur = mysql.connection.cursor()
+        # gahona: crea un ingrediente genérico usando el nombre de la receta como nombre
         cur.execute("""
             INSERT INTO INGREDIENTE (nombre_ingrediente, sostenibilidad_producto, cecliaco)
             VALUES (%s, 'Nacional', 0)
@@ -188,11 +201,14 @@ def guardar_receta_ia():
         """, (id_cli, nombre_receta, nutriscore))
         id_receta = cur.lastrowid
 
+        # gahona: relaciona la receta con el ingrediente en la tabla intermedia
         cur.execute("INSERT INTO RECETA_INGREDIENTE (id_receta, id_ingrediente) VALUES (%s, %s)", (id_receta, id_ingrediente_nuevo))
+        # gahona: suma 1 al contador de recetas del usuario
         cur.execute("UPDATE CLIENTE SET num_recetas = COALESCE(num_recetas, 0) + 1 WHERE id_cli = %s", (id_cli,))
         mysql.connection.commit()
         cur.close()
     except Exception as e:
+        # gahona: si algo falla deshace todos los cambios para no dejar datos a medias
         mysql.connection.rollback()
         return render_template('RETO5.html', error_receta=f'Error al guardar: {e}')
 
@@ -201,6 +217,7 @@ def guardar_receta_ia():
 
 @app.route('/ia/menu', methods=['POST'])
 def ia_menu():
+    # gahona: verificar si el usuario esta logueado
     if not session.get('id_cli'):
         return redirect('/login')
 
