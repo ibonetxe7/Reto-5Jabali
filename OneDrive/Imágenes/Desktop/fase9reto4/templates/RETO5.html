@@ -3,40 +3,51 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <!-- esto es lo de siempre, el charset para que no salgan simbolos raros y el viewport para que no se vea todo pequeñito en el movil -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Jabalí Nutrition — Alimenta tu potencial</title>
+  <!-- aqui metemos el css que tenemos en la carpeta static, si no pones esto no hay colores ni nada queda muy mal -->
   <link rel="stylesheet" href="{{ url_for('static', filename='color.css') }}" />
+  <!-- estas son las fuentes de google, bebas neue para los titulos que molan y nunito para el texto normal -->
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <!-- el iconito ese que sale en la pestaña del navegador, si no pones esto sale el icono generico que queda vacio-->
   <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='logo.jpeg') }}">
 </head>
 <body>
 
-  <!-- 1. NAV -->
+  <!-- NAV: esto es la barra de arriba de toda la vida, tiene el logo, el boton de calcular dieta, el menu de recetas y el avatar del perfil -->
   <nav>
     <div class="logo">Jabalí <span>Nutrition</span></div>
     <ul>
+      <!-- solo hay un enlace en la lista, el de sobre nosotros, los demas estan en el div de nav-acciones -->
       <li><a href="#sobre-nosotros">Sobre nosotros</a></li>
     </ul>
     <div class="nav-acciones">
+      <!-- boton que te lleva a la seccion de calcular dieta haciendo scroll, no abre ninguna pagina nueva -->
       <a href="#calcular-dieta" class="btn-nav">Calcular Mi Dieta</a>
 
+      <!-- esto es el menu desplegable de recetas, cuando le das al boton llama a toggleRecetas() que esta al final del js -->
       <div class="recetas-menu">
         <button class="btn-nav" onclick="toggleRecetas()">Recetas</button>
         <div id="menu-recetas" class="dropdown-menu">
+          <!-- tres enlaces, uno para ver todas las recetas -->
           <a href="/recetas">Recetas</a>
           <a href="/tusrecetas">Tus Recetas</a>
           <a href="/pontureceta">Pon Tus Recetas</a>
         </div>
       </div>
 
+      <!-- esto es el avatar del perfil, cuando le das abre el menu con el nombre del usuario o los botones de login/registro -->
       <div class="perfil-menu">
         <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
              onclick="toggleMenu()" class="avatar"/>
         <div id="menu-perfil" class="dropdown-menu">
+          <!-- aqui jinja2 mira si hay sesion iniciada, si la hay muestra el nombre y el boton de cerrar sesion -->
+          <!-- si no hay sesion muestra registrarse e iniciar sesion, esto es lo bueno de flask que se hace solo -->
           {% if session.get('nombre') %}
             <p style="padding:10px 14px; font-weight:800; color:var(--verde); border-bottom:1px solid var(--gris-claro); margin-bottom:4px;">
-              👤 {{ session.get('nombre') }}
+               {{ session.get('nombre') }}
             </p>
             <a href="/logout">Cerrar sesión</a>
           {% else %}
@@ -49,21 +60,20 @@
     </div>
   </nav>
 
-  
-
-  <!-- 2. HERO -->
+  <!-- HERO: la seccion grande de entrada que ves nada mas entrar a la pagina, con el titulo gordo y los dos botones -->
   <section class="hero" id="inicio">
     <div class="hero-text">
       <h1>Alimenta tu <em>mejor versión</em></h1>
       <p>Planes nutricionales diseñados por expertos, adaptados a tu cuerpo, tus metas y tu estilo de vida.</p>
       <div class="hero-btns">
+        <!-- estos dos botones hacen scroll hasta la seccion de planes y recetas respectivamente -->
         <a href="#planes" class="btn-primary">Ver planes</a>
         <a href="#recetas" class="btn-secondary">Explorar recetas</a>
       </div>
     </div>
   </section>
 
-  <!-- 3. STATS -->
+  <!-- STATS: aqui ivan a ir numeros tipo "1000 usuarios" o "500 recetas" pero se quedaron vacios, habria que rellenarlos -->
   <section class="stats">
     <div class="stat"><h3></h3></div>
     <div class="stat"><h3></h3></div>
@@ -71,13 +81,14 @@
     <div class="stat"><h3></h3></div>
   </section>
 
-  <!-- 4. SOBRE NOSOTROS -->
+  <!-- SOBRE NOSOTROS: la seccion que explica que es gastrolab, con el texto de la izquierda y las fotos del equipo a la derecha -->
   <section class="sobre-nosotros" id="sobre-nosotros">
     <div class="sobre-content">
       <div class="sobre-texto">
         <h2>GastroLab: <em>Excelencia</em> Culinaria Internacional</h2>
         <p>Somos un centro de referencia inspirado en instituciones como el Basque Culinary Center. En nuestras cocinas, el talento internacional se une para desarrollar menús, investigar recetas y liderar la actividad diaria de nuestro restaurante formativo.</p>
         <p>Apostamos por la digitalización para centralizar nuestra información y por un plan integral de sostenibilidad que marque el futuro de la gastronomía.</p>
+        <!-- aqui estan los tres valores de la empresa, cada uno con su titulito y su parrafo explicando de que va -->
         <div class="sobre-valores">
           <div class="valor">
             <div>
@@ -100,6 +111,7 @@
         </div>
       </div>
 
+      <!-- aqui estan las tarjetas del equipo con foto nombre y cargo, las fotos son de urls externas ojo con eso -->
       <div class="sobre-equipo">
         <div class="miembro">
           <div class="miembro-avatar"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBbXGs-aZmgS8sX_TvteVqdhcVuNEkLBOxSA&s" alt="Elena"></div>
@@ -118,6 +130,7 @@
           </div>
         </div>
         <div class="miembro">
+          <!-- esta foto es de messi jaja pero bueno funciona de placeholder -->
           <div class="miembro-avatar"><img src="https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg" alt="Ibon Etxegia"></div>
           <div>
             <h4>Ibon Etxegia</h4>
@@ -126,6 +139,7 @@
           </div>
         </div>
         <div class="miembro">
+          <!-- esta es de neymar jaja hay que cambiarlas algun dia pero pa el reto vale -->
           <div class="miembro-avatar"><img src="https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/603_neymar.jpg" alt="Xabier Morales"></div>
           <div>
             <h4>Xabier Morales</h4>
@@ -137,7 +151,8 @@
     </div>
   </section>
 
-  <!-- 5. IA DIETISTA DIGITAL -->
+  <!-- IA DIETISTA: aqui estan los tres formularios que llaman a la ia, sugerir receta, menu semanal y analisis nutricional -->
+  <!-- cada formulario envia un POST a su ruta de flask y flask llama a las funciones del ia.py -->
   <section class="ia-section" id="ia-dietista">
     <div class="section-header" style="max-width:1100px; margin:0 auto 40px;">
       <h2>Tu <em>Dietista</em> Digital</h2>
@@ -146,12 +161,13 @@
 
     <div class="ia-grid">
 
-      <!-- CARD 1: Sugerencia de receta -->
+      <!-- CARD 1: le metes un ingrediente y el nutriscore que quieres y la ia te sugiere una receta -->
+      <!-- el onsubmit llama a mostrarLoading para que aparezca el spinner mientras la ia trabaja -->
       <div class="ia-card">
         <h3>Sugiere una Receta</h3>
         <p>Dinos qué ingrediente tienes y te generamos una receta saludable personalizada.</p>
         <form class="ia-form" action="/ia/sugerencia" method="POST" onsubmit="mostrarLoading('load-sug')">
-          <input type="text" name="ingrediente" placeholder="Ej: pollo, espinacas, tofu..." required />
+          <input type="text" name="ingrediente" placeholder="Ej: pollo, espinacas, tofu..."  />
           <select name="nutriscore">
             <option value="A">Nutriscore A — Excelente</option>
             <option value="B">Nutriscore B — Bueno</option>
@@ -161,7 +177,9 @@
           </select>
           <button type="submit" class="btn-ia">Generar receta</button>
         </form>
+        <!-- este div esta oculto por defecto, solo aparece cuando le das al boton gracias al mostrarLoading -->
         <div class="ia-loading" id="load-sug"><span class="spinner"></span>La IA está cocinando...</div>
+        <!-- esto solo aparece si flask manda la variable sugerencia_ia, o sea cuando la ia ya ha contestado -->
         {% if sugerencia_ia %}
         <div class="ia-resultado">
           <div class="ia-resultado-tag">Sugerencia de la IA</div>
@@ -170,7 +188,7 @@
         {% endif %}
       </div>
 
-      <!-- CARD 2: Menú semanal -->
+      <!-- CARD 2: eliges que tipo de dieta quieres y te genera el menu de toda la semana de lunes a domingo -->
       <div class="ia-card">
         <h3>Menú Semanal</h3>
         <p>Genera un menú completo de lunes a domingo adaptado a tus preferencias dietéticas.</p>
@@ -187,17 +205,18 @@
           <button type="submit" class="btn-ia">Generar menú</button>
         </form>
         <div class="ia-loading" id="load-menu"><span class="spinner"></span>Diseñando tu semana...</div>
+        <!-- aqui se renderiza el menu que manda flask, si no hay menu no aparece nada -->
         {% if menu_ia %}
         <div class="ia-menu-resultado">{{ menu_ia }}</div>
         {% endif %}
       </div>
 
-      <!-- CARD 3: Análisis nutricional -->
+      <!-- CARD 3: metes el nombre de la receta las calorias y el nutriscore y la ia te dice como mejorarla -->
       <div class="ia-card">
         <h3>Analiza tu Receta</h3>
         <p>Introduce los datos de tu receta y la IA te dará 3 consejos para mejorarla.</p>
         <form class="ia-form" action="/ia/analisis" method="POST" onsubmit="mostrarLoading('load-anal')">
-          <input type="text" name="nombre_receta" placeholder="Nombre de la receta *" required />
+          <input type="text" name="nombre_receta" placeholder="Nombre de la receta *" />
           <input type="number" name="valor_nutricional" placeholder="Calorías (kcal)" min="0" max="9999"/>
           <select name="nutriscore">
             <option value="A">Nutriscore A</option>
@@ -220,7 +239,8 @@
     </div>
   </section>
 
-  <!-- 6. CALCULAR DIETA -->
+  <!-- CALCULAR DIETA: formulario con javascript puro, no llama a flask ni nada, todo el calculo se ace en el navegador -->
+  <!-- usa la formula de mifflin-st jeor para calcular las calorias, nos la buscamos por ahi y funciona bastante bien -->
   <section class="calcular-dieta" id="calcular-dieta">
     <div class="section-header">
       <h2>Calcula tu <em>dieta ideal</em></h2>
@@ -228,6 +248,7 @@
     </div>
     <div class="calculadora">
       <div class="calc-form">
+        <!-- primera fila con edad peso y altura -->
         <div class="calc-row">
           <div class="calc-field">
             <label>Edad</label>
@@ -242,6 +263,7 @@
             <input type="number" id="altura" placeholder="170" min="100" max="250"/>
           </div>
         </div>
+        <!-- segunda fila con sexo actividad y objetivo -->
         <div class="calc-row">
           <div class="calc-field">
             <label>Sexo</label>
@@ -252,6 +274,7 @@
           </div>
           <div class="calc-field">
             <label>Actividad física</label>
+            <!-- estos numeros son los factores de actividad de la formula -->
             <select id="actividad">
               <option value="1.2">Sedentario</option>
               <option value="1.375">Ligero (1-3 días)</option>
@@ -269,14 +292,17 @@
             </select>
           </div>
         </div>
+        <!-- cuando le das a este boton llama a calcularDieta() que esta abajo en el script -->
         <button class="btn-primary calc-btn" onclick="calcularDieta()">Calcular mi dieta</button>
       </div>
+      <!-- este div esta oculto con display none hasta que calcularDieta() lo muestra con los resultados -->
       <div class="calc-resultado" id="resultado" style="display:none">
         <h3>Tu plan calórico</h3>
         <div class="resultado-kcal">
           <span id="kcal-total">0</span>
           <small>kcal / día</small>
         </div>
+        <!-- aqui se muestran los macros, proteinas carbos y grasas calculados en porcentajes 30/45/25 -->
         <div class="resultado-macros">
           <div class="macro-resultado">
             <span class="macro-valor" id="proteina">0g</span>
@@ -296,7 +322,7 @@
     </div>
   </section>
 
-  <!-- 7. RECETAS -->
+  <!-- RECETAS: seccion con tres recetas de ejemplo hardcodeadas -->
   <section class="recetas" id="recetas">
     <div class="section-header">
       <h2>Recetas <em>saludables</em></h2>
@@ -339,7 +365,8 @@
     </div>
   </section>
 
-  <!-- 8. PLANES -->
+  <!-- PLANES: las tres tarjetas de precios, basico completo y premium-->
+  <!-- el plan-popular tiene la clase extra plan-popular que en el css le pone un borde o algo para destacarlo -->
   <section class="planes" id="planes">
     <div class="section-header">
       <h2>Elige tu <em>plan</em></h2>
@@ -353,6 +380,7 @@
           <li>✓ Consulta inicial</li>
           <li>✓ Plan alimentario mensual</li>
           <li>✓ Acceso a recetas</li>
+          <!-- los disabled son los que no tienes en este plan, se muestran tachados en el css -->
           <li class="disabled">✗ Seguimiento semanal</li>
           <li class="disabled">✗ Chat con nutricionista</li>
         </ul>
@@ -386,7 +414,8 @@
     </div>
   </section>
 
-  <!-- 9. CONTACTO -->
+  <!-- CONTACTO: formulario que envia a formspree, un servicio externo que te manda los mensajes al correo sin necesidad de backend -->
+  <!-- si formspree deja de funcionar o se llena el limite gratuito habria que cambiarlo por la ruta  -->
   <section class="contacto" id="contacto">
     <div class="contacto-inner">
       <div class="section-header">
@@ -395,8 +424,8 @@
       </div>
       <form class="form" action="https://formspree.io/f/xgorjrwy" method="POST">
         <div class="form-row">
-          <input type="text"  name="nombre" placeholder="Tu nombre" required/>
-          <input type="email" name="email"  placeholder="Tu email"  required/>
+          <input type="text"  name="nombre" placeholder="Tu nombre"/>
+          <input type="email" name="email"  placeholder="Tu email" />
         </div>
         <input type="text" name="objetivo" placeholder="Tu objetivo (ej: perder peso, ganar músculo...)"/>
         <textarea name="mensaje" placeholder="Cuéntanos un poco más sobre ti..." rows="4"></textarea>
@@ -405,7 +434,7 @@
     </div>
   </section>
 
-  <!-- 10. FOOTER -->
+  <!-- FOOTER: lo de abajo del todo, el logo los derechos y los enlaces de privacidad terminos e instagram -->
   <footer>
     <div class="footer-logo">Jabalí <span>Nutrient</span></div>
     <p>© 2025 Jabalí Nutrient. Todos los derechos reservados.</p>
@@ -416,12 +445,14 @@
     </div>
   </footer>
 
-  <script>
+<script>
+    // calcularDieta: coge los valores del formulario y calcula las kcal con la formula de mifflin-st jeor
+    // si no rellenas edad peso o altura te salta un alert diciendote que rellenes todo
     function calcularDieta() {
-      const edad      = parseFloat(document.getElementById('edad').value);
-      const peso      = parseFloat(document.getElementById('peso').value);
-      const altura    = parseFloat(document.getElementById('altura').value);
-      const sexo      = document.getElementById('sexo').value;
+      const edad  = parseFloat(document.getElementById('edad').value);
+      const peso = parseFloat(document.getElementById('peso').value);
+      const altura = parseFloat(document.getElementById('altura').value);
+      const sexo = document.getElementById('sexo').value;
       const actividad = parseFloat(document.getElementById('actividad').value);
       const objetivo  = document.getElementById('objetivo-calc').value;
 
@@ -430,43 +461,55 @@
         return;
       }
 
+      // la formula cambia segun el sexo, para hombre se suma 5 y para mujer se resta 161
       let tmb = sexo === 'hombre'
         ? 10 * peso + 6.25 * altura - 5 * edad + 5
         : 10 * peso + 6.25 * altura - 5 * edad - 161;
 
+      // multiplicamos por el factor de actividad y luego ajustamos segun el objetivo
       let kcal = tmb * actividad;
-      if (objetivo === 'deficit')   kcal -= 350;
-      if (objetivo === 'superavit') kcal += 300;
+      if (objetivo === 'deficit')   kcal -= 350;  // si quiere perder peso le quitamos 350 kcal
+      if (objetivo === 'superavit') kcal += 300;  // si quiere ganar musculo le añadimos 300
       kcal = Math.round(kcal);
 
+      // repartimos las calorias en macros: 30% proteina 45% carbos 25% grasas
+      // dividimos por 4 las proteinas y carbos porque tienen 4 kcal por gramo, las grasas por 9
       const proteina = Math.round((kcal * 0.30) / 4);
       const grasas   = Math.round((kcal * 0.25) / 9);
       const carbos   = Math.round((kcal * 0.45) / 4);
 
+      // metemos los numeros en el html
       document.getElementById('kcal-total').textContent = kcal;
       document.getElementById('proteina').textContent   = proteina + 'g';
       document.getElementById('carbos').textContent     = carbos + 'g';
       document.getElementById('grasas').textContent     = grasas + 'g';
 
+      // mostramos el div de resultados que estaba oculto y hacemos scroll hasta el
       const res = document.getElementById('resultado');
       res.style.display = 'block';
       res.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
+    // toggleMenu: abre y cierra el menu del avatar del perfil, si esta visible lo oculta y al reves
     function toggleMenu() {
       const menu = document.getElementById('menu-perfil');
       menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
     }
 
+    // toggleRecetas: lo mismo pero para el menu de recetas del nav
     function toggleRecetas() {
       const menu = document.getElementById('menu-recetas');
       menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
     }
 
+    // mostrarLoading: muestra el spinner de cargando cuando le das a un boton de la ia
+    // recibe el id del div de loading y lo pone visible
     function mostrarLoading(id) {
       document.getElementById(id).style.display = 'block';
     }
 
+    // esto cierra los menus desplegables cuando haces clic en cualquier sitio fuera de ellos
+    // sin esto los menus se quedarian abiertos para siempre y quedaria fatal
     document.addEventListener('click', function(e) {
       const menuPerfil  = document.getElementById('menu-perfil');
       const menuRecetas = document.getElementById('menu-recetas');
