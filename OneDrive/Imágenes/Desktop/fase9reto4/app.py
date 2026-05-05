@@ -226,90 +226,20 @@ def ia_menu():
     return render_template('menu_semanal.html', menu_ia=menu)
 
 
+# Ibon Etxegia
+
 @app.route('/ia/analisis', methods=['POST'])
 def ia_analisis():
+    # Si no hay sesión activa, redirige al login
     if not session.get('id_cli'):
         return redirect('/login')
-
+    # Recoge los datos del formulario
     nombre=request.form.get('nombre_receta', '')
     kcal=request.form.get('valor_nutricional', '0')
     score=request.form.get('nutriscore', 'C')
+    # Llama a la función de análisis y devuelve el resultado
     analisis=analizar_nutriscore(nombre, kcal, score)
     return render_template('RETO5.html', analisis_ia=analisis)
-
-
-@app.route('/recetas')
-def recetas():
-    return render_template('recetas.html')
-
-@app.route('/tusrecetas')
-def tus_recetas():
-    if not session.get('id_cli'):
-        return redirect('/login')
-    try:
-        cur = mysql.connection.cursor()
-        cur.execute("""
-            SELECT r.id_receta, r.nombre_receta, r.valor_nutricional, r.nutriscore,
-                   MIN(i.nombre_ingrediente), MIN(i.sostenibilidad_producto),
-                   MAX(i.cecliaco), MIN(i.caducidad), r.fecha_creacion
-            FROM RECETA r
-            LEFT JOIN RECETA_INGREDIENTE ri ON r.id_receta = ri.id_receta
-            LEFT JOIN INGREDIENTE i ON ri.id_ingrediente = i.id_ingrediente
-            WHERE r.id_cli = %s
-            GROUP BY r.id_receta, r.nombre_receta, r.valor_nutricional, r.nutriscore, r.fecha_creacion
-            ORDER BY r.id_receta DESC
-        """, (session['id_cli'],))
-        rows = cur.fetchall()
-        cur.close()
-        recetas_list = [{
-            'id_receta':          r[0],
-            'nombre_receta':      r[1],
-            'valor_nutricional':  r[2],
-            'nutriscore':         r[3] or 'C',
-            'nombre_ingrediente': r[4],
-            'sostenibilidad':     r[5],
-            'celiaco':            r[6] or 0,
-            'caducidad':          r[7],
-            'fecha_creacion':     r[8],
-        } for r in rows]
-
-    except Exception as e:
-        print("ERROR tus_recetas:", e)
-        recetas_list = []
-    return render_template('tusrecetas.html', recetas=recetas_list)
-
-@app.route('/receta/eliminar/<int:id_receta>', methods=['POST'])
-def eliminar_receta(id_receta):
-    if not session.get('id_cli'):
-        return redirect('/login')
-
-    id_cli = session['id_cli']
-    try:
-        cur = mysql.connection.cursor()
-        cur.execute("SELECT id_receta FROM RECETA WHERE id_receta = %s AND id_cli = %s", (id_receta, id_cli))
-        if not cur.fetchone():
-            cur.close()
-            return redirect('/tusrecetas')
-
-        cur.execute("DELETE FROM RECETA_INGREDIENTE WHERE id_receta = %s", (id_receta,))
-        cur.execute("DELETE FROM RECETA WHERE id_receta = %s AND id_cli = %s", (id_receta, id_cli))
-        cur.execute("UPDATE CLIENTE SET num_recetas = GREATEST(COALESCE(num_recetas,0)-1,0) WHERE id_cli = %s", (id_cli,))
-        mysql.connection.commit()
-        cur.close()
-    except Exception as e:
-        mysql.connection.rollback()
-        print("ERROR eliminar_receta:", e)
-
-    return redirect('/tusrecetas')
-
-
-@app.route('/pontureceta')
-def pon_tu_receta():
-    # Ibon: isto es que si no has iniciado sesion no puedes acceder a esta pagina y te redirige a login
-    if not session.get('id_cli'):
-        return redirect('/login')
-    #Ibon: Si va bien te va a abrir la pagina pontureceta.html
-    return render_template('pontureceta.html')
 
 
 @app.route('/receta', methods=['POST'])
