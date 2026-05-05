@@ -4,14 +4,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tus Recetas — Jabalí Nutrition</title>
+  <title>Mis recetas — Jabalí Nutrition</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='color.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='tusrecetas.css') }}">
   <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='logo.jpeg') }}">
 </head>
-
 <body id="tusrecetas">
-
   <nav>
     <div class="logo"><span>Jabalí</span> Nutrition</div>
     <ul>
@@ -21,31 +19,27 @@
     </ul>
     <div class="nav-acciones">
       <a href="/pontureceta" class="btn-nav">+ Nueva receta</a>
-      <a href="/logout" class="btn-nav" style="background:#666;">Cerrar sesión</a>
+      <a href="/logout" class="btn-nav" style="background:#666;">Salir</a>
     </div>
   </nav>
 
   <div class="tr-wrapper">
-
-    <!-- CABECERA -->
     <div class="tr-header">
       <p class="tr-section-title">Mi perfil</p>
-      <h1>Tus <em>Recetas</em></h1>
+      <h1>Mis <em>recetas</em></h1>
       <div class="tr-header-acciones">
-        <a href="/pontureceta" class="btn-primary">+ Añadir receta</a>
-        <a href="/recetas" class="btn-secondary">Ver comunidad</a>
+        <a href="/pontureceta" class="btn-primary">+ Nueva receta</a>
+        <a href="/recetas" class="btn-secondary">Comunidad</a>
       </div>
     </div>
 
-    <!-- ALERTAS -->
     {% if ok_receta %}
-      <div class="alerta-ok">✅{{ ok_receta }}</div>
+      <div class="alerta-ok">✅ {{ ok_receta }}</div>
     {% endif %}
     {% if error_receta %}
-      <div class="alerta-error"> {{ error_receta }}</div>
+      <div class="alerta-error">{{ error_receta }}</div>
     {% endif %}
 
-    <!-- TABLA -->
     <p class="tr-section-title">Mis Recetas</p>
 
     {% if recetas %}
@@ -60,7 +54,7 @@
             <th>Sostenibilidad</th>
             <th>Sin gluten</th>
             <th>Fecha</th>
-            <th>Acción</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -72,9 +66,9 @@
                 {{ r.nutriscore }}
               </span>
             </td>
-            <td>{% if r.valor_nutricional %}{{ r.valor_nutricional }} kcal{% else %}—{% endif %}</td>
-            <td>{% if r.nombre_ingrediente %}{{ r.nombre_ingrediente }}{% else %}—{% endif %}</td>
-            <td>{% if r.sostenibilidad %}{{ r.sostenibilidad }}{% else %}—{% endif %}</td>
+            <td>{{ r.valor_nutricional ~ ' kcal' if r.valor_nutricional else '—' }}</td>
+            <td>{{ r.nombre_ingrediente if r.nombre_ingrediente else '—' }}</td>
+            <td>{{ r.sostenibilidad if r.sostenibilidad else '—' }}</td>
             <td>
               {% if r.celiaco %}
                 <span class="tr-si">Sí</span>
@@ -83,39 +77,14 @@
               {% endif %}
             </td>
             <td class="tr-fecha">
-              {% if r.fecha_creacion %}{{ r.fecha_creacion.strftime('%d/%m/%Y') }}{% else %}—{% endif %}
+              {{ r.fecha_creacion.strftime('%d/%m/%Y') if r.fecha_creacion else '—' }}
             </td>
             <td>
               <form action="/receta/eliminar/{{ r.id_receta }}" method="POST"
-                    onsubmit="return confirm('¿Seguro que quieres eliminar {{ r.nombre_receta }}?')">
+                    onsubmit="return confirm('¿Borrar {{ r.nombre_receta }}?')">
                 <button type="submit" class="btn-eliminar">Eliminar</button>
               </form>
             </td>
           </tr>
           {% endfor %}
-        </tbody>
-      </table>
-    </div>
-
-    {% else %}
-    <div class="tr-vacio">
- 
-      <p>Aún no tienes recetas publicadas.</p>
-      <a href="/pontureceta" class="btn-primary">Haz aqui tu primera receta</a>
-    </div>
-    {% endif %}
-
-  </div>
-
-  <footer>
-    <div class="footer-logo"><span>Jabalí</span> Nutrition</div>
-    <p>&copy; 2025 Jabalí Nutrient. Todos los derechos reservados.</p>
-    <div class="footer-links">
-      <a href="#">Privacidad</a>
-      <a href="#">Términos</a>
-      <a href="https://www.instagram.com/jabali_nutritions/">Instagram</a>
-    </div>
-  </footer>
-
-</body>
-</html>
+        <
