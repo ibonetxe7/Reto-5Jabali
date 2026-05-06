@@ -1,6 +1,7 @@
 CREATE DATABASE if not exists JABALI;
 use  JABALI;
 
+
 CREATE TABLE if not exists USUARIO(
 id_usu INT AUTO_INCREMENT PRIMARY KEY ,
 nombre_usu VARCHAR(50), 
@@ -31,6 +32,7 @@ id_receta INT PRIMARY KEY AUTO_INCREMENT,
 id_cli INT not null, 
 nombre_receta VARCHAR(50),
 valor_nutricional INT,
+num_ingredientes INT,
 nutriscore char,
 fecha_creacion datetime,
 foreign key (id_cli) references CLIENTE(id_cli) ON DELETE CASCADE
@@ -89,3 +91,10 @@ CREATE TABLE if not exists IMC(
     edad INT,
     foreign key (id_cli) references CLIENTE(id_cli) ON DELETE CASCADE
     );
+
+-- Permisos para CLIENTE
+GRANT SELECT, INSERT ON jabali.* TO 'cliente'@'localhost';
+
+GRANT ALL PRIVILEGES ON jabali.* TO 'administrador'@'localhost';
+
+FLUSH PRIVILEGES;
