@@ -56,3 +56,36 @@ id_alergeno INT not null,
 foreign key(id_ingrediente) references INGREDIENTE(id_ingrediente)on delete cascade,
 foreign key(id_alergeno) references ALERGENO(id_alergeno) on delete cascade
 );
+CREATE VIEW recetas_celiacos AS
+SELECT r.*
+FROM receta r
+WHERE r.id_receta NOT IN (
+    SELECT ri.id_receta
+    FROM receta_ingrediente ri
+    JOIN ingrediente i ON ri.id_ingrediente = i.id_ingrediente
+    WHERE i.cecliaco = TRUE
+);
+CREATE VIEW ingredientes_hipoalergenicos AS
+SELECT i.*
+FROM ingrediente i
+WHERE i.id_ingrediente NOT IN (
+    SELECT ia.id_ingrediente
+    FROM ingrediente_alergeno ia
+);
+CREATE TABLE if not exists ADMINISTRADOR(
+id_admin INT AUTO_INCREMENT PRIMARY KEY,
+id_usu INT NOT NULL,
+fecha_inicio date, 
+fecha_fin date,
+nombre_usu varchar (200),
+contrasenia VARCHAR (200),
+FOREIGN KEY (id_usu) references USUARIO(id_usu) on delete cascade
+);
+CREATE TABLE if not exists IMC(
+	id_IMC INT PRIMARY KEY AUTO_INCREMENT,
+    id_cli INT ,
+    IMC DECIMAL(5,2),
+    altura INT ,
+    edad INT,
+    foreign key (id_cli) references CLIENTE(id_cli) ON DELETE CASCADE
+    );

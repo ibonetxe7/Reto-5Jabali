@@ -221,4 +221,6 @@ INSERT INTO INGREDIENTE_ALERGENO (id_ingrediente, id_alergeno) VALUES
 (133, 8), (134, 8), (135, 8), (136, 8);
 commit;
 
+select * from INGREDIENTE_ALERGENO;
+
 
