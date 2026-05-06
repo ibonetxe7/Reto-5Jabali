@@ -1,5 +1,46 @@
 USE JABALI;
 DELIMITER //
+CREATE TRIGGER tr_num_ingredientes AFTER insert on receta for each row
+BEGIN
+	if num_ingredientes is null then 
+        set new.num_ingredientes = contar_ingredientes(id_receta);
+	end if;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE FUNCTION contar_ingredientes_huevo()
+RETURNS INT
+DETERMINISTIC
+READS SQL DATA
+BEGIN
+    DECLARE v_total INT;
+
+    SELECT COUNT(*) INTO v_total
+    FROM ingrediente_alergeno ia
+    INNER JOIN alergeno a ON ia.id_alergeno = a.id_alregeno
+    WHERE LOWER(a.descripción) = 'Huevos';
+    RETURN v_total;
+END //
+
+DELIMITER ;
+DELIMITER //
+CREATE FUNCTION contar_ingredientes(p_id_receta INT)
+RETURNS INT
+DETERMINISTIC
+READS SQL DATA
+BEGIN
+    DECLARE v_total INT;
+
+    SELECT COUNT(*) INTO v_total
+    FROM receta_ingrediente
+    WHERE id_receta = p_id_receta;
+
+    RETURN v_total;
+END //
+
+DELIMITER ;
+DELIMITER //
 CREATE PROCEDURE calcular_imc_cliente(
     IN p_id_cli INT
 )
