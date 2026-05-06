@@ -1,9 +1,9 @@
 USE JABALI;
 DELIMITER //
-CREATE TRIGGER tr_num_ingredientes AFTER insert on receta for each row
+CREATE TRIGGER tr_num_ingredientes before insert on receta for each row
 BEGIN
-	if num_ingredientes is null then 
-        set new.num_ingredientes = contar_ingredientes(id_receta);
+	if new.num_ingredientes is null then 
+        set new.num_ingredientes = contar_ingredientes(new.id_receta);
 	end if;
 END //
 DELIMITER ;
@@ -105,10 +105,10 @@ END //
 DELIMITER ;
 
 DELIMITER //
-CREATE TRIGGER tr_nutriscore AFTER insert on receta for each row
+CREATE TRIGGER tr_nutriscore BEFORE insert on receta for each row
 BEGIN
-	if nutriscore is null then 
-		call calculo_nutriscore(id_receta, @nutriscore);
+	if new.nutriscore is null then 
+		call calculo_nutriscore(new.id_receta, @nutriscore);
         set new.nutriscore =  @nutriscore;
 	end if;
 END //
