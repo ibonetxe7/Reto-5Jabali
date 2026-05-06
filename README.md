@@ -1,15 +1,15 @@
 
-Aplicación web de gestión de recetas con inteligencia artificial. Desarrollada con **Flask** y **MySQL**.
+Aplicación web de gestión de recetas con inteligencia artificial. Desarrollada con Flask y MySQL.
 
 ---
 
-## Tecnologías utilizadas
+Tecnologías utilizadas
 
  Lenguajes de programación
-- **Python 3.x**
+- Python 
 
  Base de datos
-- **MySQL 8.0**
+- MySQL
 
  Librerías 
 - `Flask`
@@ -21,9 +21,7 @@ Aplicación web de gestión de recetas con inteligencia artificial. Desarrollada
 - IDE: VSCode
 - Cliente MySQL: MySQL Workbench
 
----
-
-# Base de datos
+Base de datos
 
 El archivo de la base de datos está en la carpeta `base_de_datos`:
 
@@ -32,11 +30,9 @@ El archivo de la base de datos está en la carpeta `base_de_datos`:
     └── jabali.sql   # Crea todas las tablas e inserta los datos iniciales
 ```
 
-> Nota: Antes de arrancar la app ejecuta `jabali.sql` en MySQL Workbench.
+Antes de arrancar la app ejecuta `jabali.sql` en MySQL Workbench.
 
----
-
-## Aplicación web (Flask)
+Aplicación web (Flask)
 
 El archivo principal es `app.py` y está en la raíz del proyecto:
 
@@ -56,6 +52,8 @@ El archivo principal es `app.py` y está en la raíz del proyecto:
 1. Instala las dependencias:
     ```bash
     pip install -r requirements.txt
+    pip install flask
+    pip install flask_mysqldb
     ```
 
 2. Crea un archivo `.env` en la carpeta raíz con este contenido:
@@ -80,7 +78,7 @@ El archivo principal es `app.py` y está en la raíz del proyecto:
 
 ---
 
-## Funcionalidades
+Funcionalidades
 
 - Registro e inicio de sesión con contraseña cifrada
 - Crear, ver y eliminar recetas con ingredientes
@@ -91,12 +89,10 @@ El archivo principal es `app.py` y está en la raíz del proyecto:
 
 ---
 
-## Autores
+Autores
 
 **Ibon YE**  
 **Unax Gahona**
 **Ibon Etxegia**
-**Xabier Morales**
-**[Nombre compañero/a]**  
+**Xabier Morales**  
 
-Repositorio mantenido por el equipo `Jabali`.
