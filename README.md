@@ -196,6 +196,8 @@ http://127.0.0.1:5000
 ---
 **AVISO A CHE**
 Como nos dijistes que nos habíamos pasado usando IA para escribir el código, así que nos borramos la mayoría y lo reescribimos todo nosotros. Fuimos línea por línea hasta entender qué hacía cada cosa, desde las rutas de Flask hasta las consultas SQL. Si no lo entendíamos le preguntabamos a la IA. Ahora casi la mayoria de los código que ves lo hemos escrito y hemos ido entendiendo nosotros.
+
+
 **Uso de IA en el desarrollo**
 Durante el desarrollo del proyecto usamos Inteligencia Artificial como ayuda para resolver partes que no sabíamos hacer solos:
 
