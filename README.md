@@ -1,6 +1,6 @@
 #  JABALI — Gestión de Recetas con Inteligencia Artificial
 
->  **PARA DESCARGAR LOS ARCHIVOS TIENES QUE IR A LA BRANCH `RETO5pagina`** y ahí estaría todo.
+  PARA DESCARGAR LOS ARCHIVOS TIENES QUE IR A LA BRANCH `RETO5pagina`** y ahí estaría todo.
 
 ---
 
