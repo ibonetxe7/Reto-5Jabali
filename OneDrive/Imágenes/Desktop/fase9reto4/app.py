@@ -1,13 +1,12 @@
 from flask import Flask, render_template, request, redirect, session
 from flask_mysqldb import MySQL
-from config import DB_CONFIG  # Archivo externo con los datos de conexión a la Base de datos
-import hashlib  # Para encriptar contraseñas
-from ia import sugerir_receta, generar_menu_semanal, analizar_nutriscore  # Funciones de IA propias
-
+from config import DB_CONFIG
+import hashlib
+from ia import sugerir_receta, generar_menu_semanal, analizar_nutriscore
+#Ibon: Aqui importamos todo lo que hemos echo en la ia.py para poder usarlo en la aplicacion.
 app = Flask(__name__)
-app.secret_key = 'jabali_secret_key'  # Clave para firmar las sesiones de usuario
-
-# Datos de conexión a la base de datos, del archivo config.py
+app.secret_key = 'jabali_secret_key'
+#Ibon: Esto es para configurar la conexion con la base de datos, lo que hemos echo en el config.py lo usamos aqui para conectar con la base de datos.
 app.config['MYSQL_HOST']     = DB_CONFIG['host']
 app.config['MYSQL_USER']     = DB_CONFIG['user']
 app.config['MYSQL_PASSWORD'] = DB_CONFIG['password']
@@ -21,53 +20,53 @@ mysql = MySQL(app)  # Conecta Flask con la base de datos
 def index():
     return render_template('RETO5.html')  # Abre la página principal
 
-
-@app.route('/contacto', methods=['POST'])
+#Ibon: Esto te abre la parte de contacto
+@app.route('/contacto', methods=['POST']) 
 def contacto():
-    # Recoge el nombre y email del formulario y elimina espacios extra con strip()
+    # Ibon: Aqui lo que hacemos es poner el nombre y email, donde esta parte lo coge get('nombre', '').strip()
     nombre = request.form.get('nombre', '').strip()
     email  = request.form.get('email', '').strip()
-
-    # Si falta alguno de los dos, devuelve un error sin tocar la BD
+    # Ibon: Si aqui no pones las dos te va a aparecer un error. Por eso se pone un error_contaco y esto lo vamos a encontrar muchas
+    # Ibon: veces aqui en los codigos porque hay un monton de apartado donde hay que poner error_....
     if not nombre or not email:
         return render_template('RETO5.html', error_contacto='Nombre y email son obligatorios')
-
+    # Con esto conectamos la pagina con la bases de datos con un mysql.connection.cursor()
     try:
-        cur = mysql.connection.cursor()  # Abre una consulta a la BD
+        cur = mysql.connection.cursor()
+        #Ibon:como hemos llamado cur a la connection ya no hace falta mas poner todo este codigo mysql.connection.cursor() y ponemos solo cur.
+        #Ibon: el execute es para ejecutar el codigo.
         cur.execute("INSERT INTO USUARIO (nombre_usu, mail_usu) VALUES (%s, %s)", (nombre[:50], email))
-        # nombre[:50] limita el texto a 50 caracteres para no pasarse del tamaño del campo en BD
-        mysql.connection.commit()  # Guarda los cambios en la BD
+        #Ibon: Para que se guarden los cambios sin el mysql.connection.commit() no guardaria
+        mysql.connection.commit()
+        #Ibon: cierra lo que hemos echo
         cur.close()
+        #Ibon: Esto es si el codigo da bien te pondra Mensaje enviado. Te contactaremos pronto
         return render_template('RETO5.html', ok_contacto='Mensaje enviado. Te contactaremos pronto.')
     except Exception as e:
-        # Si algo falla al guardar, muestra el error en pantalla
+        #Ibon: Aqui ponemos except Exceptio as e por si da error cuando ejecutamos un codigo de bases para que nos avise.
         return render_template('RETO5.html', error_contacto=f'Error: {e}')
 
 
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
-    # Si el usuario solo visita la página (GET), simplemente la muestra
     if request.method == 'GET':
         return render_template('registro.html')
-
-    # Recoge todos los campos del formulario
-    nombre    = request.form.get('nombre', '').strip()
+    # Ibon: Es lo mismo que estoy haciendo en la de contacto. Aqui tambien se guardan los datos para meterlo a la bases de datos.
+    nombre = request.form.get('nombre', '').strip()
     apellido1 = request.form.get('apellido1', '').strip()
     apellido2 = request.form.get('apellido2', '').strip()
-    email     = request.form.get('email', '').strip()
-    telefono  = request.form.get('telefono', '').strip()
-    password  = request.form.get('password', '')
-    password2 = request.form.get('password', '')
-
-    # Comprueba que los campos obligatorios no estén vacíos
+    email = request.form.get('email', '').strip()
+    telefono = request.form.get('telefono', '').strip()
+    password = request.form.get('password', '')
+    password2 = request.form.get('password2', '')
+    
+    # Ibon: Si no ponemso el nombre o apellido o email o contraseña automaticamente te da un error diciendo que los campos son obligatorios.
     if not nombre or not apellido1 or not email or not password:
-        return render_template('registro.html', error='Rellena todos los campos obligatorios.')
-
-    # Comprueba que las dos contraseñas introducidas coincidan
+        return render_template('registro.html', error='Rellena todos los campos obligatorios .')
+    # Ibon: Aqui si la primera contraseña con coincide con la segunda tamben te va a dar error
     if password != password2:
-        return render_template('registro.html', error='No coinciden las contraseñas.')
-
-    # Si el teléfono no es un número válido, lo guarda como None (vacío) en lugar de dar error
+        return render_template('registro.html', error='No coiciden las contraseñas.')
+    #Ibon: Aqui es que si el telefono no es un numero entero no sirve y ponemos el except ValueError con un None de no saber
     try:
         telefono_int = int(telefono) if telefono else None
     except ValueError:
@@ -79,17 +78,17 @@ def registro():
     # [:200] recorta a 200 caracteres por el límite del campo en BD
     pwd_hash = hashlib.sha256(password.encode()).hexdigest()[:200]
 
+
+    # Lo mismo que antes lo conectamos con la base de datos y hacemos una consulta select
     try:
         cur = mysql.connection.cursor()
-
-        # Comprueba si ya existe un usuario con ese email
         cur.execute("SELECT id_usu FROM USUARIO WHERE mail_usu = %s", (email,))
-        # fetchone() coge solo la primera fila; si existe algo, el email ya está en uso
+        # Ibon: Aqui elegimos el fetchone porque solo queremos una fila, si hubiera mas de un email igual no serviria
         if cur.fetchone():
             cur.close()
+            #Este codigo daría
             return render_template('registro.html', error='Ese email ya está en uso.')
-
-        # Inserta el usuario en la tabla USUARIO
+        #Consulta
         cur.execute("""
             INSERT INTO USUARIO (nombre_usu, apellido1_usu, apellido2_usu, mail_usu, telefono)
             VALUES (%s, %s, %s, %s, %s)
@@ -110,6 +109,24 @@ def registro():
         return render_template('registro.html', error=f'Error al registrar: {e}')
 
     return redirect('/login')  # Si todo va bien, manda al usuario a iniciar sesión
+        # Guardamos el id_usu recien creado antes de hacer otra consulta
+    id_usu_nuevo = cur.lastrowid
+        #Consulta
+    cur.execute("""
+            INSERT INTO CLIENTE (id_usu, num_logs, num_recetas, contrasenia) VALUES (%s, 0, 0, %s)
+        """, (id_usu_nuevo, pwd_hash))
+        #Ibon: Para que se guarden los cambios sin el mysql.connection.commit() no guardaria
+    mysql.connection.commit()
+        #Ibon: Cierre de la consulta
+    cur.close()
+        
+    #except Exception as e:
+        #Ibon: Si da error al ejecutar el codigo de la base de datos, con el mysql.connection.rollback() hacemos que no se guarde nada de lo que se ha echo antes del error.
+    mysql.connection.rollback()
+        #Ibon: Y cauando nos de error nos va a aparecer el error
+    return render_template('registro.html', error=f'Error al registrar: {e}')
+    #Ibon: Pero si va todo bien, te va a dirigir automaticamente a login.
+    return redirect('/login')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -158,7 +175,15 @@ def logout():
     session.clear()
     return redirect('/')
 
+#Ibon: Para cerrar la sesion
+@app.route('/logout')
+def logout():
+    #Ibon: Esto es para cerrar la sesion y que no se pueda acceder a las paginas sin iniciar sesion
+    session.clear()
+    #Ibon: Te dirige a la pagina pricipal
+    return redirect('/')
 
+# gahona: solo pueden usar la IA los usuarios logueados
 @app.route('/ia/sugerencia', methods=['POST'])
 def ia_sugerencia():
     # Si no hay sesión activa, manda al login
@@ -178,9 +203,10 @@ def ia_sugerencia():
 
 @app.route('/ia/guardar_receta', methods=['POST'])
 def guardar_receta_ia():
+     # gahona: verificar si el usuario esta logueado
     if not session.get('id_cli'):
         return redirect('/login')
-
+     # gahona: [0].upper() coge solo la primera letra y la pone en mayúscula
     nombre_receta = request.form.get('nombre_receta', 'Receta IA')[:50]
     nutriscore    = request.form.get('nutriscore', 'C')[0].upper()  # Solo la primera letra en mayúscula
     id_cli        = session['id_cli']
@@ -206,6 +232,7 @@ def guardar_receta_ia():
         mysql.connection.commit()
         cur.close()
     except Exception as e:
+        # gahona: si algo falla deshace todos los cambios para no dejar datos a medias
         mysql.connection.rollback()
         return render_template('RETO5.html', error_receta=f'Error al guardar: {e}')
 
@@ -214,6 +241,7 @@ def guardar_receta_ia():
 
 @app.route('/ia/menu', methods=['POST'])
 def ia_menu():
+    # gahona: verificar si el usuario esta logueado
     if not session.get('id_cli'):
         return redirect('/login')
 
@@ -225,6 +253,7 @@ def ia_menu():
 
 @app.route('/ia/analisis', methods=['POST'])
 def ia_analisis():
+    # Ibon Etxegia: Si no hay sesión activa, redirige al login
     if not session.get('id_cli'):
         return redirect('/login')
 
@@ -238,14 +267,14 @@ def ia_analisis():
 
 @app.route('/recetas')
 def recetas():
+    #Ibon Etxegia: Esta ruta es para mostrar la página de recetas, pero como no tenemos implementada la funcionalidad de mostrar recetas desde la base de datos, por ahora solo renderizamos la plantilla.
     return render_template('recetas.html')
-
 
 @app.route('/tusrecetas')
 def tus_recetas():
+    # Ibon Etxegia: Si no hay sesión activa, redirige al login
     if not session.get('id_cli'):
         return redirect('/login')
-
     try:
         cur = mysql.connection.cursor()
         # Consulta todas las recetas del usuario con sus ingredientes
@@ -287,7 +316,6 @@ def tus_recetas():
 
     return render_template('tusrecetas.html', recetas=recetas_list)
 
-
 @app.route('/receta/eliminar/<int:id_receta>', methods=['POST'])
 def eliminar_receta(id_receta):
     # <int:id_receta> coge el número de la URL, por ejemplo /receta/eliminar/5
@@ -320,21 +348,24 @@ def eliminar_receta(id_receta):
 
 @app.route('/pontureceta')
 def pon_tu_receta():
+    # Ibon: isto es que si no has iniciado sesion no puedes acceder a esta pagina y te redirige a login
     if not session.get('id_cli'):
         return redirect('/login')
+    #Ibon: Si va bien te va a abrir la pagina pontureceta.html
     return render_template('pontureceta.html')
 
 
 @app.route('/receta', methods=['POST'])
 def receta():
+    #Xabier Morales: Este codigo lo hacemos muchas veces para comprobar que el usuario ha iniciado sesion si no ha iniciado sesion no puedes entrar a la pagina
     id_cli = session.get('id_cli')
     if not id_cli:
         return render_template('pontureceta.html', error_receta='Debes iniciar sesión para publicar una receta.')
 
     nombre_receta = request.form.get('nombre_receta', '').strip()
-    nutriscore    = request.form.get('nutriscore', 'C')[0].upper()
-    valor_raw     = request.form.get('valor_nutricional', '').strip()
-
+    nutriscore  = request.form.get('nutriscore', 'C')[0].upper()
+    valor_raw  = request.form.get('valor_nutricional', '').strip()
+    #Xabier Morales: Si el nombre de la receta esta vacio, te va a dar un error diciendo que el nombre de la receta es obligatorio
     if not nombre_receta:
         return render_template('pontureceta.html', error_receta='El nombre de la receta es obligatorio.')
 
@@ -349,7 +380,7 @@ def receta():
     nombres_ing    = request.form.getlist('nombre_ingrediente[]')
     cantidades     = request.form.getlist('cantidad[]')
     sostenibilidad = request.form.getlist('sostenibilidad_producto[]')
-    cecliaco_list  = request.form.getlist('cecliaco[]')
+    cecliaco_list = request.form.getlist('cecliaco[]')
     caducidad_list = request.form.getlist('caducidad[]')
 
     # Filtra los ingredientes vacíos
@@ -383,6 +414,7 @@ def receta():
         cur.execute("UPDATE CLIENTE SET num_recetas = COALESCE(num_recetas, 0) + 1 WHERE id_cli = %s", (id_cli,))
         mysql.connection.commit()
         cur.close()
+    #Xabier Morales: Si da error al ejecutar el codigo de la base de datos, con el mysql.connection.rollback() hacemos que no se guarde nada de lo que se ha echo antes del error y mostramos un mensaje de error
     except Exception as e:
         mysql.connection.rollback()
         print("ERROR guardar receta:", e)

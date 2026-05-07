@@ -1,20 +1,29 @@
-<!-- Ibon Etxegia -->
+<!-- Xabier Morales-->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- Hoja de estilos global compartida con el resto de páginas de la aplicación -->
   <link rel="stylesheet" href="{{ url_for('static', filename='color.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='pontureceta.css') }}">
+  <!-- Icono que aparece en la pestaña del navegador -->
   <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='logo.jpeg') }}">
   <title>Pon Tu Receta — Jabalí Nutrition</title>
   <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='logo.jpeg') }}">
 </head>
 <body>
-
+<!-- Botón de traducción: IA -->
+<div id="google_translate_element"></div>
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({pageLanguage: 'es'}, 'google_translate_element');
+  }
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <div id="pontureceta">
 
-  <!-- NAV -->
+  <!-- NAV: barra de navegación superior con acceso a las secciones principales -->
   <nav>
     <div class="logo">Jabalí <span>Nutrition</span></div>
     <ul>
@@ -22,44 +31,53 @@
       <li><a href="/tusrecetas">Tus recetas</a></li>
     </ul>
     <div class="nav-acciones">
+      <!-- Botón para regresar a la página principal -->
       <a href="/" class="btn-nav">← Volver</a>
     </div>
   </nav>
 
-  <!-- CONTENIDO -->
+  <!-- CONTENIDO PRINCIPAL: envuelve todo el formulario en un contenedor centrado -->
   <div class="ptr-wrapper">
     <div class="contacto-inner">
 
-      <!-- CABECERA -->
+      <!-- CABECERA: título principal de la sección -->
       <div class="ptr-header">
         <h1>Pon Tu <em>Receta</em></h1>
       </div>
 
-      <!-- ALERTAS -->
+      <!-- ALERTAS: mensajes de error o éxito que Flask devuelve tras procesar el formulario -->
+      <!-- Si Flask manda la variable error_receta, se muestra el mensaje de error en rojo -->
       {% if error_receta %}
         <div class="alerta-error"> {{ error_receta }}</div>
       {% endif %}
+      <!-- Si Flask manda la variable ok_receta, se muestra el mensaje de éxito en verde -->
       {% if ok_receta %}
         <div class="alerta-ok"> {{ ok_receta }}</div>
       {% endif %}
 
-      <!-- FORMULARIO -->
+      <!-- FORMULARIO PRINCIPAL: envía los datos mediante POST a la ruta /receta de Flask -->
       <form action="/receta" method="POST" class="form">
 
-        <!-- SECCIÓN: DATOS -->
+        <!-- SECCIÓN 1: datos generales de la receta -->
         <div class="form-section-title">Datos de la receta</div>
 
+        <!-- Campo de texto para el nombre de la receta, limitado a 50 caracteres -->
+        <!-- Se recupera el valor previo con request.form para no perderlo si hay un error de validación -->
         <div class="form-field">
           <label>Nombre de la receta </label>
-          <input type="text" name="nombre_receta" placeholder="Ej: Bowl de quinoa mediterráneo" required maxlength="50" value="{{ request.form.get('nombre_receta', '') }}"/>
+          <input type="text" name="nombre_receta" placeholder="Ej: Bowl de quinoa mediterráneo"  maxlength="50" value="{{ request.form.get('nombre_receta', '') }}"/>
         </div>
 
+        <!-- Fila con dos campos: calorías y nutriscore -->
         <div class="form-row">
           <div class="form-field">
+            <!-- Campo numérico para las calorías, acepta valores entre 0 y 9999 -->
             <label>Calorías (kcal)</label>
             <input type="number" name="valor_nutricional" placeholder="Ej: 420" min="0" max="9999" value="{{ request.form.get('valor_nutricional', '') }}"/>
           </div>
           <div class="form-field">
+            <!-- Selector de nutriscore de A (muy saludable) a E (poco saludable) -->
+            <!-- Jinja2 comprueba cuál estaba seleccionado antes para mantenerlo tras un error -->
             <label>Nutriscore </label>
             <select name="nutriscore">
               <option value="A" {% if request.form.get('nutriscore','C')=='A' %}selected{% endif %}>A — Muy saludable</option>
@@ -71,18 +89,21 @@
           </div>
         </div>
 
+        <!-- Área de texto para la descripción o pasos de preparación de la receta -->
         <div class="form-field">
           <label>Descripción </label>
           <textarea name="descripcion" placeholder="Describe cómo preparar la receta...">{{ request.form.get('descripcion', '') }}</textarea>
         </div>
 
-        <!-- SECCIÓN: INGREDIENTES -->
+        <!-- SECCIÓN 2: ingredientes de la receta -->
         <div class="form-section-title">Ingredientes</div>
         <p class="ptr-subtitulo">Añade todos los ingredientes de tu receta.</p>
 
+        <!-- Contenedor dinámico donde se van añadiendo los bloques de ingredientes mediante JavaScript -->
         <div id="ingredientes-lista">
 
-          <!-- Ingrediente 1 (siempre visible) -->
+          <!-- Bloque del primer ingrediente, siempre visible por defecto -->
+          <!-- Los campos usan el sufijo [] en el name para que Flask los reciba como listas -->
           <div class="ingrediente-bloque" id="ing-1">
             <div class="ingrediente-header">
               <span class="ingrediente-num">Ingrediente 1</span>
@@ -90,7 +111,7 @@
             <div class="form-row">
               <div class="form-field">
                 <label>Nombre </label>
-                <input type="text" name="nombre_ingrediente[]" placeholder="Ej: Pechuga de pollo" required maxlength="50"/>
+                <input type="text" name="nombre_ingrediente[]" placeholder="Ej: Pechuga de pollo"  maxlength="50"/>
               </div>
               <div class="form-field">
                 <label>Cantidad</label>
@@ -99,6 +120,7 @@
             </div>
             <div class="form-row">
               <div class="form-field">
+                <!-- Nivel de sostenibilidad del ingrediente según su origen geográfico -->
                 <label>Sostenibilidad</label>
                 <select name="sostenibilidad_producto[]">
                   <option value="Km0">Km0 — Local</option>
@@ -108,6 +130,7 @@
                 </select>
               </div>
               <div class="form-field">
+                <!-- Indica si el ingrediente contiene gluten o no -->
                 <label>¿Apto para celíacos?</label>
                 <select name="cecliaco[]">
                   <option value="1">Sí</option>
@@ -115,6 +138,7 @@
                 </select>
               </div>
               <div class="form-field">
+                <!-- Fecha de caducidad del ingrediente para control de stock -->
                 <label>Fecha de caducidad</label>
                 <input type="date" name="caducidad[]"/>
               </div>
@@ -123,16 +147,17 @@
 
         </div>
 
+        <!-- Botón que llama a agregarIngrediente() para añadir un nuevo bloque de ingrediente dinámicamente -->
         <button type="button" class="btn-añadir" onclick="agregarIngrediente()">+ Añadir otro ingrediente</button>
 
-        <!-- BOTÓN ENVIAR -->
+        <!-- Botón de envío del formulario completo -->
         <button type="submit" class="btn-primary">Publicar receta</button>
 
       </form>
     </div>
   </div>
 
-  <!-- FOOTER -->
+  <!-- FOOTER: pie de página con información legal y enlaces a redes sociales -->
   <footer>
     <div class="footer-logo">Jabalí <span>Nutrition</span></div>
     <p>&copy; 2025 Jabalí Nutrition. Todos los derechos reservados.</p>
@@ -144,25 +169,30 @@
   </footer>
 
 </div>
-<!-- IA -->
 <script>
+  // Contador global que lleva la cuenta de cuántos ingredientes se han añadido
   var contador = 1;
 
+  // agregarIngrediente: crea un nuevo bloque de campos de ingrediente y lo añade al contenedor
+  // Cada bloque generado incluye un botón "Quitar" para eliminarlo individualmente
   function agregarIngrediente() {
     contador++;
     var lista = document.getElementById('ingredientes-lista');
 
+    // Se crea el elemento div que contendrá todos los campos del nuevo ingrediente
     var bloque = document.createElement('div');
     bloque.className = 'ingrediente-bloque';
     bloque.id = 'ing-' + contador;
 
+    // Se construye el HTML interno del bloque con los mismos campos que el ingrediente 1
+    // Los campos usan name con [] para que Flask los reciba como arrays en request.form.getlist()
     bloque.innerHTML =
       '<div class="ingrediente-header">' +
         '<span class="ingrediente-num">Ingrediente ' + contador + '</span>' +
         '<button type="button" class="btn-quitar" onclick="quitarIngrediente(\'ing-' + contador + '\')">Quitar</button>' +
       '</div>' +
       '<div class="form-row">' +
-        '<div class="form-field"><label>Nombre *</label><input type="text" name="nombre_ingrediente[]" placeholder="Ej: Espinacas, tofu..." required maxlength="50"/></div>' +
+        '<div class="form-field"><label>Nombre *</label><input type="text" name="nombre_ingrediente[]" placeholder="Ej: Espinacas, tofu..." maxlength="50"/></div>' +
         '<div class="form-field"><label>Cantidad</label><input type="text" name="cantidad[]" placeholder="Ej: 100g, 1 cucharada..."/></div>' +
       '</div>' +
       '<div class="form-row">' +
@@ -181,9 +211,11 @@
         '<div class="form-field"><label>Fecha de caducidad</label><input type="date" name="caducidad[]"/></div>' +
       '</div>';
 
+    // Se añade el bloque al final de la lista de ingredientes
     lista.appendChild(bloque);
   }
 
+  // quitarIngrediente: elimina del DOM el bloque de ingrediente correspondiente al id recibido
   function quitarIngrediente(id) {
     var el = document.getElementById(id);
     if (el) el.remove();
