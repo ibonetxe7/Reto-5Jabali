@@ -205,6 +205,8 @@ Conexión con Hugging Face en ia.py — No teníamos claro cómo conectar nuestr
 
 Consultas SQL complejas — Para algunas consultas con varios JOIN entre tablas (como la de tusrecetas que une RECETA, INGREDIENTE y RECETA_INGREDIENTE), usamos la IA para estructurar correctamente el GROUP BY y evitar duplicados.
 
+Hemos usado la IA tambien para la traduccion al ingles, le hemos preguntado a la ia sobre como podemos traducir una pagina mas faicil y nos ha dado una solucion usando un codigo de google donde nos ayuda a traducir todas la paginas
+
 
 ##  Autores
 
