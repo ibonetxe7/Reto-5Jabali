@@ -73,6 +73,9 @@ def registro():
         telefono_int = None
     # Ibon: Para esta linea 75 hemos tenido que usar la ayuda de la IA para poder hacer que la contraseña no se vea si nos hackean. 
     # Ibon: Le llamamos pwd_hash y con el password.encode() hacemos que se convierta en bytes poruqe el sha256 solo trabajo con bytes.
+
+    #ESTA PARTE DE AQUI LO HEMOS HECHO CON LA AYUDA DE LA IA PARA PODER ENCRIPTAR LA CONTRASEÑA
+    
     pwd_hash = hashlib.sha256(password.encode()).hexdigest()[:200]
     # Lo mismo que antes lo conectamos con la base de datos y hacemos una consulta select
     try:
@@ -159,9 +162,9 @@ def ia_sugerencia():
     if not session.get('id_cli'):
         return redirect('/login')
       # gahona: recoge lo que el usuario ha escrito y se lo pasa a la función de IA
-    ingrediente = request.form.get('ingrediente', '')
-    nutriscore  = request.form.get('nutriscore', 'C')
-    resultado   = sugerir_receta(ingrediente, nutriscore)
+    ingrediente= request.form.get('ingrediente', '')
+    nutriscore = request.form.get('nutriscore', 'C')
+    resultado= sugerir_receta(ingrediente, nutriscore)
      # gahona: devuelve la página con la sugerencia generada y los datos del formulario
     # para que el usuario vea lo que había escrito junto con el resultado
     return render_template('RETO5.html',
@@ -172,10 +175,10 @@ def ia_sugerencia():
 
 @app.route('/ia/guardar_receta', methods=['POST'])
 def guardar_receta_ia():
-     # gahona: verificar si el usuario esta logueado
+    # gahona: verificar si el usuario esta logueado
     if not session.get('id_cli'):
         return redirect('/login')
-     # gahona: [0].upper() coge solo la primera letra y la pone en mayúscula
+    # gahona: [0].upper() coge solo la primera letra y la pone en mayúscula
     nombre_receta = request.form.get('nombre_receta', 'Receta IA')[:50]
     nutriscore    = request.form.get('nutriscore', 'C')[0].upper()
     id_cli        = session['id_cli']
@@ -215,7 +218,7 @@ def ia_menu():
         return redirect('/login')
 
     preferencias = request.form.get('preferencias', 'equilibrada')
-    menu = generar_menu_semanal(preferencias)
+    menu= generar_menu_semanal(preferencias)
     return render_template('menu_semanal.html', menu_ia=menu)
 
 
@@ -232,7 +235,6 @@ def ia_analisis():
     analisis=analizar_nutriscore(nombre, kcal, score)
     return render_template('RETO5.html', analisis_ia=analisis)
 
-
 @app.route('/recetas')
 def recetas():
     #Ibon Etxegia: Esta ruta es para mostrar la página de recetas, pero como no tenemos implementada la funcionalidad de mostrar recetas desde la base de datos, por ahora solo renderizamos la plantilla.
@@ -244,7 +246,7 @@ def tus_recetas():
     if not session.get('id_cli'):
         return redirect('/login')
     try:
-        cur = mysql.connection.cursor()
+        cur =mysql.connection.cursor()
         cur.execute("""
             SELECT r.id_receta, r.nombre_receta, r.valor_nutricional, r.nutriscore,
                    MIN(i.nombre_ingrediente), MIN(i.sostenibilidad_producto),
@@ -260,19 +262,19 @@ def tus_recetas():
         rows = cur.fetchall()
         cur.close()
         recetas_list = [{
-            'id_receta':          r[0],
-            'nombre_receta':      r[1],
-            'valor_nutricional':  r[2],
-            'nutriscore':         r[3] or 'C',
-            'nombre_ingrediente': r[4],
-            'sostenibilidad':     r[5],
-            'celiaco':            r[6] or 0,
-            'caducidad':          r[7],
-            'fecha_creacion':     r[8],
-        } for r in rows]
+            'id_receta': r[0],
+            'nombre_receta': r[1],
+            'valor_nutricional': r[2],
+            'nutriscore': r[3] or 'C',
+            'nombre_ingrediente':r[4],
+            'sostenibilidad': r[5],
+            'celiaco': r[6] or 0,
+            'caducidad': r[7],
+            'fecha_creacion':r[8],
+} for r in rows]
     # Ibon Etxegia: Si da error al ejecutar el código de la base de datos, muestra un mensaje de error y una lista vacía
     except Exception as e:
-        print("ERROR tus_recetas:", e)
+        print("ERROR tus_recetas:",e)
         recetas_list = []
     return render_template('tusrecetas.html', recetas=recetas_list)
 
@@ -304,10 +306,10 @@ def eliminar_receta(id_receta):
 
 @app.route('/pontureceta')
 def pon_tu_receta():
-    # Ibon: isto es que si no has iniciado sesion no puedes acceder a esta pagina y te redirige a login
+    # Xabier Morales: isto es que si no has iniciado sesion no puedes acceder a esta pagina y te redirige a login
     if not session.get('id_cli'):
         return redirect('/login')
-    #Ibon: Si va bien te va a abrir la pagina pontureceta.html
+    #Xabier Morales: Si va bien te va a abrir la pagina pontureceta.html
     return render_template('pontureceta.html')
 
 
