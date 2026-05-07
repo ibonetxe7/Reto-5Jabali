@@ -8,21 +8,15 @@
 **JABALI** es una aplicación web desarrollada con Python y MySQL que permite a los usuarios gestionar sus recetas de cocina de forma inteligente.
 
 Los usuarios pueden registrarse, iniciar sesión, crear y eliminar sus propias recetas, y acceder a tres funcionalidades de **Inteligencia Artificial** que les ayudan a:
-- Obtener **sugerencias de recetas** basadas en los ingredientes que tienen en casa.
-- Generar un **menú semanal personalizado** según sus preferencias alimentarias.
-- **Analizar el valor nutricional** de una receta y recibir consejos para mejorarla.
+- Obtener sugerencias de recetas basadas en los ingredientes que tienen en casa.
+- Generar un menú semanal personalizado según sus preferencias alimentarias.
+- Analizar el valor nutricional de una receta y recibir consejos para mejorarla.
 
 ---
 
 ##  Cómo funciona
 
 Cuando el usuario abre la aplicación en su navegador, Flask recibe la petición y la dirige a la ruta correspondiente en `app.py`. Dependiendo de la acción, Flask consulta la base de datos MySQL para leer o guardar información, o llama a `ia.py` para generar una respuesta con IA.
-
-El flujo principal es:
-
-```
-Navegador → Flask (app.py) → MySQL (datos) / ia.py (IA) → HTML renderizado → Navegador
-```
 
 La IA se comunica con la API de **Hugging Face** usando el modelo **Meta-Llama-3.3-70B-Instruct**, que recibe un prompt en español y devuelve una respuesta de texto que se muestra directamente al usuario.
 
