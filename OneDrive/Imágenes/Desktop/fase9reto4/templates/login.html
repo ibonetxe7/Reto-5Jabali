@@ -1,4 +1,4 @@
-<!-- Xabier Morales -->
+<!-- Ibon Etxegia -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,7 +13,14 @@
   <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='logo.jpeg') }}">
 </head>
 <body>
-
+<!-- Botón de traducción: IA -->
+<div id="google_translate_element"></div>
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({pageLanguage: 'es'}, 'google_translate_element');
+  }
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   <!-- Barra de navegación -->
   <nav>
     <a href="/" class="logo">Jabalí <span>Nutrient</span></a>
