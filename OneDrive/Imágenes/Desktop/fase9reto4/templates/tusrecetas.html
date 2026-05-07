@@ -1,0 +1,137 @@
+<!-- Ibon Etxegia -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mis recetas — Jabalí Nutrition</title>
+  <!-- Estilos -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='color.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='tusrecetas.css') }}">
+  <!-- Icono de la pestaña -->
+  <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='logo.jpeg') }}">
+</head>
+<!-- Botón de traducción: IA -->
+<div id="google_translate_element"></div>
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({pageLanguage: 'es'}, 'google_translate_element');
+  }
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<body id="tusrecetas">
+
+  <!-- Barra de navegación -->
+  <nav>
+    <div class="logo"><span>Jabalí</span> Nutrition</div>
+    <ul>
+      <li><a href="/">Inicio</a></li>
+      <li><a href="/recetas">Comunidad</a></li>
+      <li><a href="/tusrecetas">Mis recetas</a></li>
+    </ul>
+    <!-- Botones de acción del nav -->
+    <div class="nav-acciones">
+      <a href="/pontureceta" class="btn-nav">+ Nueva receta</a>
+      <a href="/logout" class="btn-nav" style="background:#666;">Salir</a>
+    </div>
+  </nav>
+
+  <div class="tr-wrapper">
+
+    <!-- Cabecera de la página -->
+    <div class="tr-header">
+      <p class="tr-section-title">Mi perfil</p>
+      <h1>Mis <em>recetas</em></h1>
+      <div class="tr-header-acciones">
+        <a href="/pontureceta" class="btn-primary">+ Nueva receta</a>
+        <a href="/recetas" class="btn-secondary">Comunidad</a>
+      </div>
+    </div>
+
+    <!-- Alertas de éxito o error al eliminar/añadir receta -->
+    {% if ok_receta %}
+      <div class="alerta-ok">{{ ok_receta }}</div>
+    {% endif %}
+    {% if error_receta %}
+      <div class="alerta-error">{{ error_receta }}</div>
+    {% endif %}
+
+    <p class="tr-section-title">Mis Recetas</p>
+
+    <!-- Tabla de recetas del usuario -->
+    {% if recetas %}
+    <div class="tr-table-wrap">
+      <table class="tr-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Nutriscore</th>
+            <th>Kcal</th>
+            <th>Ingrediente principal</th>
+            <th>Sostenibilidad</th>
+            <th>Sin gluten</th>
+            <th>Fecha</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Recorremos todas las recetas del usuario -->
+          {% for r in recetas %}
+          <tr>
+            <td class="tr-nombre">{{ r.nombre_receta }}</td>
+            <!-- Badge de nutriscore con color según letra -->
+            <td>
+              <span class="tr-badge tr-badge-{{ r.nutriscore | lower }}">
+                {{ r.nutriscore }}
+              </span>
+            </td>
+            <td>{{ r.valor_nutricional ~ ' kcal' if r.valor_nutricional else '—' }}</td>
+            <td>{{ r.nombre_ingrediente if r.nombre_ingrediente else '—' }}</td>
+            <td>{{ r.sostenibilidad if r.sostenibilidad else '—' }}</td>
+            <!-- Indica si la receta es apta para celiacos -->
+            <td>
+              {% if r.celiaco %}
+                <span class="tr-si">Si</span>
+              {% else %}
+                <span class="tr-no">No</span>
+              {% endif %}
+            </td>
+            <td class="tr-fecha">
+              {{ r.fecha_creacion.strftime('%d/%m/%Y') if r.fecha_creacion else '—' }}
+            </td>
+            <!-- Botón para eliminar la receta con confirmación -->
+            <td>
+              <form action="/receta/eliminar/{{ r.id_receta }}" method="POST"
+                    onsubmit="return confirm('Borrar {{ r.nombre_receta }}?')">
+                <button type="submit" class="btn-eliminar">Eliminar</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mensaje si el usuario no tiene recetas todavía -->
+    {% else %}
+    <div class="tr-vacio">
+      <p>Todavía no has subido ninguna receta.</p>
+      <a href="/pontureceta" class="btn-primary">Sube tu primera receta</a>
+    </div>
+    {% endif %}
+
+  </div>
+
+  <!-- Pie de página -->
+  <footer>
+    <div class="footer-logo"><span>Jabalí</span> Nutrition</div>
+    <p>&copy; 2025 Jabalí Nutrition. Todos los derechos reservados.</p>
+    <div class="footer-links">
+      <a href="#">Privacidad</a>
+      <a href="#">Términos</a>
+      <a href="https://www.instagram.com/jabali_nutritions/">Instagram</a>
+    </div>
+  </footer>
+
+</body>
+</html>

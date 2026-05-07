@@ -1,0 +1,588 @@
+<!-- Unax Gahona -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recetas — Jabalí Nutrient</title>
+
+  <!-- Flask utiliza la ruta correcta al archivo CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='color.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='recetas.css') }}"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='logo.jpeg') }}">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="logo">Jabalí <span>Nutrient</span></a>
+    <ul>
+      <li><a href="/#sobre-nosotros">Sobre nosotros</a></li>
+    </ul>
+    <div class="nav-acciones">
+      <a href="/#calcular-dieta" class="btn-nav">Calcular Mi Dieta</a>
+
+      <!-- Botón que abre/cierra el desplegable de recetas -->
+      <div class="recetas-menu">
+        <button class="btn-nav" onclick="toggleRecetas()">Recetas</button>
+        <div id="menu-recetas" class="dropdown-menu">
+          <a href="/recetas">Recetas</a>
+          <a href="/#tus-recetas">Tus Recetas</a>
+          <a href="/#pon-tu-receta">Pon Tus Recetas</a>
+        </div>
+      </div>
+
+      <!-- Si el usuario está logueado muestra su nombre y botón de logout,
+          si no, muestra los botones de registro e inicio de sesión -->
+      <div class="perfil-menu">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+             onclick="toggleMenu()" class="avatar"/>
+        <div id="menu-perfil" class="dropdown-menu">
+          {% if session.get('nombre') %}
+            <p style="padding:10px 14px; font-weight:800; color:var(--verde); border-bottom:1px solid var(--gris-claro); margin-bottom:4px;">
+              {{ session.get('nombre') }}
+            </p>
+            <a href="/logout">Cerrar sesión</a>
+          {% else %}
+            <a href="/registro">Registrarse</a>
+            <a href="/login">Iniciar sesión</a>
+          {% endif %}
+          <a href="/#contacto">Contacto</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <h1>Recetas <em>saludables</em></h1>
+  </section>
+
+  <!-- FILTROS
+      this pasa el botón pulsado a la función para poder marcarlo como activo -->
+  <div class="filtros">
+    <button class="filtro-btn active" onclick="filtrar('todos', this)">Todos</button>
+    <button class="filtro-btn" onclick="filtrar('desayuno', this)">Desayuno</button>
+    <button class="filtro-btn" onclick="filtrar('almuerzo', this)">Almuerzo</button>
+    <button class="filtro-btn" onclick="filtrar('cena', this)">Cena</button>
+    <button class="filtro-btn" onclick="filtrar('snack', this)">Snack</button>
+    <button class="filtro-btn" onclick="filtrar('celiaco', this)">Sin gluten</button>
+  </div>
+
+  <section class="recetas-detalle">
+    <!-- data-tipo y data-celiaco guardan info de cada receta para que el filtro sepa
+        cuáles mostrar u ocultar al pulsar un botón -->
+    <div class="recetas-detalle-grid" id="recetas-grid">
+
+      <!-- RECETA 1 -->
+      <div class="rd-card" data-tipo="desayuno" data-celiaco="true">
+        <div class="rd-img">
+          <img src="https://images.unsplash.com/photo-1517673400267-0251440c45dc?w=600&q=80" alt="Avena proteica con plátano"/>
+          <div class="rd-nutriscore ns-a">A</div>
+        </div>
+        <div class="rd-body">
+          <div class="rd-meta">
+            <span class="rd-tag">Desayuno</span>
+            <span class="rd-tiempo"> 5 min</span>
+          </div>
+          <h3>Avena proteica con plátano</h3>
+          <p>Energía sostenida para empezar el día. Alta en fibra, proteína y potasio para aguantar toda la mañana.</p>
+          <div class="rd-macros">
+            <span>350 kcal</span>
+            <span>28g proteína</span>
+            <span>48g carbos</span>
+            <span>8g grasa</span>
+          </div>
+          <div class="rd-ingredientes">
+            <h4>Ingredientes (1 ración)</h4>
+            <ul>
+              <li>80g avena</li>
+              <li>1 plátano</li>
+              <li>30g proteína vainilla</li>
+              <li>1 cdta semillas chía</li>
+              <li>200ml leche</li>
+              <li>canela al gusto</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECETA 2 -->
+      <div class="rd-card" data-tipo="almuerzo" data-celiaco="true">
+        <div class="rd-img">
+          <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80" alt="Bowl mediterráneo"/>
+          <div class="rd-nutriscore ns-a">A</div>
+        </div>
+        <div class="rd-body">
+          <div class="rd-meta">
+            <span class="rd-tag">Almuerzo</span>
+            <span class="rd-tiempo"> 20 min</span>
+          </div>
+          <h3>Bowl mediterráneo de quinoa</h3>
+          <p>Un plato completo y equilibrado. La quinoa aporta proteína completa, el hummus grasas saludables y los vegetales fibra.</p>
+          <div class="rd-macros">
+            <span>420 kcal</span>
+            <span>32g proteína</span>
+            <span>46g carbos</span>
+            <span>18g grasa</span>
+          </div>
+          <div class="rd-ingredientes">
+            <h4>Ingredientes (1 ración)</h4>
+            <ul>
+              <li>90g quinoa</li>
+              <li>100g tomate cherry</li>
+              <li>½ pepino</li>
+              <li>50g aceitunas</li>
+              <li>60g queso feta</li>
+              <li>2 cdas hummus</li>
+              <li>AOVE · limón · orégano</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECETA 3 -->
+      <div class="rd-card" data-tipo="cena" data-celiaco="true">
+        <div class="rd-img">
+          <img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600&q=80" alt="Pollo al horno con verduras"/>
+          <div class="rd-nutriscore ns-a">A</div>
+        </div>
+        <div class="rd-body">
+          <div class="rd-meta">
+            <span class="rd-tag">Cena</span>
+            <span class="rd-tiempo"> 40 min</span>
+          </div>
+          <h3>Pollo al horno con verduras</h3>
+          <p>Rica en proteína magra y vegetales. Baja en grasa saturada, perfecta para la cena si buscas tonificación o pérdida de peso.</p>
+          <div class="rd-macros">
+            <span>380 kcal</span>
+            <span>45g proteína</span>
+            <span>22g carbos</span>
+            <span>12g grasa</span>
+          </div>
+          <div class="rd-ingredientes">
+            <h4>Ingredientes (1 ración)</h4>
+            <ul>
+              <li>180g pechuga pollo</li>
+              <li>1 patata mediana</li>
+              <li>1 zanahoria</li>
+              <li>½ pimiento rojo</li>
+              <li>1 cda AOVE</li>
+              <li>romero · ajo · sal</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECETA 4 -->
+      <div class="rd-card" data-tipo="desayuno" data-celiaco="true">
+        <div class="rd-img">
+          <!-- La imagen está guardada directamente en el código en lugar de ser un enlace externo -->
+          <img src="data:image/jpeg;base64,/9j/4AAQ..." alt="Tostada de aguacate y huevo"/>
+          <div class="rd-nutriscore ns-b">B</div>
+        </div>
+        <div class="rd-body">
+          <div class="rd-meta">
+            <span class="rd-tag">Desayuno</span>
+            <span class="rd-tiempo"> 10 min</span>
+          </div>
+          <h3>Tostada de aguacate y huevo</h3>
+          <p>El desayuno estrella para una mañana productiva. Grasas saludables del aguacate y proteína completa del huevo.</p>
+          <div class="rd-macros">
+            <span>390 kcal</span>
+            <span>18g proteína</span>
+            <span>30g carbos</span>
+            <span>22g grasa</span>
+          </div>
+          <div class="rd-ingredientes">
+            <h4>Ingredientes (1 ración)</h4>
+            <ul>
+              <li>2 rebanadas pan integral</li>
+              <li>½ aguacate maduro</li>
+              <li>2 huevos camperos</li>
+              <li>tomate cherry · rúcula</li>
+              <li>sal · pimienta · AOVE</li>
+              <li>pimentón ahumado</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECETA 5: data-celiaco="false" → no sale al filtrar por "Sin gluten" -->
+      <div class="rd-card" data-tipo="almuerzo" data-celiaco="false">
+        <div class="rd-img">
+          <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=600&q=80" alt="Pasta con salmón y espinacas"/>
+          <div class="rd-nutriscore ns-b">B</div>
+        </div>
+        <div class="rd-body">
+          <div class="rd-meta">
+            <span class="rd-tag">Almuerzo</span>
+            <span class="rd-tiempo"> 20 min</span>
+          </div>
+          <h3>Pasta con salmón y espinacas</h3>
+          <p>Omega-3 del salmón, hierro de las espinacas y carbohidratos complejos de la pasta integral. Un plato 10.</p>
+          <div class="rd-macros">
+            <span>510 kcal</span>
+            <span>38g proteína</span>
+            <span>54g carbos</span>
+            <span>16g grasa</span>
+          </div>
+          <div class="rd-ingredientes">
+            <h4>Ingredientes (1 ración)</h4>
+            <ul>
+              <li>100g pasta integral</li>
+              <li>150g salmón fresco</li>
+              <li>2 puñados espinacas</li>
+              <li>1 diente ajo</li>
+              <li>queso parmesano</li>
+              <li>AOVE · limón · eneldo</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECETA 6 -->
+      <div class="rd-card" data-tipo="snack" data-celiaco="true">
+        <div class="rd-img">
+          <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&q=80" alt="Yogur con frutos rojos"/>
+          <div class="rd-nutriscore ns-a">A</div>
+        </div>
+        <div class="rd-body">
+          <div class="rd-meta">
+            <span class="rd-tag">Snack</span>
+            <span class="rd-tiempo"> 2 min</span>
+          </div>
+          <h3>Yogur griego con frutos rojos</h3>
+          <p>El snack perfecto: probióticos, antioxidantes y proteína. Saciante y bajo en calorías.</p>
+          <div class="rd-macros">
+            <span>210 kcal</span>
+            <span>15g proteína</span>
+            <span>22g carbos</span>
+            <span>6g grasa</span>
+          </div>
+          <div class="rd-ingredientes">
+            <h4>Ingredientes (1 ración)</h4>
+            <ul>
+              <li>200g yogur griego 0%</li>
+              <li>80g frutos rojos mixtos</li>
+              <li>1 cdta miel pura</li>
+              <li>10g nueces troceadas</li>
+              <li>menta fresca (opcional)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECETA 7 -->
+      <div class="rd-card" data-tipo="cena" data-celiaco="true">
+        <div class="rd-img">
+          <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&q=80" alt="Crema de lentejas rojas"/>
+          <div class="rd-nutriscore ns-a">A</div>
+        </div>
+        <div class="rd-body">
+          <div class="rd-meta">
+            <span class="rd-tag">Cena</span>
+            <span class="rd-tiempo"> 30 min</span>
+          </div>
+          <h3>Crema de lentejas rojas</h3>
+          <p>Legumbre estrella: proteína vegetal, hierro y fibra. Ideal para una cena reconfortante y nutritiva.</p>
+          <div class="rd-macros">
+            <span>340 kcal</span>
+            <span>22g proteína</span>
+            <span>50g carbos</span>
+            <span>7g grasa</span>
+          </div>
+          <div class="rd-ingredientes">
+            <h4>Ingredientes (2 raciones)</h4>
+            <ul>
+              <li>200g lentejas rojas</li>
+              <li>1 cebolla</li>
+              <li>2 zanahorias</li>
+              <li>1 tomate</li>
+              <li>cúrcuma · comino · jengibre</li>
+              <li>caldo vegetal · limón</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECETA 8 -->
+      <div class="rd-card" data-tipo="snack" data-celiaco="true">
+        <div class="rd-img">
+          <img src="https://images.unsplash.com/photo-1590301157890-4810ed352733?w=600&q=80" alt="Hummus casero con crudités"/>
+          <div class="rd-nutriscore ns-a">A</div>
+        </div>
+        <div class="rd-body">
+          <div class="rd-meta">
+            <span class="rd-tag">Snack</span>
+            <span class="rd-tiempo"> 10 min</span>
+          </div>
+          <h3>Hummus casero con crudités</h3>
+          <p>Un snack nutritivo y saciante. El hummus es rico en proteína vegetal, hierro y grasas del tahini.</p>
+          <div class="rd-macros">
+            <span>185 kcal</span>
+            <span>8g proteína</span>
+            <span>18g carbos</span>
+            <span>9g grasa</span>
+          </div>
+          <div class="rd-ingredientes">
+            <h4>Ingredientes (1 ración)</h4>
+            <ul>
+              <li>150g garbanzos cocidos</li>
+              <li>1 cda tahini</li>
+              <li>½ limón</li>
+              <li>1 diente ajo</li>
+              <li>zanahoria · pepino · apio</li>
+              <li>AOVE · pimentón</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECETA 9 -->
+      <div class="rd-card" data-tipo="almuerzo" data-celiaco="true">
+        <div class="rd-img">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80" alt="Ensalada de atún y huevo"/>
+          <div class="rd-nutriscore ns-a">A</div>
+        </div>
+        <div class="rd-body">
+          <div class="rd-meta">
+            <span class="rd-tag">Almuerzo</span>
+            <span class="rd-tiempo"> 10 min</span>
+          </div>
+          <h3>Ensalada completa de atún</h3>
+          <p>Rápida, proteica y sin necesidad de cocinar. Perfecta para días de poco tiempo pero sin renunciar a la nutrición.</p>
+          <div class="rd-macros">
+            <span>360 kcal</span>
+            <span>34g proteína</span>
+            <span>20g carbos</span>
+            <span>14g grasa</span>
+          </div>
+          <div class="rd-ingredientes">
+            <h4>Ingredientes (1 ración)</h4>
+            <ul>
+              <li>2 latas atún al natural</li>
+              <li>2 huevos cocidos</li>
+              <li>lechuga mixta</li>
+              <li>tomate · cebolla roja</li>
+              <li>1 puñado garbanzos</li>
+              <li>AOVE · vinagre · mostaza</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PLANIFICACIÓN SEMANAL -->
+  <section class="planificacion" id="planificacion">
+    <div class="section-header">
+      <span class="section-tag">Ejemplo de organización</span>
+      <h2>Plan semanal <em>equilibrado</em></h2>
+    </div>
+    <p class="plan-intro">
+      Plan semanal real diseñado por nutricionistas. Sigue las pautas de
+      <strong>3 frutas/día</strong>, <strong>2 verduras/día</strong>, <strong>2–4 lácteos/día</strong>
+      y rotación semanal de legumbres, pescado y carne. Úsalo como modelo para crear el tuyo.
+    </p>
+
+    <!-- TABS del plan semanal -->
+    <div class="plan-tabs-wrap">
+      <div class="plan-tabs">
+        <button class="plan-tab active" onclick="verDia('lun', this)">Lun</button>
+        <button class="plan-tab" onclick="verDia('mar', this)">Mar</button>
+        <button class="plan-tab" onclick="verDia('mie', this)">Mié</button>
+        <button class="plan-tab" onclick="verDia('jue', this)">Jue</button>
+        <button class="plan-tab" onclick="verDia('vie', this)">Vie</button>
+        <!-- Clase extra 'weekend' para darle un estilo distinto al finde -->
+        <button class="plan-tab weekend" onclick="verDia('sab', this)">Sáb</button>
+        <button class="plan-tab weekend" onclick="verDia('dom', this)">Dom</button>
+      </div>
+
+      <!-- Solo el .plan-dia con clase 'active' es visible, el CSS oculta el resto -->
+
+      <!-- LUNES -->
+      <div class="plan-dia active" id="dia-lun">
+        <ul class="plan-lista">
+          <li><span class="pl-tipo"> Desayuno</span><span class="pl-plato">Avena (70g) con leche + plátano + cacahuetes (25g)</span></li>
+          <li><span class="pl-tipo"> Almuerzo</span><span class="pl-plato">Yogur griego + pera</span></li>
+          <li><span class="pl-tipo"> Comida</span><span class="pl-plato">Arroz con pollo (180g), zanahoria y tomate + kiwi</span></li>
+          <li><span class="pl-tipo"> Merienda</span><span class="pl-plato">Yogur bebible + bocata de queso</span></li>
+          <li><span class="pl-tipo"> Cena</span><span class="pl-plato">Tortilla de 2 huevos + puré de patata, zanahoria y cebolla + mandarina</span></li>
+        </ul>
+      </div>
+
+      <!-- MARTES -->
+      <div class="plan-dia" id="dia-mar">
+        <ul class="plan-lista">
+          <li><span class="pl-tipo"> Desayuno</span><span class="pl-plato">Tostada de queso fresco con jamón + yogur griego</span></li>
+          <li><span class="pl-tipo"> Almuerzo</span><span class="pl-plato">Fruta + almendras (25g)</span></li>
+          <li><span class="pl-tipo"> Comida</span><span class="pl-plato">Lentejas con verduras + ensalada de tomate, cebolla y atún + ciruela</span></li>
+          <li><span class="pl-tipo"> Merienda</span><span class="pl-plato">Plátano + yogur griego</span></li>
+          <li><span class="pl-tipo"> Cena</span><span class="pl-plato">Sopa de fideos con huevo cocido + lomo (140g)</span></li>
+        </ul>
+      </div>
+
+      <!-- MIÉRCOLES -->
+      <div class="plan-dia" id="dia-mie">
+        <ul class="plan-lista">
+          <li><span class="pl-tipo"> Desayuno</span><span class="pl-plato">Vaso de leche + kiwi</span></li>
+          <li><span class="pl-tipo"> Almuerzo</span><span class="pl-plato">Yogur + cacahuetes (25g)</span></li>
+          <li><span class="pl-tipo"> Comida</span><span class="pl-plato">Ensalada de pasta con pollo, queso fresco, atún, tomate, zanahoria y aceitunas + fruta</span></li>
+          <li><span class="pl-tipo"> Merienda</span><span class="pl-plato">Tortitas de arroz con pavo + yogur</span></li>
+          <li><span class="pl-tipo"> Cena</span><span class="pl-plato">Salchichas con patata cocida y zanahoria + huevo frito + fruta</span></li>
+        </ul>
+      </div>
+
+      <!-- JUEVES -->
+      <div class="plan-dia" id="dia-jue">
+        <ul class="plan-lista">
+          <li><span class="pl-tipo"> Desayuno</span><span class="pl-plato">Yogur + frutos secos (25g)</span></li>
+          <li><span class="pl-tipo"> Comida</span><span class="pl-plato">Filete de ternera (180g) + ensaladilla rusa + mandarina</span></li>
+          <li><span class="pl-tipo"> Merienda</span><span class="pl-plato">Bocadillo de pavo</span></li>
+          <li><span class="pl-tipo"> Cena</span><span class="pl-plato">Ternera (150g) con puré de patata y pimiento rojo + ensaladilla rusa + plátano</span></li>
+        </ul>
+      </div>
+
+      <!-- VIERNES -->
+      <div class="plan-dia" id="dia-vie">
+        <ul class="plan-lista">
+          <li><span class="pl-tipo"> Desayuno</span><span class="pl-plato">Fruta + cacahuetes (25g)</span></li>
+          <li><span class="pl-tipo"> Almuerzo</span><span class="pl-plato">Yogur + fruta</span></li>
+          <li><span class="pl-tipo"> Comida</span><span class="pl-plato">Pasta con carne picada y salteado de verduras + fruta</span></li>
+          <li><span class="pl-tipo"> Merienda</span><span class="pl-plato">Batido de leche, avena y fruta</span></li>
+          <li><span class="pl-tipo"> Cena</span><span class="pl-plato">Sopa de pollo con huevo cocido + san jacobo (100g)</span></li>
+        </ul>
+      </div>
+
+      <!-- SÁBADO -->
+      <div class="plan-dia" id="dia-sab">
+        <ul class="plan-lista">
+          <li><span class="pl-tipo"> Desayuno</span><span class="pl-plato">Leche con cereales + tostada de queso fresco y pavo</span></li>
+          <li><span class="pl-tipo"> Almuerzo</span><span class="pl-plato">Yogur + fruta</span></li>
+          <li><span class="pl-tipo"> Comida</span><span class="pl-plato">Garbanzos con verduras + pollo a la plancha + fruta</span></li>
+          <li><span class="pl-tipo"> Merienda</span><span class="pl-plato">Bocadillo de atún</span></li>
+          <li><span class="pl-tipo"> Cena</span><span class="pl-plato">Pizza casera con tomate, queso, atún, pollo, aceitunas y champiñones + fruta</span></li>
+        </ul>
+      </div>
+
+      <!-- DOMINGO -->
+      <div class="plan-dia" id="dia-dom">
+        <ul class="plan-lista">
+          <li><span class="pl-tipo"> Desayuno</span><span class="pl-plato">Tortitas de avena con crema de cacahuete + fruta</span></li>
+          <li><span class="pl-tipo"> Almuerzo</span><span class="pl-plato">Fuet con pan + fruta</span></li>
+          <li><span class="pl-tipo"> Comida</span><span class="pl-plato">Guisantes con jamón y huevo poché + hamburguesa de ternera con patata cocida + yogur</span></li>
+          <li><span class="pl-tipo"> Merienda</span><span class="pl-plato">Bocadillo de jamón + leche</span></li>
+          <li><span class="pl-tipo"> Cena</span><span class="pl-plato">Sopa de pollo + pechuga de pollo (150g)</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONSEJOS -->
+  <div class="consejos-strip">
+    <div class="consejo">
+      <div>
+        <strong>3 frutas al día</strong>
+        <p>Repártelas entre desayuno, almuerzo y postre de comida. Varía entre cítricos, plátano y fruta de temporada.</p>
+      </div>
+    </div>
+    <div class="consejo">
+      <div>
+        <strong>2 verduras al día</strong>
+        <p>Una en la comida principal y otra en la cena. Puedes incluirlas en guisos, ensaladas o como guarnición.</p>
+      </div>
+    </div>
+    <div class="consejo">
+      <div>
+        <strong>2–4 legumbres a la semana</strong>
+        <p>Lentejas, garbanzos o guisantes. Son proteína vegetal, hierro y fibra en un solo ingrediente.</p>
+      </div>
+    </div>
+    <div class="consejo">
+      <div>
+        <strong>Equilibrio del plato</strong>
+        <p>55–60% carbohidratos · 25–30% grasas · 12–15% proteína. Ese es el reparto ideal en cada comida principal.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA BOTTOM -->
+  <section class="cta-bottom">
+    <h2>¿Listo para crear <em>tu propio plan</em>?</h2>
+    <p>Regístrate, comparte tus recetas y organiza tu alimentación con la comunidad de Jabalí.</p>
+    <div class="cta-btns">
+      <a href="/registro" class="btn-primary">Crear cuenta gratis</a>
+      <!-- Estilo inline para cambiar el color del botón en este sitio concreto -->
+      <a href="/#pon-tu-receta" class="btn-secondary" style="color:var(--verde-claro); border-color:var(--verde-claro);">Compartir mi receta</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Jabalí <span>Nutrient</span></div>
+    <p>© 2025 Jabalí Nutrient. Todos los derechos reservados.</p>
+    <div class="footer-links">
+      <a href="#">Privacidad</a>
+      <a href="#">Términos</a>
+      <a href="https://www.instagram.com/jabali_nutritions/">Instagram</a>
+    </div>
+  </footer>
+
+  <script>
+    // Muestra el día seleccionado: primero quita 'active' de todo y luego
+    // se lo pone solo al día y pestaña que se ha pulsado
+    function verDia(dia, btn) {
+      document.querySelectorAll('.plan-dia').forEach(d => d.classList.remove('active'));
+      document.querySelectorAll('.plan-tab').forEach(t => t.classList.remove('active'));
+      // Une "dia-" con el nombre del día para encontrar el elemento correcto, ej: "dia-lun"
+      document.getElementById('dia-' + dia).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    // Muestra solo las recetas del tipo pulsado ocultando el resto
+    function filtrar(tipo, btn) {
+      document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.rd-card');
+      cards.forEach(card => {
+        if (tipo === 'todos') {
+          card.style.display = 'block';
+        } else if (tipo === 'celiaco') {
+          // dataset.celiaco lee el atributo data-celiaco del HTML, que llega como texto,
+          // por eso se compara con el string 'true' y no con un booleano
+          card.style.display = card.dataset.celiaco === 'true' ? 'block' : 'none';
+        } else {
+          card.style.display = card.dataset.tipo === tipo ? 'block' : 'none';
+        }
+      });
+    }
+
+    // Abre o cierra el menú de perfil al pulsar el avatar
+    function toggleMenu() {
+      const menu = document.getElementById('menu-perfil');
+      menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Abre o cierra el menú de recetas
+    function toggleRecetas() {
+      const menu = document.getElementById('menu-recetas');
+      menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Cierra ambos menús si el usuario hace clic en cualquier parte fuera de ellos
+    // closest() busca si el clic fue dentro del menú; si no lo encuentra, lo cierra
+    document.addEventListener('click', function(e) {
+      const menuPerfil  = document.getElementById('menu-perfil');
+      const menuRecetas = document.getElementById('menu-recetas');
+      if (!e.target.closest('.perfil-menu'))  menuPerfil.style.display  = 'none';
+      if (!e.target.closest('.recetas-menu')) menuRecetas.style.display = 'none';
+    });
+  </script>
+
+</body>
+</html>
