@@ -1,3 +1,4 @@
+PARA DESCARGAR LOS ARCHIVOS TIENES QUE IR A LA BRACH DE RETO5pagina y ahi estaría todo.
 
 Aplicación web de gestión de recetas con inteligencia artificial. Desarrollada con Flask y MySQL.
 
