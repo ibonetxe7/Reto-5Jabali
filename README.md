@@ -94,7 +94,7 @@ La IA se comunica con la API de **Hugging Face** usando el modelo **Meta-Llama-3
 
 ---
 
-## 🛠️ Tecnologías utilizadas
+##  Tecnologías utilizadas
 
 ### Lenguaje
 - **Python 3**
@@ -121,7 +121,7 @@ La IA se comunica con la API de **Hugging Face** usando el modelo **Meta-Llama-3
 
 ---
 
-## 🗄️ Base de datos
+##  Base de datos
 
 El archivo SQL está en la raíz del proyecto:
 
@@ -143,7 +143,7 @@ Tablas principales:
 
 ---
 
-## 🚀 Instalación y puesta en marcha
+##  Instalación y puesta en marcha
 
 ### 1. Clona el repositorio y cambia a la branch correcta
 
@@ -175,7 +175,7 @@ HF_TOKEN=tu_token_de_huggingface
 - `DB_PASSWORD` → tu contraseña de MySQL
 - `HF_TOKEN` → tu token de [Hugging Face](https://huggingface.co/settings/tokens)
 
-> ⚠️ **Nunca subas el `.env` a GitHub**, ya está en el `.gitignore`.
+>  **Nunca subas el `.env` a GitHub**, ya está en el `.gitignore`.
 
 ### 4. Ejecuta la base de datos
 
@@ -195,15 +195,15 @@ http://127.0.0.1:5000
 
 ---
 
-## ✨ Funcionalidades
+##  Funcionalidades
 
-- ✅ Registro e inicio de sesión con contraseña cifrada (SHA-256)
-- ✅ Crear, ver y eliminar recetas con ingredientes
-- ✅ IA para sugerir recetas según ingrediente y nutriscore
-- ✅ IA para generar menú semanal personalizado
-- ✅ IA para analizar el valor nutricional de una receta
-- ✅ Formulario de contacto
-- ✅ Control de sesión (no puedes acceder sin login)
+-  Registro e inicio de sesión con contraseña cifrada (SHA-256)
+-  Crear, ver y eliminar recetas con ingredientes
+-  IA para sugerir recetas según ingrediente y nutriscore
+-  IA para generar menú semanal personalizado
+-  IA para analizar el valor nutricional de una receta
+-  Formulario de contacto
+-  Control de sesión (no puedes acceder sin login)
 
 ---
 
