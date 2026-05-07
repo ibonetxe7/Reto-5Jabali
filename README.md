@@ -206,6 +206,13 @@ http://127.0.0.1:5000
 -  Control de sesión (no puedes acceder sin login)
 
 ---
+ Uso de IA en el desarrollo
+Durante el desarrollo del proyecto usamos Inteligencia Artificial como ayuda para resolver partes que no sabíamos hacer solos:
+
+Cifrado de contraseñas — No sabíamos cómo proteger las contraseñas de los usuarios ante un posible hackeo. La IA nos explicó cómo usar hashlib con el algoritmo SHA-256, que convierte la contraseña en bytes y la transforma en un hash irreversible antes de guardarla en la base de datos.
+Conexión con Hugging Face en ia.py — No teníamos claro cómo conectar nuestra app con un modelo de lenguaje externo. La IA nos guió para hacer llamadas HTTP a la API de Hugging Face usando requests, configurar las cabeceras con el token de autenticación y manejar los posibles errores de respuesta (503, 401, timeout...).
+Consultas SQL complejas — Para algunas consultas con varios JOIN entre tablas (como la de tusrecetas que une RECETA, INGREDIENTE y RECETA_INGREDIENTE), usamos la IA para estructurar correctamente el GROUP BY y evitar duplicados.
+
 
 ##  Autores
 
