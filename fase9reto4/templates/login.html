@@ -21,27 +21,24 @@
   }
 </script>
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-  <!-- Barra de navegación -->
+<!-- Barra de navegación -->
   <nav>
     <a href="/" class="logo">Jabalí <span>Nutrient</span></a>
   </nav>
-
-  <!-- Sección principal de login -->
+<!-- Sección principal de login -->
   <section class="contacto" style="min-height:100vh; display:flex; align-items:center;">
     <div class="contacto-inner">
 
       <!-- Cabecera del formulario -->
-      <div class="section-header">
-        <span class="section-tag">Bienvenido</span>
-        <h2>Iniciar <em>sesión</em></h2>
-        <p>Accede a tu cuenta de Jabalí Nutrient.</p>
-      </div>
-
+    <div class="section-header">
+    <span class="section-tag">Bienvenido</span>
+    <h2>Iniciar <em>sesión</em></h2>
+    <p>Accede a tu cuenta de Jabalí Nutrient.</p>
+    </div>
       <!-- Mensaje de error si las credenciales son incorrectas -->
       {% if error %}
       <p style="background:#e07b39; color:#fff; padding:12px 20px; border-radius:8px; text-align:center; margin-bottom:16px;">{{ error }}</p>
       {% endif %}
-
       <!-- Formulario de inicio de sesión -->
       <form class="form" action="/login" method="POST">
         <!-- Campo de email -->
@@ -53,7 +50,6 @@
         <!-- Enlace a registro si no tiene cuenta -->
         <p style="text-align:center; color:#ccc; margin-top:8px;">¿No tienes cuenta? <a href="/registro" style="color:var(--verde-claro);">Regístrate</a></p>
       </form>
-
     </div>
   </section>
 
