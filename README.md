@@ -204,7 +204,6 @@ Cifrado de contraseñas — No sabíamos cómo proteger las contraseñas de los 
 
 Conexión con Hugging Face en ia.py — No teníamos claro cómo conectar nuestra app con un modelo de lenguaje externo. La IA nos guió para hacer llamadas HTTP a la API de Hugging Face usando requests, configurar las cabeceras con el token de autenticación y manejar los posibles errores de respuesta (503, 401, timeout...).
 
-Consultas SQL complejas — Para algunas consultas con varios JOIN entre tablas (como la de tusrecetas que une RECETA, INGREDIENTE y RECETA_INGREDIENTE), usamos la IA para estructurar correctamente el GROUP BY y evitar duplicados.
 
 Hemos usado la IA tambien para la traduccion al ingles, le hemos preguntado a la ia sobre como podemos traducir una pagina mas faicil y nos ha dado una solucion usando un codigo de google donde nos ayuda a traducir todas la paginas
 
