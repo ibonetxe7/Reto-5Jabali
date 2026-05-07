@@ -6,14 +6,12 @@
 
 ##  Introducción
 
-**JABALI** es una aplicación web desarrollada con **Flask (Python)** y **MySQL** que permite a los usuarios gestionar sus recetas de cocina de forma inteligente.
+**JABALI** es una aplicación web desarrollada con Python y MySQL que permite a los usuarios gestionar sus recetas de cocina de forma inteligente.
 
 Los usuarios pueden registrarse, iniciar sesión, crear y eliminar sus propias recetas, y acceder a tres funcionalidades de **Inteligencia Artificial** que les ayudan a:
 - Obtener **sugerencias de recetas** basadas en los ingredientes que tienen en casa.
 - Generar un **menú semanal personalizado** según sus preferencias alimentarias.
 - **Analizar el valor nutricional** de una receta y recibir consejos para mejorarla.
-
-Todo el sistema está pensado para ser ligero, seguro (contraseñas cifradas con SHA-256) y fácil de desplegar en local.
 
 ---
 
@@ -70,10 +68,10 @@ La IA se comunica con la API de **Hugging Face** usando el modelo **Meta-Llama-3
 ```
 └── fase9reto4/
     ├── app.py              # Rutas y lógica principal
-    ├── config.py           # Lee las variables del .env
+    ├── config.py           
     ├── ia.py               # Funciones de inteligencia artificial
     ├── JABALÍ.sql          # Script para crear la base de datos
-    ├── .env                # Variables de entorno (NO subir a GitHub)
+    ├── .env                # Variables de entorno 
     ├── .gitignore          # Archivos ignorados por Git
     ├── templates/          # Páginas HTML (Jinja2)
     │   ├── RETO5.html          # Página principal
@@ -97,7 +95,7 @@ La IA se comunica con la API de **Hugging Face** usando el modelo **Meta-Llama-3
 ##  Tecnologías utilizadas
 
 ### Lenguaje
-- **Python 3**
+- **Python **
 
 ### Framework web
 - **Flask** — gestiona las rutas, sesiones y renderizado de plantillas HTML con Jinja2.
@@ -116,8 +114,8 @@ La IA se comunica con la API de **Hugging Face** usando el modelo **Meta-Llama-3
 - **python-dotenv** — carga las credenciales desde un archivo `.env` para no exponerlas en el código.
 
 ### Herramientas
-- IDE: **VSCode**
-- Cliente MySQL: **MySQL Workbench**
+- IDE: VSCode
+- Cliente MySQL: MySQL Workbench
 
 ---
 
@@ -128,16 +126,6 @@ El archivo SQL está en la raíz del proyecto:
 ```
 └── JABALÍ.sql   # Crea todas las tablas e inserta los datos iniciales
 ```
-
-Tablas principales:
-
-| Tabla | Contenido |
-|-------|-----------|
-| `USUARIO` | Datos personales (nombre, email, teléfono) |
-| `CLIENTE` | Credenciales y contadores (logins, recetas) |
-| `RECETA` | Recetas creadas por cada usuario |
-| `INGREDIENTE` | Ingredientes con info de sostenibilidad y caducidad |
-| `RECETA_INGREDIENTE` | Relación entre recetas e ingredientes |
 
 > Antes de arrancar la app, abre `JABALÍ.sql` en **MySQL Workbench** y ejecútalo.
 
@@ -206,6 +194,8 @@ http://127.0.0.1:5000
 -  Control de sesión (no puedes acceder sin login)
 
 ---
+**AVISO A CHE**
+Como nos dijistes que nos habíamos pasado usando IA para escribir el código, así que nos borramos la mayoría y lo reescribimos todo nosotros. Fuimos línea por línea hasta entender qué hacía cada cosa, desde las rutas de Flask hasta las consultas SQL. Si no lo entendíamos le preguntabamos a la IA. Ahora casi la mayoria de los código que ves lo hemos escrito y hemos ido entendiendo nosotros.
 **Uso de IA en el desarrollo**
 Durante el desarrollo del proyecto usamos Inteligencia Artificial como ayuda para resolver partes que no sabíamos hacer solos:
 
@@ -218,5 +208,5 @@ Consultas SQL complejas — Para algunas consultas con varios JOIN entre tablas 
 
 ##  Autores
 
-| Ibon YE | Unax Gahona | Ibon Etxegia | Xabier Morales |
+ Ibon YE, Unax Gahona, Ibon Etxegia y Xabier Morales 
 
